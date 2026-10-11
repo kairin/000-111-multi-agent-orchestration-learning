@@ -22,7 +22,7 @@ live picture of host → rig → pod → seat.
 
 > Verified against source at HEAD `7eaf524c`; package version **0.3.1**
 > (slice-00 §1.1). All component names below are re-confirmed against
-> `packages/ui/src/components/topology/` at HEAD — `ui.md` and `DESIGN.md`
+> `archive/openrig-0.5.16-source/packages/ui/src/components/topology/` at HEAD — `ui.md` and `DESIGN.md`
 > name *exported symbols*; the source file that defines the hybrid nodes is
 > `HybridTopologyNodes.tsx` (DESIGN.md L344 implementation reference).
 
@@ -30,12 +30,12 @@ live picture of host → rig → pod → seat.
 
 > Drift-fix — `ui.md` "Topology" (L108–137) lists `HybridAgentNode` /
 > `HybridPodGroupNode` as if top-level files. Re-confirmed at HEAD: both are
-> exports inside `packages/ui/src/components/topology/HybridTopologyNodes.tsx`
+> exports inside `archive/openrig-0.5.16-source/packages/ui/src/components/topology/HybridTopologyNodes.tsx`
 > (`HybridPodGroupNode` is `memo(...)` at `HybridTopologyNodes.tsx:94`;
 > `HybridAgentNode` is `memo(HybridAgentNodeInner, ...)` at `:272`). The
 > component names are accurate; their file location is consolidated.
 
-Components in `packages/ui/src/components/topology/` (re-confirmed at HEAD):
+Components in `archive/openrig-0.5.16-source/packages/ui/src/components/topology/` (re-confirmed at HEAD):
 
 - `HostMultiRigGraph.tsx` — host-level hybrid React Flow graph (multi-rig
   single canvas).
@@ -105,5 +105,5 @@ restated here as the topology-card brand-source contract).
 - `project-and-for-you.md` — sibling observability surface.
 - `../architecture/coordination-primitive.md` — the queue movement the
   hot-potato edge visualizes.
-- Source root: `packages/ui/src/components/topology/`,
-  `packages/ui/src/lib/{graph,hybrid,multi-rig}-layout.ts`.
+- Source root: `archive/openrig-0.5.16-source/packages/ui/src/components/topology/`,
+  `archive/openrig-0.5.16-source/packages/ui/src/lib/{graph,hybrid,multi-rig}-layout.ts`.

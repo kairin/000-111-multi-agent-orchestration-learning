@@ -16,6 +16,9 @@ path = [
   "LICENSE",
   "REUSE.toml",
   "breakdown/**",
+  ".github/ISSUE_TEMPLATE/**",
+  ".github/PULL_REQUEST_TEMPLATE.md",
+  ".github/*.md",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 kairin"

@@ -23,11 +23,11 @@ assembled and what routes it mounts.
 
 > Verified against source at HEAD `7eaf524c`; package version **0.3.1**
 > (slice-00 §1.1). UI footprint is **235** source files
-> (`packages/ui/src`, `.ts`+`.tsx`, non-test; slice-00 §1.6 / D6).
+> (`archive/openrig-0.5.16-source/packages/ui/src`, `.ts`+`.tsx`, non-test; slice-00 §1.6 / D6).
 
 ## 1. Package shape
 
-UI package: `packages/ui`. Primary implementation areas:
+UI package: `archive/openrig-0.5.16-source/packages/ui`. Primary implementation areas:
 
 - `src/routes.tsx` — TanStack Router route tree.
 - `src/components/AppShell.tsx` — global shell: rail, Explorer, drawer,
@@ -66,7 +66,7 @@ rather than acting as a generic file browser.
 
 > Drift-fix D16 — `ui.md` "Route Model" (the L52–73 list) and
 > `architecture.md` §2 "UI architecture" predate 0.3.x. The route table
-> below is **re-derived from `packages/ui/src/routes.tsx` at HEAD** (542
+> below is **re-derived from `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx` at HEAD** (542
 > lines). The route tree is assembled at `routes.tsx:480`
 > (`rootRoute.addChildren([...])`).
 >
@@ -117,7 +117,7 @@ identity matured in 0.3.1; the `dashboard/vellum/*` system is 0.3.1).
 ### Legacy / compatibility routes
 
 `/rigs/$rigId` (`:318`), `/rigs/$rigId/nodes/$logicalId` (`:324`),
-`/import` (`:333`), `/packages`, `/packages/install`, `/packages/$packageId`
+`/import` (`:333`), `/packages`, `/archive/openrig-0.5.16-source/packages/install`, `/archive/openrig-0.5.16-source/packages/$packageId`
 (`:339`–`:351`), `/bootstrap` (`:357`), `/agents/validate` (`:363`),
 `/specs/rig` + `/specs/agent` review (`:372`/`:378`),
 `/specs/library/$entryId` (`:384`), `/discovery` + `/discovery/inventory`
@@ -159,5 +159,5 @@ preference is honoured for pulse/packet animation. (Daemon SSE surfaces:
 - `topology.md` — graph/table/terminal topology surface.
 - `project-and-for-you.md` — project observability + For-You feed.
 - `library-specs-and-design-system.md` — Library/specs + DESIGN.md pointer.
-- Source roots: `packages/ui/src/routes.tsx`,
-  `packages/ui/src/components/AppShell.tsx`.
+- Source roots: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`,
+  `archive/openrig-0.5.16-source/packages/ui/src/components/AppShell.tsx`.

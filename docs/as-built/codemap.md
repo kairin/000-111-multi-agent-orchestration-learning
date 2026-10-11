@@ -18,7 +18,7 @@ last-updated: 2026-05-16
 # OpenRig Codemap — Navigation Index
 
 This is a **map of territory**, not a content dump. It tells you which
-as-built module answers a question and which `packages/*/src` root that
+as-built module answers a question and which `archive/openrig-0.5.16-source/packages/*/src` root that
 module is grounded in. The deep content lives in the modules; the code lives
 in the source roots; this file points at both.
 
@@ -166,31 +166,31 @@ Reading-order rule: open a module's `prerequisite-reads` first
 
 ## (e) Source-root pointer table
 
-Module → primary `packages/*/src/...` roots. This replaces the old per-file
+Module → primary `archive/openrig-0.5.16-source/packages/*/src/...` roots. This replaces the old per-file
 `Exports:`/`Related:` dump: it points at the code, it does not transcribe it.
 Source-grounding for each claim lives inside the module with file:line cites.
 
 | Module | Primary source roots |
 |---|---|
-| `architecture/daemon-core.md` | `packages/daemon/src/{startup.ts,server.ts,index.ts}`, `packages/daemon/src/db/migrations/`, `packages/cli/src/index.ts` |
-| `architecture/adapters-and-runtimes.md` | `packages/daemon/src/domain/runtime-adapter.ts`, `packages/daemon/src/adapters/{claude-code-adapter,codex-runtime-adapter,terminal-adapter}.ts`, `packages/daemon/src/domain/{native-resume-probe,resume-metadata-refresher,codex-thread-id}.ts` |
-| `architecture/coordination-primitive.md` | `packages/daemon/src/domain/{stream-store,queue-repository,queue-transition-log,hot-potato-enforcer,inbox-handler,outbox-handler}.ts`, `packages/daemon/src/routes/{stream,queue}.ts` |
-| `architecture/workflow-runtime.md` | `packages/daemon/src/domain/{workflow-projector,workflow-runtime,workflow-instance-store,workflow-spec-cache,workflow-step-trail-log,workflow-validator}.ts`, `packages/daemon/src/domain/policies/workflow-keepalive.ts`, `packages/daemon/src/routes/workflow.ts` |
-| `architecture/mission-control.md` | `packages/daemon/src/domain/mission-control/`, `packages/daemon/src/middleware/auth-bearer-token.ts`, `packages/daemon/src/routes/mission-control.ts`, `packages/daemon/src/db/migrations/037_mission_control_actions.ts` |
-| `architecture/agent-spec-and-startup.md` | `packages/daemon/src/domain/{agent-manifest,rigspec-schema,profile-resolver,startup-orchestrator,whoami-service,claim-service}.ts`, `packages/daemon/src/routes/{rigspec,whoami}.ts` |
-| `architecture/lifecycle-snapshot-restore.md` | `packages/daemon/src/domain/{restore-orchestrator,snapshot-capture,snapshot-repository,checkpoint-store}.ts`, `packages/daemon/src/routes/restore-check.ts`, `packages/cli/src/commands/restore-packet.ts` |
-| `architecture/transport-and-transcripts.md` | `packages/daemon/src/domain/{session-transport,transcript-store,history-query,ask-service,chat-repository}.ts`, `packages/daemon/src/routes/{transport,transcripts,ask,chat}.ts`, `packages/cli/src/mcp-server.ts` |
-| `architecture/workspace-primitive.md` | `packages/daemon/src/domain/workspace/`, `packages/cli/src/commands/config-init-workspace.ts`, `packages/daemon/src/db/migrations/{038,039}*`, `packages/ui/src/routes.tsx` |
-| `architecture/content-surfaces.md` | `packages/daemon/src/domain/{files,progress,steering}*`, `packages/daemon/src/routes/{files,progress,steering}.ts`, `packages/ui/src/routes.tsx` |
-| `architecture/living-notes-review.md` | `packages/daemon/src/domain/review/{types,compose,gather,freeze,brief-spine}.ts`, `packages/daemon/src/routes/{review,files,slices}.ts`, `packages/cli/src/commands/{scope,proof}.ts`, `packages/ui/src/components/review/` |
-| `architecture/plugin-agent-image-context-pack.md` | `packages/daemon/src/domain/plugin-discovery-service.ts`, `packages/daemon/src/domain/{agent-images,context-packs}/`, `packages/daemon/src/domain/claude-compaction-enforcer.ts` |
-| `architecture/packaging-bootstrap-bundles.md` | `packages/daemon/src/domain/{pod-bundle-assembler,bootstrap-orchestrator,bundle-*,package-*,install-*}.ts`, `packages/daemon/src/routes/{bundles,up}.ts` |
-| `architecture/architecture-rules-and-event-system.md` | `packages/daemon/src/domain/types.ts` (RigEvent union), `packages/daemon/src/routes/{stream,queue}.ts` (SSE watch), `packages/daemon/src/server.ts` (`/api/events`) |
-| `ui/shell-and-routing.md` | `packages/ui/src/routes.tsx`, `packages/ui/src/components/AppShell.tsx` |
-| `ui/topology.md` | `packages/ui/src/components/topology/`, `packages/ui/src/lib/{graph,hybrid,multi-rig}-layout.ts` |
-| `ui/project-and-for-you.md` | `packages/ui/src/routes.tsx`, `packages/ui/src/components/dashboard/vellum/` |
-| `ui/library-specs-and-design-system.md` | `packages/ui/src/components/specs/`, `packages/daemon/src/domain/{spec-review-service,spec-library-service}.ts`, `../DESIGN.md` (pointer) |
-| `cli-reference.md` | `packages/cli/src/index.ts`, `packages/cli/src/commands/*` |
+| `architecture/daemon-core.md` | `archive/openrig-0.5.16-source/packages/daemon/src/{startup.ts,server.ts,index.ts}`, `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/`, `archive/openrig-0.5.16-source/packages/cli/src/index.ts` |
+| `architecture/adapters-and-runtimes.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/runtime-adapter.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/adapters/{claude-code-adapter,codex-runtime-adapter,terminal-adapter}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/{native-resume-probe,resume-metadata-refresher,codex-thread-id}.ts` |
+| `architecture/coordination-primitive.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{stream-store,queue-repository,queue-transition-log,hot-potato-enforcer,inbox-handler,outbox-handler}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{stream,queue}.ts` |
+| `architecture/workflow-runtime.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{workflow-projector,workflow-runtime,workflow-instance-store,workflow-spec-cache,workflow-step-trail-log,workflow-validator}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/policies/workflow-keepalive.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/workflow.ts` |
+| `architecture/mission-control.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/mission-control/`, `archive/openrig-0.5.16-source/packages/daemon/src/middleware/auth-bearer-token.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/mission-control.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/037_mission_control_actions.ts` |
+| `architecture/agent-spec-and-startup.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{agent-manifest,rigspec-schema,profile-resolver,startup-orchestrator,whoami-service,claim-service}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{rigspec,whoami}.ts` |
+| `architecture/lifecycle-snapshot-restore.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{restore-orchestrator,snapshot-capture,snapshot-repository,checkpoint-store}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/restore-check.ts`, `archive/openrig-0.5.16-source/packages/cli/src/commands/restore-packet.ts` |
+| `architecture/transport-and-transcripts.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{session-transport,transcript-store,history-query,ask-service,chat-repository}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{transport,transcripts,ask,chat}.ts`, `archive/openrig-0.5.16-source/packages/cli/src/mcp-server.ts` |
+| `architecture/workspace-primitive.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/`, `archive/openrig-0.5.16-source/packages/cli/src/commands/config-init-workspace.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/{038,039}*`, `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx` |
+| `architecture/content-surfaces.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{files,progress,steering}*`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{files,progress,steering}.ts`, `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx` |
+| `architecture/living-notes-review.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/review/{types,compose,gather,freeze,brief-spine}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{review,files,slices}.ts`, `archive/openrig-0.5.16-source/packages/cli/src/commands/{scope,proof}.ts`, `archive/openrig-0.5.16-source/packages/ui/src/components/review/` |
+| `architecture/plugin-agent-image-context-pack.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/plugin-discovery-service.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/{agent-images,context-packs}/`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/claude-compaction-enforcer.ts` |
+| `architecture/packaging-bootstrap-bundles.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/{pod-bundle-assembler,bootstrap-orchestrator,bundle-*,package-*,install-*}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{bundles,up}.ts` |
+| `architecture/architecture-rules-and-event-system.md` | `archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts` (RigEvent union), `archive/openrig-0.5.16-source/packages/daemon/src/routes/{stream,queue}.ts` (SSE watch), `archive/openrig-0.5.16-source/packages/daemon/src/server.ts` (`/api/events`) |
+| `ui/shell-and-routing.md` | `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`, `archive/openrig-0.5.16-source/packages/ui/src/components/AppShell.tsx` |
+| `ui/topology.md` | `archive/openrig-0.5.16-source/packages/ui/src/components/topology/`, `archive/openrig-0.5.16-source/packages/ui/src/lib/{graph,hybrid,multi-rig}-layout.ts` |
+| `ui/project-and-for-you.md` | `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`, `archive/openrig-0.5.16-source/packages/ui/src/components/dashboard/vellum/` |
+| `ui/library-specs-and-design-system.md` | `archive/openrig-0.5.16-source/packages/ui/src/components/specs/`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/{spec-review-service,spec-library-service}.ts`, `../DESIGN.md` (pointer) |
+| `cli-reference.md` | `archive/openrig-0.5.16-source/packages/cli/src/index.ts`, `archive/openrig-0.5.16-source/packages/cli/src/commands/*` |
 
 > No per-file flat dump. File-level detail belongs in the code; this codemap
 > points at the source root and the module that explains it. The per-file

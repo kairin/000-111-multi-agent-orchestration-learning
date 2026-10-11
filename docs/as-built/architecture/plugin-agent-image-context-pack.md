@@ -25,7 +25,7 @@ filesystem-canonical with in-memory daemon caches.
 > **AUTHOR-FROM-SOURCE module.** No prior `architecture.md` prose exists
 > for this. Every load-bearing claim carries `> Source: <file:line>
 > @HEAD`; ambiguity is declared as an OPEN item, never smoothed. Paths are
-> relative to `packages/daemon/src/` unless prefixed `docs/`.
+> relative to `archive/openrig-0.5.16-source/packages/daemon/src/` unless prefixed `docs/`.
 >
 > Verified at HEAD `7eaf524c` (`git describe` → `v0.3.1-6-g7eaf524c`).
 > Package version **0.3.1**; HEAD carries 6 unreleased release-0.3.2
@@ -43,7 +43,7 @@ Re-verified at HEAD via `git cat-file -e <tag>:<path>`:
 | Claude auto-compaction | **0.3.1 headline, no 0.3.0 antecedent** | `v0.3.0:domain/claude-compaction-enforcer.ts` → **ABSENT**; `v0.3.1:` → present (slice-00 0.3.0-GT map row 7) |
 
 > Source: re-run at HEAD `7eaf524c` —
-> `git cat-file -e v0.3.0:packages/daemon/src/domain/plugin-discovery-service.ts`
+> `git cat-file -e v0.3.0:archive/openrig-0.5.16-source/packages/daemon/src/domain/plugin-discovery-service.ts`
 > and `...claude-compaction-enforcer.ts` both fail ("exists on disk, but
 > not in 'v0.3.0'"); the two 0.3.0 library services resolve at `v0.3.0`.
 > Code present on disk at HEAD does NOT make plugins/compaction a 0.3.0
@@ -114,7 +114,7 @@ There is no pack-owned delivery route. CLI library verbs are
 
 > Source: `routes/context-packs.ts` (complete route table);
 > `domain/startup-validation.ts` (file-only startup contract);
-> `packages/cli/src/commands/context.ts`, `send.ts`, `broadcast.ts`,
+> `archive/openrig-0.5.16-source/packages/cli/src/commands/context.ts`, `send.ts`, `broadcast.ts`,
 > `walk.ts`, and `queue.ts` @HEAD.
 
 ## 2. Agent images (PL-016) — 0.3.0
@@ -235,7 +235,7 @@ structure (not string-grep — comments don't false-positive) to collect
 > @HEAD.
 
 `PluginVendorService.ensureLatest()` runs `ensureVendored` (hash-skip
-idempotent copy from `packages/daemon/assets/plugins/<name>/` to
+idempotent copy from `archive/openrig-0.5.16-source/packages/daemon/assets/plugins/<name>/` to
 `~/.openrig/plugins/<name>/`) then `attemptAutoFetch`
 (`github.com/mvschwarz/openrig-plugins`, 5s timeout,
 **404/network/timeout tolerated silently** — vendored is ALWAYS the

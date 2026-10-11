@@ -7,9 +7,12 @@ historical OpenRig 0.5.16 snapshot, specifications, skills, and research as prim
 sources for learning how to decompose work and coordinate agents. It is not a
 project to install, revive, simplify, port, or publish OpenRig.
 
-The implementation remains because it is evidence. Commands, runbooks, skills,
-release procedures, and configuration examples describe the historical system.
-Do not execute them as instructions from this repository.
+The implementation remains as evidence under
+[`archive/openrig-0.5.16-source/`](archive/openrig-0.5.16-source/). Commands,
+runbooks, skills, release procedures, and configuration examples describe the
+historical system. Do not execute them as instructions from this repository.
+The [source map](breakdown/HISTORICAL-SOURCE-MAP.md) records where every moved
+file came from and how its bytes were verified.
 
 ## What you will learn
 
@@ -62,12 +65,18 @@ Within historical material, words such as “run,” “install,” “deploy,�
 “publish” belong to the quoted source context. Use them to identify task
 boundaries, side effects, missing checks, and unsafe assumptions.
 
+The portability report workflow and its two dependency-free JavaScript files
+are current repository governance. They inspect proposed documentation changes;
+they are not part of the historical OpenRig runtime.
+
 ## Historical provenance
 
 The repository began as a personal derivative of
 [OpenRig](https://github.com/mvschwarz/openrig) by Mike Schwarz, version 0.5.16.
 The original README is preserved at
 [archive/documents/README-upstream-original.md](archive/documents/README-upstream-original.md).
-The original source remains under Apache-2.0; later repository material has the
-licenses recorded in [REUSE.toml](REUSE.toml). This curriculum changes the
-purpose of this repository, not the provenance of its evidence.
+The historical source remains under Apache-2.0; later repository material has
+the licenses recorded in [REUSE.toml](REUSE.toml). The archived snapshot
+includes teaching annotations added before the physical move, so it is not a
+claim of a pristine upstream checkout. This curriculum changes the purpose of
+this repository, not the provenance of its evidence.

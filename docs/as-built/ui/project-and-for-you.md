@@ -29,7 +29,7 @@ persistence beyond per-event soft-dismiss.
 > Graphics-Layer sections are thin and predate the 0.3.1 dashboard/vellum
 > brand refresh. Every load-bearing claim carries `> Source: <file:line>
 > @HEAD`; ambiguity is declared as an OPEN item, never smoothed. Paths
-> are relative to `packages/ui/src/` unless prefixed `docs/`.
+> are relative to `archive/openrig-0.5.16-source/packages/ui/src/` unless prefixed `docs/`.
 >
 > Verified at HEAD `7eaf524c` (`git describe` → `v0.3.1-6-g7eaf524c`).
 > Package version **0.3.1**; HEAD carries 6 unreleased release-0.3.2
@@ -45,7 +45,7 @@ Re-verified at HEAD via `git cat-file -e <tag>:<path>`:
 | Vellum **brand-identity system** the Dashboard/For-You now render on (`dashboard/vellum/*`: CornerBracket, VellumDestinationCard, marks, graphics, single-source-of-truth barrel) | **0.3.1, NOT 0.3.0** | `git cat-file -e v0.3.0:components/dashboard/vellum/index.ts` → **ABSENT** ("exists on disk, but not in 'v0.3.0'"); `v0.3.1:` → present (slice-00 0.3.0-GT seam (b); §2 rows 1/2) |
 
 > Source: re-run at HEAD `7eaf524c` —
-> `git cat-file -e v0.3.0:packages/ui/src/components/dashboard/vellum/index.ts`
+> `git cat-file -e v0.3.0:archive/openrig-0.5.16-source/packages/ui/src/components/dashboard/vellum/index.ts`
 > fails; `v0.3.0:.../for-you/Feed.tsx`, `.../lib/feed-classifier.ts`,
 > `.../project/ScopePages.tsx`, `.../mission-control/components/VerbActions.tsx`
 > all resolve at `v0.3.0`. Vellum surface *primitives*
@@ -57,7 +57,7 @@ Re-verified at HEAD via `git cat-file -e <tag>:<path>`:
 ## 1. Route reality (source-verified at `routes.tsx`@HEAD — BINDING)
 
 Before narrating any surface, each route was verified at
-`packages/ui/src/routes.tsx`@HEAD (542 lines). The Phase-8.1 survey's
+`archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`@HEAD (542 lines). The Phase-8.1 survey's
 "missing route" expectations are grep-derived and partially wrong; this
 table is authored from `routes.tsx` reality, not the survey:
 

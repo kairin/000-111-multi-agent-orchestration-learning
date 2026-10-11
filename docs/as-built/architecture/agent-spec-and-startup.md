@@ -87,7 +87,7 @@ here)
 ## 3. Parsing, validation, resolution pipeline
 
 (`architecture.md` §5 "Parsing and validation" + "Resolution pipeline"; all
-under `packages/daemon/src/domain/`, zero Hono imports per Architecture Rule 1)
+under `archive/openrig-0.5.16-source/packages/daemon/src/domain/`, zero Hono imports per Architecture Rule 1)
 
 **Parse / validate:**
 
@@ -110,7 +110,7 @@ under `packages/daemon/src/domain/`, zero Hono imports per Architecture Rule 1)
 - `startup-resolver.ts` — additive startup layering.
 - `projection-planner.ts` — runtime resource projection planning.
 
-All eleven files re-confirmed present in `packages/daemon/src/domain/` @HEAD.
+All eleven files re-confirmed present in `archive/openrig-0.5.16-source/packages/daemon/src/domain/` @HEAD.
 
 ## 4. Startup orchestration (the spec-startup contract)
 
@@ -227,6 +227,6 @@ is tmux-metadata parity, not fake env-var parity).
 - `lifecycle-snapshot-restore.md` — snapshot/restore consumes persisted replay
   context.
 - `architecture-rules-and-event-system.md` — the full 25 architecture rules.
-- Source roots: `packages/daemon/src/domain/{agent-manifest,rigspec-schema,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{agent-manifest,rigspec-schema,
   profile-resolver,startup-orchestrator,whoami-service,claim-service}.ts`,
-  `packages/daemon/src/routes/{rigspec,whoami}.ts`.
+  `archive/openrig-0.5.16-source/packages/daemon/src/routes/{rigspec,whoami}.ts`.

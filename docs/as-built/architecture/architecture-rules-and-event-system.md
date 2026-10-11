@@ -106,12 +106,12 @@ The daemon's event surface is the single `RigEvent` discriminated union.
 > the union but not yet emitted" lists also predate 0.3.x and are stale. The
 > union shape below is re-derived from source at HEAD, not migrated.
 
-`RigEvent` is declared at `packages/daemon/src/domain/types.ts:94`
+`RigEvent` is declared at `archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts:94`
 (`export type RigEvent =`) and runs through `types.ts:218`. It has **73
 union members** (slice-00 §1.8, re-confirmed at HEAD:
 `grep -cE '^\s*\| \{ type:'` over L94–218 = 73). Every one of the 73
 declared `type:` literals is also constructed somewhere in
-`packages/daemon/src/{domain,routes}` (re-verified at HEAD: the set of
+`archive/openrig-0.5.16-source/packages/daemon/src/{domain,routes}` (re-verified at HEAD: the set of
 `type: "<x>"` literals in domain+routes exactly equals the 73 union members
 — zero union-only-but-never-referenced types).
 
@@ -211,6 +211,6 @@ navigation index.
   events.
 - `workflow-runtime.md` — PL-004 Phase D `workflow.*` events.
 - `mission-control.md` — PL-005 `mission_control.*` events.
-- Source roots: `packages/daemon/src/domain/types.ts` (RigEvent union),
-  `packages/daemon/src/routes/{stream,queue}.ts` (SSE watch),
-  `packages/daemon/src/server.ts` (`/api/events`).
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts` (RigEvent union),
+  `archive/openrig-0.5.16-source/packages/daemon/src/routes/{stream,queue}.ts` (SSE watch),
+  `archive/openrig-0.5.16-source/packages/daemon/src/server.ts` (`/api/events`).

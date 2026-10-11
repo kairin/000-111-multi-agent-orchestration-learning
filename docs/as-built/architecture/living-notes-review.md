@@ -30,7 +30,7 @@ here. Everything below is verified at `bb5ad219`.
 
 ## 1. The ONE contract — `ComposedSliceReview`
 
-`packages/daemon/src/domain/review/types.ts` defines the read contract every
+`archive/openrig-0.5.16-source/packages/daemon/src/domain/review/types.ts` defines the read contract every
 consumer shares (slice Review tab, mission U5 row expansion, For-You
 expansion — never a second endpoint per consumer):
 
@@ -116,7 +116,7 @@ artifacts in `<slice>/proof/`:
 
 ## 5. Routes, freeze, media serving
 
-- `packages/daemon/src/routes/review.ts`, mounted at `/api/review`
+- `archive/openrig-0.5.16-source/packages/daemon/src/routes/review.ts`, mounted at `/api/review`
   (`server.ts` route mounts): `GET /slice/:name`, `GET /mission/:name`,
   `GET /rig` (the OPR.0.4.4.22 rig-agents altitude root), `GET
   /agents?scope=slice:<id>|mission:<id>|rig`, `POST /freeze`.

@@ -27,7 +27,7 @@ daemon-backed work; the POC filesystem path remains untouched and the daemon
 ## 1. The five host-scoped tables
 
 Five host-scoped tables back the primitive (`architecture.md` §3 L416–438;
-migrations re-confirmed at HEAD `packages/daemon/src/db/migrations/`):
+migrations re-confirmed at HEAD `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/`):
 
 - **`stream_items`** (`023_stream_items.ts`) — L1 append-only intake/audit
   root. Columns: `stream_item_id` (ULID PK), `ts_emitted`,
@@ -60,7 +60,7 @@ migrations re-confirmed at HEAD `packages/daemon/src/db/migrations/`):
 ## 2. The six host-scoped services
 
 Six host-scoped domain services implement the layer (`architecture.md` §5
-L649–658; files re-confirmed in `packages/daemon/src/domain/` at HEAD).
+L649–658; files re-confirmed in `archive/openrig-0.5.16-source/packages/daemon/src/domain/` at HEAD).
 Routes import these; services are Hono-free:
 
 - **`stream-store.ts`** — L1 stream: idempotent emit (on `stream_item_id`),
@@ -197,7 +197,7 @@ message-passing closure (never 2PC).**
 > §3 L394 says "Existing 32 PL-004 events untouched" and L410 says "Existing
 > 20 PL-004 events are unchanged" — these two body claims are internally
 > inconsistent with each other and predate 0.3.x. **Do NOT carry either
-> number.** The current `RigEvent` union (`packages/daemon/src/domain/types.ts:94`)
+> number.** The current `RigEvent` union (`archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts:94`)
 > has **73 union members** total (slice-00 §1.8, re-confirmed at HEAD:
 > `grep -cE '^\s*\| \{ type: ' = 73`). A precise PL-004-only vs PL-005-only
 > sub-partition is not reconcilable from static inspection without
@@ -237,6 +237,6 @@ policy.
 - `daemon-core.md` — daemon wiring, the 40-migration set, route surface.
 - `workflow-runtime.md` — PL-004 Phase D runtime that projects on closure.
 - `mission-control.md` — PL-005 queue observability over `queue_items`.
-- Source roots: `packages/daemon/src/domain/{stream-store,queue-repository,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{stream-store,queue-repository,
   queue-transition-log,hot-potato-enforcer,inbox-handler,outbox-handler}.ts`,
-  `packages/daemon/src/routes/{stream,queue}.ts`.
+  `archive/openrig-0.5.16-source/packages/daemon/src/routes/{stream,queue}.ts`.

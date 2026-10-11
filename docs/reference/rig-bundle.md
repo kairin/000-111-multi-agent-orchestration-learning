@@ -6,7 +6,7 @@ This page records a prior OpenRig operating proposal. The remaining imperative b
 
 Version: 2 (pod-aware)
 Last validated against code: 2026-04-11
-Source of truth: `packages/daemon/src/domain/bundle-types.ts`, `packages/daemon/src/domain/bundle-archive.ts`, `packages/daemon/src/domain/pod-bundle-assembler.ts`
+Source of truth: `archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-types.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-archive.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/pod-bundle-assembler.ts`
 
 A `.rigbundle` is a self-contained distributable archive that packages a rig spec, all referenced agent specs, their resources (skills, guidance, startup files), culture file, documentation, and an integrity manifest into a single file. The recipient can install and launch the rig without needing the original source tree.
 

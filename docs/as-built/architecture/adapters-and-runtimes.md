@@ -37,7 +37,7 @@ truthfully rather than optimistically.
 
 ## 1. The five-method RuntimeAdapter contract
 
-`RuntimeAdapter` is `packages/daemon/src/domain/runtime-adapter.ts:127`
+`RuntimeAdapter` is `archive/openrig-0.5.16-source/packages/daemon/src/domain/runtime-adapter.ts:127`
 (`interface RuntimeAdapter`). Every adapter declares a `readonly runtime`
 string and implements exactly five methods (`runtime-adapter.ts:128–153`):
 
@@ -84,7 +84,7 @@ ForkSource }` (`runtime-adapter.ts:147–150`).
 
 ## 2. The three adapters
 
-All three live under `packages/daemon/src/adapters/` and implement
+All three live under `archive/openrig-0.5.16-source/packages/daemon/src/adapters/` and implement
 `RuntimeAdapter` (Architecture Rule 1: zero Hono in `adapters/`).
 
 ### ClaudeCodeAdapter (`claude-code-adapter.ts:41`)
@@ -146,7 +146,7 @@ These three are constructed by `createDaemon` step 4 (`startup.ts`; see
 ## 3. Resume honesty
 
 The daemon does not assume a harness resumed just because the launch command
-ran. Three domain files (`packages/daemon/src/domain/`, all present @v0.3.0)
+ran. Three domain files (`archive/openrig-0.5.16-source/packages/daemon/src/domain/`, all present @v0.3.0)
 make resume assessment honest:
 
 ### `native-resume-probe.ts`
@@ -223,6 +223,6 @@ From `architecture.md` §7 (re-confirmed against the source cited inline):
   adapters and owns startup-action execution after `checkReady()`.
 - `lifecycle-snapshot-restore.md` — how persisted resume tokens flow into
   snapshot/restore (resume vs rebuild vs fresh).
-- Source roots: `packages/daemon/src/domain/runtime-adapter.ts`,
-  `packages/daemon/src/adapters/{claude-code-adapter,codex-runtime-adapter,terminal-adapter}.ts`,
-  `packages/daemon/src/domain/{native-resume-probe,resume-metadata-refresher,codex-thread-id}.ts`.
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/runtime-adapter.ts`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/adapters/{claude-code-adapter,codex-runtime-adapter,terminal-adapter}.ts`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/domain/{native-resume-probe,resume-metadata-refresher,codex-thread-id}.ts`.

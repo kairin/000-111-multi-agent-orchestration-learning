@@ -50,7 +50,7 @@ The requested OpenRig skill router was read at
 `rig context list` → select the exact ref → `rig context get`. The router
 command reported that the daemon is stopped. I did not start a daemon. The
 repository copy of the router is
-`packages/daemon/specs/agents/shared/skills/core/openrig-skills/SKILL.md`.
+`archive/openrig-0.5.16-source/packages/daemon/specs/agents/shared/skills/core/openrig-skills/SKILL.md`.
 The locally mirrored skill tree has no `openrig-builder`,
 `forming-an-openrig-mental-model`, or `openrig-user` file to load directly;
 the CLI router could not retrieve those entries while the daemon was stopped.
@@ -93,18 +93,18 @@ Observed at this checkout:
 
 | Item | Evidence |
 |---|---|
-| Version | `0.5.16`, root `package.json:2-4`; current README says simplification has not begun, `README.md:12-15` |
-| Active npm workspaces | daemon, UI, CLI, TUI (`package.json:7-12`) |
-| Runtime/tooling | ESM; Node `^20 || ^22 || ^24`; npm scripts, TypeScript compiler, Vitest (`package.json:6,13-20,30-32`) |
-| Main implementation language | 2,364 `.ts`/`.tsx` files under `packages/` (counted with `rg --files`); 1,117 under `packages/*/src` |
+| Version | `0.5.16`, root `archive/openrig-0.5.16-source/package.json:2-4`; current README says simplification has not begun, `README.md:12-15` |
+| Active npm workspaces | daemon, UI, CLI, TUI (`archive/openrig-0.5.16-source/package.json:7-12`) |
+| Runtime/tooling | ESM; Node `^20 || ^22 || ^24`; npm scripts, TypeScript compiler, Vitest (`archive/openrig-0.5.16-source/package.json:6,13-20,30-32`) |
+| Main implementation language | 2,364 `.ts`/`.tsx` files under `archive/openrig-0.5.16-source/packages/` (counted with `rg --files`); 1,117 under `archive/openrig-0.5.16-source/packages/*/src` |
 | Other source assets | `scripts/` contains 57 files; daemon migration directory contains 85 numbered TypeScript migration files |
 | Rust | No `.rs`, `Cargo.toml`, or `Cargo.lock` exists in the repository |
-| CLI package dependencies | Hono, `better-sqlite3`, Commander, YAML, Zod/Ajv, tar, ULID and MCP SDK (`packages/cli/package.json:47-62`) |
-| Daemon dependencies | Hono, `better-sqlite3`, TOML, tar, ULID and YAML (`packages/daemon/package.json:79-87`) |
-| CLI composition | `createProgram` currently registers 85 command-builder values with `program.addCommand` (`packages/cli/src/index.ts:165-263`). This is a count of registrations, not unique user-visible command names or aliases. |
+| CLI package dependencies | Hono, `better-sqlite3`, Commander, YAML, Zod/Ajv, tar, ULID and MCP SDK (`archive/openrig-0.5.16-source/packages/cli/package.json:47-62`) |
+| Daemon dependencies | Hono, `better-sqlite3`, TOML, tar, ULID and YAML (`archive/openrig-0.5.16-source/packages/daemon/package.json:79-87`) |
+| CLI composition | `createProgram` currently registers 85 command-builder values with `program.addCommand` (`archive/openrig-0.5.16-source/packages/cli/src/index.ts:165-263`). This is a count of registrations, not unique user-visible command names or aliases. |
 
 The file-count commands were `rg --files packages -g '*.ts' -g '*.tsx'` and,
-separately, `rg --files packages/*/src -g '*.ts' -g '*.tsx'`. They include
+separately, `rg --files archive/openrig-0.5.16-source/packages/*/src -g '*.ts' -g '*.tsx'`. They include
 source and test files, exclude ignored files per ripgrep defaults, and are
 navigation measures only. Per-directory totals are CLI 352, daemon 1,346,
 TUI 145, UI 521, and test-system 0, which sum to 2,364. The `src/` totals are
@@ -117,24 +117,24 @@ measures understandability or value.
 ### Deployment and runtime map
 
 - The package path is npm + Node ESM, with `rig` and `openrig-tui` binaries
-  declared by the CLI package (`packages/cli/package.json:28-36`).
+  declared by the CLI package (`archive/openrig-0.5.16-source/packages/cli/package.json:28-36`).
 - The daemon is a local Hono service backed by `better-sqlite3`; startup
   resolves its DB path and creates/migrates the database
-  (`packages/daemon/src/index.ts:239-298`; `startup.ts:240-249`).
+  (`archive/openrig-0.5.16-source/packages/daemon/src/index.ts:239-298`; `startup.ts:240-249`).
 - An agent is an external Claude Code or Codex CLI process in a tmux session.
   The root README states that operating model (`README.md:50-57`); the runtime
   adapter interface says harness launch occurs inside tmux
-  (`packages/daemon/src/domain/runtime-adapter.ts:121-150`). `rig setup`
+  (`archive/openrig-0.5.16-source/packages/daemon/src/domain/runtime-adapter.ts:121-150`). `rig setup`
   handles host prerequisites; it does not install the external agent account
-  or authenticate on the user's behalf (`packages/cli/src/commands/setup.ts:357-380,570-584`).
+  or authenticate on the user's behalf (`archive/openrig-0.5.16-source/packages/cli/src/commands/setup.ts:357-380,570-584`).
 - The CLI and TUI are separate workspace binaries; UI is a React/Vite
   workspace. The contributor guide calls the CLI primary and the web UI
   experimental, maintenance-mode, best-effort (`docs/reference/developing.md:1-33`).
-  MCP is another CLI-wrapped API consumer (`packages/cli/src/mcp-server.ts:48-55`).
+  MCP is another CLI-wrapped API consumer (`archive/openrig-0.5.16-source/packages/cli/src/mcp-server.ts:48-55`).
 - Persistent state is not just one database: the default OpenRig home is
-  `~/.openrig` (`packages/daemon/src/openrig-compat.ts:1-56`), with config,
+  `~/.openrig` (`archive/openrig-0.5.16-source/packages/daemon/src/openrig-compat.ts:1-56`), with config,
   SQLite DB, host registry, transcripts, skills, context and workspace paths
-  configured from there (`packages/cli/src/config-store.ts:185-236`). The
+  configured from there (`archive/openrig-0.5.16-source/packages/cli/src/config-store.ts:185-236`). The
   daemon also interacts with project-level Claude files and `~/.tmux.conf`
   (`README.md:59-66`; `setup.ts:586-614`; `claude-code-adapter.ts:745-748`).
 
@@ -143,7 +143,7 @@ component is necessary for the owner's desired journey.
 
 `test-system` is a repository package directory with runbooks, YAML scenarios,
 and eval fixtures, but it is not one of the four npm workspaces
-(`package.json:7-12`, `packages/test-system/README.md`). Its scenarios make
+(`archive/openrig-0.5.16-source/package.json:7-12`, `archive/openrig-0.5.16-source/packages/test-system/README.md`). Its scenarios make
 the breadth of encoded operational contracts visible; they do not establish
 which ones the owner needs.
 
@@ -190,7 +190,7 @@ contract; it is a candidate against which to judge complexity:
 5. Stop and return to the same rig. The operator guide describes same-seat
    restart and recovery choices (`docs/reference/getting-started.md:181-190`);
    daemon code attempts an `auto-pre-down` snapshot before killing live
-   sessions (`packages/daemon/src/domain/rig-teardown.ts:103-123`).
+   sessions (`archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:103-123`).
 
 This is a useful product-level spine: prepare → launch → assign → inspect →
 stop/resume. It is an inference from the stated goals and documented paths,
@@ -204,16 +204,16 @@ kernel readiness, terminal sharing, projects/scopes, and workflow escalation.
 
 `rig setup` checks or installs parts of the environment; it has branches for
 tmux availability and Codex login, and edits a managed block in `~/.tmux.conf`
-(`packages/cli/src/commands/setup.ts:357-380,586-624`). Root docs also list
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/setup.ts:357-380,586-624`). Root docs also list
 Claude/Codex configuration writes and the daemon-start plugin download
-(`README.md:59-66`; `packages/daemon/src/startup.ts:240-249` begins daemon
+(`README.md:59-66`; `archive/openrig-0.5.16-source/packages/daemon/src/startup.ts:240-249` begins daemon
 construction and database migration; `02-separation-from-upstream.md:2.2`
 names the upstream plugin seam).
 
 `rig up` has more than one meaning. CLI resolution can route a name to a new
 library spec or to a stopped, snapshot-backed existing rig; when the same name
 matches both, it instructs the user to use the path or `--existing`
-(`packages/cli/src/commands/up.ts:287-339`). Its plan/preflight path and launch
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/up.ts:287-339`). Its plan/preflight path and launch
 readiness are separate from daemon health, as the current getting-started guide
 states (`docs/reference/getting-started.md:17-20,66-80`).
 
@@ -227,7 +227,7 @@ kernel readiness is not equivalent to daemon health
 `rig send` targets a seat or fans out by pod/rig. It derives actor identity from
 the seat environment/transport header, not a free-form `--from`; it checks for
 positive evidence of an interactive prompt before injecting text
-(`packages/cli/src/commands/send.ts:230-283`; help text at `:252-272`).
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/send.ts:230-283`; help text at `:252-272`).
 Unknown/stale activity telemetry allows a send with an advisory; busy is not a
 block. `--verify` proves only that text appeared in the pane, not that an agent
 read or acted on it (`send.ts:256-272`).
@@ -241,22 +241,22 @@ is part of the practical transport protocol, not merely CLI wording.
 
 Queue rows and transitions are separate SQLite tables. The item stores owner,
 state, closure reason/target, and delivery metadata; transitions form an
-append-only audit log (`packages/daemon/src/db/migrations/024_queue_items.ts:19-52`,
+append-only audit log (`archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/024_queue_items.ts:19-52`,
 `025_queue_transitions.ts:13-29`). Claim identity is derived from the seat
 environment. The CLI's `queue update` says `done` requires an explicit closure
 reason, while `queue handoff` creates a successor row for the next owner
-(`packages/cli/src/commands/queue.ts:558-644,743-823`). Domain code requires
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/queue.ts:558-644,743-823`). Domain code requires
 some closure reasons to name a target; the transactional repository owns the
 source-close plus new-row operation
-(`packages/daemon/src/domain/queue-repository.ts:1507-1669`).
+(`archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1507-1669`).
 For ordinary `queue create`, the row and event commit first, then subscriber
 notification and a best-effort pane nudge occur; nudge failure is recorded and
 does not undo the row
-(`packages/daemon/src/domain/queue-repository.ts:1165-1198,1320-1358`). For terminal
+(`archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1165-1198,1320-1358`). For terminal
 handoff, a durable wake intent is staged in the close+create transaction, then
 delivered after commit. Startup recovery drains pending intents; failed or
 indeterminate outcomes remain visible and are not automatically re-sent
-(`packages/daemon/src/domain/queue-repository.ts:807-846,910-945,1114-1162,1608-1669`).
+(`archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:807-846,910-945,1114-1162,1608-1669`).
 
 Failure/recovery contracts: a missing seat identity yields an actor-required
 error; a terminal `done` transition without a valid closure contract is
@@ -266,7 +266,7 @@ rules coupled to auth identity and an audit trail.
 ### D. Stop and restore after daemon/host interruption
 
 The teardown service captures `auto-pre-down` best-effort, then kills tmux
-sessions and clears matching DB state (`packages/daemon/src/domain/rig-teardown.ts:103-135`).
+sessions and clears matching DB state (`archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:103-135`).
 If snapshot capture fails, it records a warning but proceeds with teardown
 (`:103-113`). Restore compares DB rows with live tmux sessions before mutation;
 live or uninspectable sessions block restore (`restore-orchestrator.ts:239-250,782-812`).
@@ -287,7 +287,7 @@ resumable conversation state.
 
 The tmux adapter distinguishes `absent` from `transport_unavailable`, and
 explicitly says a socket/transport failure does not prove that a session is
-absent (`packages/daemon/src/adapters/tmux.ts:82-91,133-157`). Restore treats
+absent (`archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts:82-91,133-157`). Restore treats
 tmux probe exceptions as unknown and blocks, rather than guessing
 (`restore-orchestrator.ts:797-809`). The getting-started recovery table says a
 host reboot can remove tmux sessions while the existing project and queue
@@ -307,52 +307,52 @@ alone would not remove the behavior contract.
    SQLite; tmux is probed independently. Restore classifies every DB-running
    session as live, stale or unknown, and fails closed on unknown. A native
    session can outlive daemon restart, while a persisted row can outlive a
-   tmux server (`packages/daemon/src/domain/session-registry.ts:77-133`;
-   `packages/daemon/src/adapters/tmux.ts:82-91,133-157`;
-   `packages/daemon/src/domain/restore-orchestrator.ts:782-812`).
+   tmux server (`archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:77-133`;
+   `archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts:82-91,133-157`;
+   `archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:782-812`).
 2. **Queue identity, durable state and wake delivery cross layers.** Queue
    routes derive actors from transport identity; the repository persists
    queue row + transition, and may nudge a destination session through
    `SessionTransport` after commit
-   (`packages/cli/src/commands/queue.ts:558-585,743-823`;
-   `packages/daemon/src/domain/queue-repository.ts:201-217,248-256,1165-1198`;
+   (`archive/openrig-0.5.16-source/packages/cli/src/commands/queue.ts:558-585,743-823`;
+   `archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:201-217,248-256,1165-1198`;
    migration `025` above).
    For a terminal handoff, a durable wake intent joins the source-close and
    successor-create transaction; startup retries only still-pending intents,
    while failed/indeterminate intents remain visible for out-of-band handling
-   (`packages/daemon/src/domain/queue-repository.ts:807-846,1114-1162,1608-1669`). A regular queue create
+   (`archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:807-846,1114-1162,1608-1669`). A regular queue create
    records the nudge result but does not roll back the row on nudge failure.
    The guide distinguishes message delivery from acceptance
    (`docs/reference/getting-started.md:90-126`).
 3. **Filesystem projection accompanies runtime setup.** Runtime adapters
    project files and deliver startup content, then launch the harness inside
-   a tmux session (`packages/daemon/src/domain/runtime-adapter.ts:21-51,121-150`). Claude hooks are
+   a tmux session (`archive/openrig-0.5.16-source/packages/daemon/src/domain/runtime-adapter.ts:21-51,121-150`). Claude hooks are
    installed into workspace `.claude/settings.local.json` and reconciled
-   without deleting user-authored hooks (`packages/daemon/src/adapters/claude-code-adapter.ts:730-818`).
+   without deleting user-authored hooks (`archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:730-818`).
    Removing a provider path must also undo only owned artifacts, preserving
    user configuration (`breakdown/05-simplification-rules.md:13-18`).
 4. **Events participate in durable operations.** `EventBus.emit` stores an
    event in SQLite; `persistWithinTransaction` allows an event to commit with
-   the state change before subscribers are notified (`packages/daemon/src/domain/event-bus.ts:52-91`).
+   the state change before subscribers are notified (`archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts:52-91`).
    Snapshot and teardown flows make durable snapshots/events before/around
-   process changes (`packages/daemon/src/domain/snapshot-capture.ts:149-166`;
-   `packages/daemon/src/domain/rig-teardown.ts:103-123`).
+   process changes (`archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts:149-166`;
+   `archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:103-123`).
 
 The state stores visible in these flows are:
 
 | State | Current authority / evidence | Consequence for simplification |
 |---|---|---|
-| Rig, node, session, binding and resume token | SQLite records read/written by repositories and `SessionRegistry`; actual tmux presence is separately probed (`packages/daemon/src/domain/session-registry.ts:77-133`, `packages/daemon/src/adapters/tmux.ts:82-91`) | A durable identifier is not proof a process is alive or resumable. |
+| Rig, node, session, binding and resume token | SQLite records read/written by repositories and `SessionRegistry`; actual tmux presence is separately probed (`archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:77-133`, `archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts:82-91`) | A durable identifier is not proof a process is alive or resumable. |
 | Queue item and transition history | SQLite `queue_items` latest row plus append-only `queue_transitions` (`024_queue_items.ts:19-52`, `025_queue_transitions.ts:13-29`) | Keep ownership/history consistent across retries; do not equate a notification with task acceptance. |
-| Events for clients | SQLite `events` rows, then subscriber notification (`packages/daemon/src/domain/event-bus.ts:52-91`) | Events have persistence and ordering contracts, not just UI refresh callbacks. |
-| Project work | User's project directory; ordinary teardown kills tmux and updates OpenRig state, and does not call project deletion in the path read (`packages/daemon/src/domain/rig-teardown.ts:115-135`) | Uncommitted files and a live agent conversation have different preservation guarantees. This does not establish what every optional cleanup command deletes. |
-| Provider configuration/hooks | User-level or project-level files with OpenRig-owned entries (`packages/cli/src/commands/setup.ts:586-614`, `packages/daemon/src/adapters/claude-code-adapter.ts:745-820`) | Cleanup needs ownership rules so removing OpenRig does not remove user-authored config. |
+| Events for clients | SQLite `events` rows, then subscriber notification (`archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts:52-91`) | Events have persistence and ordering contracts, not just UI refresh callbacks. |
+| Project work | User's project directory; ordinary teardown kills tmux and updates OpenRig state, and does not call project deletion in the path read (`archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:115-135`) | Uncommitted files and a live agent conversation have different preservation guarantees. This does not establish what every optional cleanup command deletes. |
+| Provider configuration/hooks | User-level or project-level files with OpenRig-owned entries (`archive/openrig-0.5.16-source/packages/cli/src/commands/setup.ts:586-614`, `archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:745-820`) | Cleanup needs ownership rules so removing OpenRig does not remove user-authored config. |
 
 User/process identity crosses the CLI, HTTP and queue boundaries. For
 example, the CLI documents that sender identity is derived from
 `OPENRIG_SESSION_NAME` and stamped as `X-OpenRig-Session`; queue claim
 commands ignore deprecated caller-supplied destinations
-(`packages/cli/src/commands/send.ts:230-237`; `packages/cli/src/commands/queue.ts:558-585`). A
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/send.ts:230-237`; `archive/openrig-0.5.16-source/packages/cli/src/commands/queue.ts:558-585`). A
 replacement that accepts arbitrary actor strings could break queue ownership
 guarantees.
 
@@ -364,11 +364,11 @@ current package/dependency boundary implies at least these port jobs:
 
 - The CLI currently relies on Commander, JSON/YAML/TOML parsing, local files,
   and a sibling Node runtime check for the native SQLite binding
-  (`packages/cli/package.json:47-62`; `packages/cli/src/bin-wrapper.ts:50-79`).
+  (`archive/openrig-0.5.16-source/packages/cli/package.json:47-62`; `archive/openrig-0.5.16-source/packages/cli/src/bin-wrapper.ts:50-79`).
 - The daemon exposes Hono HTTP/WebSocket routes, a synchronous SQLite API, 85
   numbered migrations, and SSE/event projections. Rust must preserve database
   ordering, state transitions, endpoint/JSON shapes, and transaction boundaries
-  if it is to reuse existing data and UI/CLI consumers (`packages/daemon/package.json:79-87`;
+  if it is to reuse existing data and UI/CLI consumers (`archive/openrig-0.5.16-source/packages/daemon/package.json:79-87`;
   `event-bus.ts:52-91`; migration directory).
 - The tmux contract is OS process invocation plus exact output parsing, shell
   quoting, transport-vs-absence classification, and temporary-file/buffer
@@ -378,10 +378,10 @@ current package/dependency boundary implies at least these port jobs:
   filesystem and native CLI contracts, not ordinary domain structs
   (`runtime-adapter.ts:121-150`; `claude-code-adapter.ts:730-818`).
 - The UI is a separate React browser client; its TypeScript/Vite build and
-  Vitest tests require Node tooling (`packages/ui/package.json:7-14,16-54`).
-  The daemon serves its built assets (`packages/daemon/src/server.ts:806-835`).
+  Vitest tests require Node tooling (`archive/openrig-0.5.16-source/packages/ui/package.json:7-14,16-54`).
+  The daemon serves its built assets (`archive/openrig-0.5.16-source/packages/daemon/src/server.ts:806-835`).
   Browser JavaScript is not a Node runtime dependency. Top-level Node scripts
-  generate and mirror skills/context (`package.json:21-28`). A Rust daemon
+  generate and mirror skills/context (`archive/openrig-0.5.16-source/package.json:21-28`). A Rust daemon
   alone does not remove those build/tooling dependencies, the Node TUI, or
   managed Node hooks; see the fuller inventory in 10.
 

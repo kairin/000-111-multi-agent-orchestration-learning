@@ -175,7 +175,7 @@ being built. When repeated coordination warrants a workflow, discover with
 selected name with `rig workflow instantiate --help`. A workflow is not needed
 merely to make the first local change.
 
-For a continuing team, [OpenRig Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
+For a continuing team, [OpenRig Software Factory](../../archive/openrig-0.5.16-source/packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
 offers manual/team work, queue-supported orchestration without Workflow, and an
 optional explicit Workflow path, with wake defaults, token costs and permission
 choices visible. Give its short request to your existing agent. After
@@ -242,7 +242,7 @@ retain who acts next. Creating or editing a mission does not start work. You can
 instantiate a named workflow with `rig workflow instantiate <name>`, or explicitly
 inspect an authored lifecycle with `rig workflow compile` and create its runtime
 with `rig workflow instantiate-lifecycle`. Compilation alone does not start work.
-[OpenRig Software Factory](../../packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
+[OpenRig Software Factory](../../archive/openrig-0.5.16-source/packages/daemon/specs/agents/shared/skills/core/openrig-software-factory/SKILL.md)
 shows a small reviewed example and how to retain custody through a genuine wait.
 
 ## Have your agent configure permissions
@@ -266,7 +266,7 @@ Use the maintained **Applying a permission policy** procedure:
 rig context get skills/applying-a-permission-policy/SKILL.md
 ```
 
-In a source checkout, read [its source](../../packages/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md).
+In a source checkout, read [its source](../../archive/openrig-0.5.16-source/packages/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md).
 In an npm installation, the same file is under
 `@openrig/cli/daemon/assets/plugins/openrig-core/skills/applying-a-permission-policy/SKILL.md`
 below the matching `npm root -g` or local `npm root`. Use the version supplying

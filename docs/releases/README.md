@@ -52,7 +52,7 @@ For each release:
    ```json
    {
      "surfaces": [{
-       "path": "packages/daemon/context-packs-src/example/guide.md",
+       "path": "archive/openrig-0.5.16-source/packages/daemon/context-packs-src/example/guide.md",
        "sha256": "<sha256 of the reviewed bytes>",
        "verdict": "ship",
        "reason": "Generic product guidance.",
@@ -69,7 +69,7 @@ For each release:
    reason in the same per-file entry:
 
    ```bash
-   bash scripts/build-package.sh
+   bash archive/openrig-0.5.16-source/scripts/build-package.sh
    npm run gate:substance -- \
      --review /path/to/substance-review.json \
      --receipt /path/to/substance-receipt.json \

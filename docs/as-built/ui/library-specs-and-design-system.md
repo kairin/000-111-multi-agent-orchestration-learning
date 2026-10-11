@@ -22,12 +22,12 @@ images, plugins, and skills.
 
 > Verified against source at HEAD `7eaf524c`; package version **0.3.1**
 > (slice-00 §1.1). Component/primitive names below are reconciled against
-> `packages/ui/src/components/` at HEAD — NOT taken on trust from `ui.md`'s
+> `archive/openrig-0.5.16-source/packages/ui/src/components/` at HEAD — NOT taken on trust from `ui.md`'s
 > or `DESIGN.md`'s lists.
 
 ## 1. Library / specs surfaces
 
-Components in `packages/ui/src/components/specs/` (re-confirmed at HEAD):
+Components in `archive/openrig-0.5.16-source/packages/ui/src/components/specs/` (re-confirmed at HEAD):
 
 - `SpecsLibraryPage.tsx` — the `/specs` Library page (unified list:
   All / Apps / Rigs / Agents; service-backed entries render as `APP`).
@@ -59,7 +59,7 @@ re-confirmed accurate at HEAD):
   `AgentSpecDisplay` (the same primitives reused for draft preview, library
   review, and live full-details).
 - **Filesystem-backed library:** `SpecLibraryService` scans builtin + user
-  roots (`packages/daemon/specs`, `~/.openrig/specs`, legacy fallback
+  roots (`archive/openrig-0.5.16-source/packages/daemon/specs`, `~/.openrig/specs`, legacy fallback
   `~/.rigged/specs`); each YAML is classified via structured review;
   service-backed rigs are marked `hasServices`; `/api/specs/library` serves
   list/get/review/sync.
@@ -75,7 +75,7 @@ re-confirmed accurate at HEAD):
 
 > Drift-fix — `ui.md` "Design Primitives" (L75–107) omits `ProjectPill`.
 > `docs/DESIGN.md` L195 lists it; re-confirmed at HEAD it is a real export
-> (`packages/ui/src/components/project/ProjectMetaPrimitives.tsx:196`
+> (`archive/openrig-0.5.16-source/packages/ui/src/components/project/ProjectMetaPrimitives.tsx:196`
 > `export function ProjectPill`). Reconciled inventory below is from source,
 > not from either doc's list.
 
@@ -103,14 +103,14 @@ The canonical OpenRig visual/design system is **`docs/DESIGN.md`** (at the
 repo `docs/` root, NOT under `docs/as-built/`). Q1 is ratified: DESIGN.md
 stays at root, byte-identical, and this module **points to it rather than
 copying it**. DESIGN.md is the source for: Vellum-paper vs Black-glass
-surface languages, colour tokens (`packages/ui/src/globals.css` +
+surface languages, colour tokens (`archive/openrig-0.5.16-source/packages/ui/src/globals.css` +
 `tailwind.config.ts`), typography (`font-body` Inter / `font-headline` Space
 Grotesk / `font-mono` JetBrains Mono), layout (48px rail + Explorer + center
 + drawer + preview stack), the core-primitive list, the graphics system, and
 the interaction/motion/accessibility/do-and-do-not rules.
 
 > Reconciliation note: DESIGN.md's primitive lists were independently
-> verified against `packages/ui/src/components/` at HEAD — every primitive
+> verified against `archive/openrig-0.5.16-source/packages/ui/src/components/` at HEAD — every primitive
 > DESIGN.md names (Vellum, Graphics, Project-metadata, Topology, Preview)
 > resolves to a real export at HEAD. DESIGN.md is accurate and carries no
 > slice-00 numeric drift, so it is referenced as-is. Do not duplicate its
@@ -125,5 +125,5 @@ the interaction/motion/accessibility/do-and-do-not rules.
   contract behind the review flows.
 - `../architecture/plugin-agent-image-context-pack.md` — the 0.3.1 content
   layer behind the plugins/agent-image/context-pack Library surfaces.
-- Source roots: `packages/ui/src/components/specs/`,
-  `packages/daemon/src/domain/{spec-review-service,spec-library-service}*`.
+- Source roots: `archive/openrig-0.5.16-source/packages/ui/src/components/specs/`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/domain/{spec-review-service,spec-library-service}*`.

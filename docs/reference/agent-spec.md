@@ -2,7 +2,7 @@
 
 Version: 1.0
 Last validated against code: 2026-04-11
-Source of truth: `packages/daemon/src/domain/agent-manifest.ts`, `packages/daemon/src/domain/types.ts`
+Source of truth: `archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-manifest.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts`
 
 This is the canonical reference for the AgentSpec YAML format (`agent.yaml`). Every field, validation rule, and default documented here was traced from the actual parser and validator code.
 

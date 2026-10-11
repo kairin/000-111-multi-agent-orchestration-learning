@@ -27,7 +27,7 @@ mechanically (`architecture.md` §3 L398).
 
 ## 1. The three Phase D tables (+ the diagnostic addition)
 
-Re-confirmed at HEAD in `packages/daemon/src/db/migrations/`:
+Re-confirmed at HEAD in `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/`:
 
 - **`workflow_specs`** (`033_workflow_specs.ts:33` `CREATE TABLE … workflow_specs`)
   — a read-through cache of human-authored markdown/YAML spec files. Sources
@@ -65,7 +65,7 @@ enforcement via the `PHASE_D_POLICIES` array, so no DDL is needed —
 ## 2. The transactional-scribe contract
 
 The load-bearing Phase D guarantee is implemented in
-`WorkflowProjector.project()` (`packages/daemon/src/domain/workflow-projector.ts`).
+`WorkflowProjector.project()` (`archive/openrig-0.5.16-source/packages/daemon/src/domain/workflow-projector.ts`).
 Re-confirmed at HEAD: the projector header (`workflow-projector.ts:1–20`)
 declares "transactional-scribe contract" and `project()` runs a single
 `db.transaction` (`workflow-projector.ts:184` `const txn = this.db.transaction(...)`).
@@ -82,7 +82,7 @@ Either everything commits or everything rolls back; lost handoffs are
 impossible by design. Post-commit, subscribers are notified and the next
 owner is nudged (`architecture.md` §3 L406).
 
-`WorkflowRuntime` (`packages/daemon/src/domain/workflow-runtime.ts:61`
+`WorkflowRuntime` (`archive/openrig-0.5.16-source/packages/daemon/src/domain/workflow-runtime.ts:61`
 `export class WorkflowRuntime`) is the orchestration class above the
 projector.
 
@@ -96,7 +96,7 @@ strict-rejection (see `coordination-primitive.md` §3); the workflow runtime
 
 `workflow-keepalive` is the Phase C-deferred watchdog policy, a TypeScript
 port of the POC `lib/policies/workflow-keepalive.mjs` adapted to read SQLite
-(`packages/daemon/src/domain/policies/workflow-keepalive.ts:1–5`).
+(`archive/openrig-0.5.16-source/packages/daemon/src/domain/policies/workflow-keepalive.ts:1–5`).
 Re-confirmed at HEAD (`workflow-keepalive.ts:5–16`):
 
 - **LOAD-BEARING:** it MUST read `workflow_instances` directly via SQLite —
@@ -120,7 +120,7 @@ policy enum extends Phase C's three values with `workflow-keepalive`.
 > L410 says "Existing 20 PL-004 events are unchanged" — internally
 > inconsistent with L394's "32 PL-004 events untouched". **Do NOT carry
 > either number.** The current `RigEvent` union
-> (`packages/daemon/src/domain/types.ts:94`) has **73 members** total
+> (`archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts:94`) has **73 members** total
 > (slice-00 §1.8, re-confirmed at HEAD). The additive Phase D `workflow.*`
 > events are described below WITHOUT asserting a contested PL-004 sub-count.
 
@@ -272,7 +272,7 @@ missing the new optional fields read fine); the same spec FILE
 re-validated fails under the new rules.
 
 **Hand-authorability (FR-6).** Three shipped example shapes at
-`packages/daemon/src/builtins/workflow-specs/`: `linear-build.yaml`
+`archive/openrig-0.5.16-source/packages/daemon/src/builtins/workflow-specs/`: `linear-build.yaml`
 (zero WF-2 features — the zero-regression reference),
 `gated-release.yaml` (human gate + harness pins),
 `branched-remediation.yaml` (bounded failed-path remediation loop).
@@ -501,9 +501,9 @@ already rejects those loudly at queue-write — no double advisory).
 - `coordination-primitive.md` — PL-004 Phase A; the closure authority the
   runtime projects against.
 - `mission-control.md` — PL-005 queue observability + 7-verb contract.
-- Source roots: `packages/daemon/src/domain/{workflow-projector,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{workflow-projector,
   workflow-runtime,workflow-instance-store,workflow-spec-cache,
   workflow-step-trail-log,workflow-validator}.ts`,
-  `packages/daemon/src/domain/policies/workflow-keepalive.ts`,
-  `packages/daemon/src/domain/{workflow-exception,workflow-exception-router,
-  workflow-exception-escalation}.ts`, `packages/daemon/src/routes/workflow.ts`.
+  `archive/openrig-0.5.16-source/packages/daemon/src/domain/policies/workflow-keepalive.ts`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/domain/{workflow-exception,workflow-exception-router,
+  workflow-exception-escalation}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/workflow.ts`.

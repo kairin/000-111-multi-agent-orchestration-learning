@@ -31,7 +31,7 @@ multi-agent harness that manages your Claude Code and Codex sessions as a
 single system, with a daemon (`@openrig/daemon`), a CLI (`@openrig/cli`), a UI
 (`@openrig/ui`), and an MCP server all sitting on one SQLite-backed core. This
 tree is the **source-verified** description of that system as it actually
-ships — every load-bearing claim is grounded to `packages/*/src` at a named
+ships — every load-bearing claim is grounded to `archive/openrig-0.5.16-source/packages/*/src` at a named
 commit, not to memory, chat, or older docs.
 
 > Verified against source at HEAD `7eaf524c` (`git describe` →

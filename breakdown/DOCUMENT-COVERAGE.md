@@ -46,7 +46,7 @@ when it reports a historical observation or supplies fixture data and does not
 act as a current navigation or execution surface.
 
 The baseline contains 90 automatically discoverable `SKILL.md` files: 35 under
-`skills/_canonical/` and 55 embedded under `packages/`. The `skills/` group has
+`skills/_canonical/` and 55 formerly embedded under `packages/`. The `skills/` group has
 46 files because it also includes nine skill references/templates plus its
 README and changelog. The `packages/` count includes the second skill copies as
 well as specifications and fixtures. Every discovered skill needs historical
@@ -71,7 +71,22 @@ Use the file's path and subject to select a concrete card from the
 The mirrored pairs remain separate files in the baseline because both were
 discoverable. A learner analyzes one selected file, not all copies.
 
+## Current physical boundary
+
+The baseline tables preserve the paths and counts that existed when the
+curriculum was created. The historical runtime and build material now lives
+under `archive/openrig-0.5.16-source/`. The exact 2,820-file relocation ledger
+is [HISTORICAL-SOURCE-MANIFEST.tsv](HISTORICAL-SOURCE-MANIFEST.tsv); its prose
+guide is [HISTORICAL-SOURCE-MAP.md](HISTORICAL-SOURCE-MAP.md).
+
+Current learning documents, fixtures, licenses, notices, captured evidence,
+and release history remain outside that runtime boundary. The active
+portability workflow retains `scripts/portability-report.mjs` and its test.
+Original OpenRig issue and pull-request templates are archived byte-for-byte;
+the active `.github` templates now request changes to this learning resource.
+
 New curriculum files are `CURRICULUM.md`, `RESEARCH-EVIDENCE.md`, this ledger,
-and `gemini-review/AGENTS.md`. Validation must confirm the baseline arithmetic, inspect every active
+`HISTORICAL-SOURCE-MAP.md`, `HISTORICAL-SOURCE-MANIFEST.tsv`, and
+`gemini-review/AGENTS.md`. Validation must confirm the baseline arithmetic, inspect every active
 index, skill, and runbook for current operational authority, and check relative
 links in changed Markdown files.

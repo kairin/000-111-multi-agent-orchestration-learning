@@ -401,7 +401,7 @@ coverage; normal tagged work no longer requires a special outcome census. A smal
 agent's inspection; the threshold is a conservative admission rule, not a
 definition of good process.
 
-`packages/daemon/scripts/probe-health-calibration.mjs` accepts a sealed replay
+`archive/openrig-0.5.16-source/packages/daemon/scripts/probe-health-calibration.mjs` accepts a sealed replay
 export and output directory after daemon/CLI/TUI builds. It drives the compiled
 checkpoint/list/explain/diagnosis commands, renders the TUI, retains exact
 records and screens, compares database and filesystem effects around reads,

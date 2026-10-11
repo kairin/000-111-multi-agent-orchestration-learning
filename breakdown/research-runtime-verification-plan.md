@@ -45,18 +45,18 @@ actual sibling-worktree documents read, not integrated or accepted outputs.
 
 | ID | Citation | Bounded expectation |
 |---|---|---|
-| S1 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/scripts/smoke-fresh-install.sh:19-78` | **Observed in source:** builds in the checkout, packs/installs with npm, starts via Node, polls health, and removes checkout tarballs during cleanup. Do not run it in the research checkout. Its comments are not proof of isolation. |
-| S2 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/openrig-compat.ts:7-18,26-75` | **Observed in source:** home and legacy environment/path fallback exist. Instance-home override alone does not isolate all user files. |
-| S3 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/index.ts:236-298` | **Observed in source:** explicit DB/port settings, instance initialization, separate routing and bind variables, default loopback plus available Tailscale interface, and bind authentication checks. Initialization occurs before the shown bind-auth check; no-write-on-auth-failure is not inferred. |
-| S4 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/domain/rig-teardown.ts:103-193,202-231` | **Observed in source:** snapshot failure is reported but teardown continues; successful kills clear session/binding state; kill failures block requested rig deletion. Managed guidance cleanup can write/delete files. |
-| S5 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/domain/snapshot-capture.ts:125-166` | **Observed in source:** structured topology/continuity data and snapshot event commit together. No Git index/file archive appears in this payload. This is not a complete audit of every file writer. |
-| S6 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/domain/queue-repository.ts:807-846,1114-1162` | **Observed in source:** terminal wake intent is staged inside the closure transaction; pane delivery is external. Recovery retries pending intents, not terminal failed/indeterminate ones; abandoned sending intents are reconciled separately. This is not general HTTP-create idempotency. |
-| S7 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/ui/src/hooks/useRigEvents.ts:22-67` | **Observed in source:** graph query invalidation follows reconnect after an error, with debounce and subscription cleanup. Not proof that every UI query refreshes. |
-| S8 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/ui/src/lib/topology-events.ts:16-108` | **Observed in source:** one EventSource hub keeps a bounded local replay cache. This is not proof of server-side gap replay. |
-| S9 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/tui/src/live-events.ts:1-99` | **Observed in source:** an unavailable initial stream disables this leg; an established stream drop schedules reconnect. Test these separately; do not assume unlimited retry or identical browser behavior. |
-| S10 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/src/domain/restore-orchestrator.ts:976-1006` | **Observed in source:** a prior resumable session without a token returns awaiting-decision unless fresh start is explicit. No new native conversation is proof of the old conversation resuming. |
-| S11 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/specs/agents/shared/skills/core/openrig-upgrade/SKILL.md:230-266` | **Stated intent:** agent-led upgrade/rollback verifies runtime, listeners, DB, plugins and seats; old runtime is preferred with a still-valid DB. This is not evidence of an automatic updater or universal downgrade compatibility. |
-| S12 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/package.json:7-32` | **Observed in source:** four npm workspaces and required Node build/test/generation scripts. Current baseline is not Node-free. |
+| S1 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/scripts/smoke-fresh-install.sh:19-78` | **Observed in source:** builds in the checkout, packs/installs with npm, starts via Node, polls health, and removes checkout tarballs during cleanup. Do not run it in the research checkout. Its comments are not proof of isolation. |
+| S2 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/openrig-compat.ts:7-18,26-75` | **Observed in source:** home and legacy environment/path fallback exist. Instance-home override alone does not isolate all user files. |
+| S3 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/index.ts:236-298` | **Observed in source:** explicit DB/port settings, instance initialization, separate routing and bind variables, default loopback plus available Tailscale interface, and bind authentication checks. Initialization occurs before the shown bind-auth check; no-write-on-auth-failure is not inferred. |
+| S4 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:103-193,202-231` | **Observed in source:** snapshot failure is reported but teardown continues; successful kills clear session/binding state; kill failures block requested rig deletion. Managed guidance cleanup can write/delete files. |
+| S5 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts:125-166` | **Observed in source:** structured topology/continuity data and snapshot event commit together. No Git index/file archive appears in this payload. This is not a complete audit of every file writer. |
+| S6 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:807-846,1114-1162` | **Observed in source:** terminal wake intent is staged inside the closure transaction; pane delivery is external. Recovery retries pending intents, not terminal failed/indeterminate ones; abandoned sending intents are reconciled separately. This is not general HTTP-create idempotency. |
+| S7 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/ui/src/hooks/useRigEvents.ts:22-67` | **Observed in source:** graph query invalidation follows reconnect after an error, with debounce and subscription cleanup. Not proof that every UI query refreshes. |
+| S8 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/ui/src/lib/topology-events.ts:16-108` | **Observed in source:** one EventSource hub keeps a bounded local replay cache. This is not proof of server-side gap replay. |
+| S9 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/tui/src/live-events.ts:1-99` | **Observed in source:** an unavailable initial stream disables this leg; an established stream drop schedules reconnect. Test these separately; do not assume unlimited retry or identical browser behavior. |
+| S10 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:976-1006` | **Observed in source:** a prior resumable session without a token returns awaiting-decision unless fresh start is explicit. No new native conversation is proof of the old conversation resuming. |
+| S11 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/specs/agents/shared/skills/core/openrig-upgrade/SKILL.md:230-266` | **Stated intent:** agent-led upgrade/rollback verifies runtime, listeners, DB, plugins and seats; old runtime is preferred with a still-valid DB. This is not evidence of an automatic updater or universal downgrade compatibility. |
+| S12 | `archive/openrig-0.5.16-source/package.json:7-32` | **Observed in source:** four npm workspaces and required Node build/test/generation scripts. Current baseline is not Node-free. |
 
 ## Future execution authorization and environment checklist
 
@@ -86,7 +86,7 @@ The later operator must record values and evidence, not simply mark “approved.
 - [ ] Verify CLI routing/config precedence from the tested version and pin its
   client endpoint to that guest loopback port. Record resolved workspace, context,
   skills and topology roots. Do not assume bind host sets client routing (S3).
-  Isolate legacy `.rigged`, native agent config/history and tmux configuration too.
+  Isolate legacy `.rigged`, native agent archive/openrig-0.5.16-source/config/history and tmux configuration too.
 - [ ] Use a guest-only terminal provider. Record its socket, process namespace and
   fixture session names. Prove it cannot enumerate or kill host sessions. Never
   use a shared tmux server or host-wide `kill-server`/process-name kill.
@@ -119,7 +119,7 @@ inside the guest; SQLite WAL/SHM files must not be ignored by a naive live copy.
 |---|---|
 | F1 clean distribution | Immutable local release archive, checksum, empty private install prefix, no monorepo dependency resolution, no pre-existing instance. Build a baseline archive only in a disposable source copy. |
 | F2 Git preservation | Local-only repository, no remotes/hooks, initial commit; tracked unstaged edit; staged edit; one file with staged version A and unstaged version B; staged add/delete; untracked text/binary files; ignored sentinel. Add nested repo and linked worktree as separately recorded variants. |
-| F3 state/ownership | Synthetic rig with two seats, unique queue bodies/IDs, events, snapshots and resume records. User-authored hook/config/guidance sentinels next to managed content. A third unrelated fixture seat is the cleanup control. |
+| F3 state/ownership | Synthetic rig with two seats, unique queue bodies/IDs, events, snapshots and resume records. User-authored hook/archive/openrig-0.5.16-source/config/guidance sentinels next to managed content. A third unrelated fixture seat is the cleanup control. |
 | F4 faults | Guest-only listener occupying the target port; missing-tool PATH variants; invalid/absent dedicated credentials; malformed configuration; controlled projection permission failure; local proxy for request/response/stream interruption. |
 | F5 native continuity | Separate Claude and Codex test sessions. Record native session ID and a random conversation-only marker not written into project files or supplied in the resume prompt. No real user history. |
 | F6 update pair | Known baseline A and candidate B, immutable archives/checksums, documented schema compatibility, synthetic A-state backup plus user-edited managed-file variants. |
@@ -184,7 +184,7 @@ no auth bypass or secret disclosure; errors identify the failed layer; retry has
 no unexplained duplicate process/state. Partial writes must be classified rather
 than assumed absent (S3). Source behavior for each diagnostic remains unresolved
 until its exact handler is traced. Cleanup: stop only the fixture-owned collision
-server, remove fault config/credentials and perform common cleanup.
+server, remove fault archive/openrig-0.5.16-source/config/credentials and perform common cleanup.
 
 ### RV-03 — Agent launch and partial cleanup
 
@@ -202,7 +202,7 @@ unchanged, user-owned files preserved, and every residual owned process/artifact
 either removed or explicitly reported recoverable. Do not infer native behavior
 from T1's mocked Pi adapter. Kill failure must not be reported as successful
 deletion (S4). Cleanup: inventory and terminate only known fixture descendants;
-compare config/guidance sentinels before removing the guest.
+compare archive/openrig-0.5.16-source/config/guidance sentinels before removing the guest.
 
 ### RV-04 — Queue retry, disconnect and wake recovery
 
@@ -365,10 +365,10 @@ scripts build/generate assets (S12), so they are not read-only research checks.
 
 | ID | Inspected test excerpt and its limit | Execution result |
 |---|---|---|
-| T1 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/test/retry-first-start.test.ts:12-129` — mocked Pi projection failure/retry; assertions preserve sibling/history and refuse live/unknown states. Not Claude/Codex process proof. | NOT RUN |
-| T2 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/ui/test/focused-terminal-reconnect.test.tsx:1-106` — mock WebSocket/xterm, fake timers, 3 s reconnect assertion. Not a network, authentication or real-terminal observation. | NOT RUN |
-| T3 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/test/queue-transactional-closure.test.ts:22-140` — mock wake transport, separate-DB rejection and missing-outbox rollback assertions. Does not establish HTTP retry behavior. | NOT RUN |
-| T4 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/packages/daemon/test/native-resume-probe.test.ts:1-85` — synthetic pane classification and command-builder assertions. Not native conversation recovery. | NOT RUN |
+| T1 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/test/retry-first-start.test.ts:12-129` — mocked Pi projection failure/retry; assertions preserve sibling/history and refuse live/unknown states. Not Claude/Codex process proof. | NOT RUN |
+| T2 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/ui/test/focused-terminal-reconnect.test.tsx:1-106` — mock WebSocket/xterm, fake timers, 3 s reconnect assertion. Not a network, authentication or real-terminal observation. | NOT RUN |
+| T3 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/test/queue-transactional-closure.test.ts:22-140` — mock wake transport, separate-DB rejection and missing-outbox rollback assertions. Does not establish HTTP retry behavior. | NOT RUN |
+| T4 | `/home/kkk/.cline/worktrees/d1795/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/test/native-resume-probe.test.ts:1-85` — synthetic pane classification and command-builder assertions. Not native conversation recovery. | NOT RUN |
 
 ## Cleanup and evidence record
 

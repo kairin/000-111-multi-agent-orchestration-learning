@@ -29,16 +29,16 @@ Verbatim from `sources/agent_fleet_architectures_infographic.html`.
 
 ## How to check
 
-Check `engines` in `package.json` and the doctor/preflight checks in the CLI.
+Check `engines` in `archive/openrig-0.5.16-source/package.json` and the doctor/preflight checks in the CLI.
 
 ## Evidence from this repo
 
 Reviewed at source commit `9db3ed6c406be5c3d9a84720383fcf6b543169e6` (2026-09-27).
 
-- **Observed in source:** `/home/kkk/Apps/openrig-breakdown/package.json:30–32` declares Node `^20 || ^22 || ^24`, excluding intervening/future major versions despite their being above 20.
-- **Observed in source / unresolved mismatch:** `/home/kkk/Apps/openrig-breakdown/packages/cli/src/system-preflight.ts:34,124–159` instead accepts any Node major at least 20 and requires an available tmux control probe. Lines 161–192 additionally check writable state locations and the daemon endpoint, but do not check model login. `/home/kkk/Apps/openrig-breakdown/packages/cli/src/commands/up.ts:135–186` runs this system preflight before auto-starting a stopped daemon.
+- **Observed in source:** `archive/openrig-0.5.16-source/package.json:30–32` declares Node `^20 || ^22 || ^24`, excluding intervening/future major versions despite their being above 20.
+- **Observed in source / unresolved mismatch:** `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/cli/src/system-preflight.ts:34,124–159` instead accepts any Node major at least 20 and requires an available tmux control probe. Lines 161–192 additionally check writable state locations and the daemon endpoint, but do not check model login. `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/cli/src/commands/up.ts:135–186` runs this system preflight before auto-starting a stopped daemon.
 - **Stated intent:** `/home/kkk/Apps/openrig-breakdown/docs/reference/getting-started.md:54–64` requires tmux and authenticated Codex for this starter, explicitly not a Claude login or Herdr plugin, and distinguishes full `rig setup` checks from starter necessities.
-- **Observed in source:** `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/codex-runtime-adapter.ts:383–412` constructs and sends the native `codex` command to its bound tmux session. `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/rigspec-preflight.ts:142–144,293–310,395–405` admits Pi, terminal and stub as well as Claude/Codex, so the claimed harness pair is not an exhaustive runtime requirement.
+- **Observed in source:** `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:383–412` constructs and sends the native `codex` command to its bound tmux session. `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-preflight.ts:142–144,293–310,395–405` admits Pi, terminal and stub as well as Claude/Codex, so the claimed harness pair is not an exhaustive runtime requirement.
 
 ## Notes
 

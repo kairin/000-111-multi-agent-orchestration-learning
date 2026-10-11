@@ -2,7 +2,7 @@
 
 Version: 0.2 (pod-aware)
 Last validated against code: 2026-04-11
-Source of truth: `packages/daemon/src/domain/rigspec-schema.ts`, `packages/daemon/src/domain/types.ts`
+Source of truth: `archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-schema.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts`
 
 This is the canonical reference for the pod-aware RigSpec YAML format. Every field, validation rule, and default documented here was traced from the actual parser and validator code, not from prior documentation.
 
@@ -197,7 +197,7 @@ permission_policy: policies/my-cautious-dev.policy.md
 Built-in policies (`locked` / `standard` / `open` / `yolo`) are read-only and are
 referenced as `builtin:<name>`. A custom policy lives in your own project and is
 referenced by a safe relative path (no `..`, no absolute). A shipped example of the
-custom shape is `packages/daemon/policies/examples/my-cautious-dev.policy.md` — copy it
+custom shape is `archive/openrig-0.5.16-source/packages/daemon/policies/examples/my-cautious-dev.policy.md` — copy it
 into your project and edit it to taste.
 
 This records a selection, not a live permission change. Flag-surface policies
@@ -568,8 +568,8 @@ These are the built-in specs shipped with OpenRig. Read them as worked examples.
 
 | Spec | Location | Pods | Members | Services |
 |------|----------|------|---------|----------|
-| `product-team` | `packages/daemon/specs/rigs/preview/product-team/rig.yaml` | orch1, dev1, rev1 | 7 (lead, peer, impl, qa, design, r1, r2) | no |
-| `implementation-pair` | `packages/daemon/specs/rigs/launch/implementation-pair/rig.yaml` | dev | 2 (impl, qa) | no |
-| `adversarial-review` | `packages/daemon/specs/rigs/focused/adversarial-review/rig.yaml` | orch, review | 3 (lead, r1, r2) | no |
-| `research-team` | `packages/daemon/specs/rigs/focused/research-team/rig.yaml` | orch, research | 3 (lead, analyst, synthesizer) | no |
-| `secrets-manager` | `packages/daemon/specs/rigs/launch/secrets-manager/rig.yaml` | vault | 1 (specialist) | yes (Vault) |
+| `product-team` | `archive/openrig-0.5.16-source/packages/daemon/specs/rigs/preview/product-team/rig.yaml` | orch1, dev1, rev1 | 7 (lead, peer, impl, qa, design, r1, r2) | no |
+| `implementation-pair` | `archive/openrig-0.5.16-source/packages/daemon/specs/rigs/launch/implementation-pair/rig.yaml` | dev | 2 (impl, qa) | no |
+| `adversarial-review` | `archive/openrig-0.5.16-source/packages/daemon/specs/rigs/focused/adversarial-review/rig.yaml` | orch, review | 3 (lead, r1, r2) | no |
+| `research-team` | `archive/openrig-0.5.16-source/packages/daemon/specs/rigs/focused/research-team/rig.yaml` | orch, research | 3 (lead, analyst, synthesizer) | no |
+| `secrets-manager` | `archive/openrig-0.5.16-source/packages/daemon/specs/rigs/launch/secrets-manager/rig.yaml` | vault | 1 (specialist) | yes (Vault) |

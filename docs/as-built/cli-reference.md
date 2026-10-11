@@ -16,10 +16,10 @@ last-updated: 2026-06-20
 # OpenRig CLI Reference
 
 Verified against the shipped CLI on 2026-06-15 (v0.3.4) using:
-- `packages/cli/src/index.ts`
-- `packages/cli/src/commands/*.ts`
-- `packages/cli/src/mcp-server.ts`
-- live help from `node packages/cli/dist/index.js ... --help`
+- `archive/openrig-0.5.16-source/packages/cli/src/index.ts`
+- `archive/openrig-0.5.16-source/packages/cli/src/commands/*.ts`
+- `archive/openrig-0.5.16-source/packages/cli/src/mcp-server.ts`
+- live help from `node archive/openrig-0.5.16-source/packages/cli/dist/index.js ... --help`
 
 This document reflects the current `rig` surface as shipped. Where live help text is narrower than the implementation, notes call that out explicitly.
 
@@ -279,7 +279,7 @@ Notes:
   processes absent, archive that reservation before retrying. There is no timed
   takeover: a dead launcher may have left a live, unbound child.
 - `logs` reads daemon log output and can follow it.
-- **Deploy identity (v0.4.4, OPR.0.4.4.11 FR-6/7)**: a PACKAGED build (built via `scripts/build-package.sh`) is stamped with `{semver, commit, dirty, builtAt}`; the daemon's `/healthz` payload carries the four stamp fields additively and `rig --version` renders `<semver> (<commit8>[, dirty])`. A source/dev run has no build stamp (never an invented SHA); `/healthz` still reports its runtime PID and `--version` prints the plain semver. This is the 30-second stale-deploy diagnostic: an unstamped or old-commit `/healthz` on a long-running host means you are looking at an older deployed build, not the source tree. Source: `packages/{daemon,cli}/src/build-info.ts` (`stampFields`), `packages/daemon/src/server.ts` (`/healthz`), `packages/cli/src/version.ts`.
+- **Deploy identity (v0.4.4, OPR.0.4.4.11 FR-6/7)**: a PACKAGED build (built via `archive/openrig-0.5.16-source/scripts/build-package.sh`) is stamped with `{semver, commit, dirty, builtAt}`; the daemon's `/healthz` payload carries the four stamp fields additively and `rig --version` renders `<semver> (<commit8>[, dirty])`. A source/dev run has no build stamp (never an invented SHA); `/healthz` still reports its runtime PID and `--version` prints the plain semver. This is the 30-second stale-deploy diagnostic: an unstamped or old-commit `/healthz` on a long-running host means you are looking at an older deployed build, not the source tree. Source: `archive/openrig-0.5.16-source/packages/{daemon,cli}/src/build-info.ts` (`stampFields`), `archive/openrig-0.5.16-source/packages/daemon/src/server.ts` (`/healthz`), `archive/openrig-0.5.16-source/packages/cli/src/version.ts`.
 
 ### `rig status`
 
@@ -431,7 +431,7 @@ Notes:
 - NOT the getting-started boot hero — that remains `rig up <starter>`. `rig start` is for post-reboot/crash recovery.
 - TTY interactive flow lists last-running candidates with a readiness summary (`[ready to resume]`, `[will ask before fresh]`, `[fresh start]`, `[mixed]`), then offers restore-all or a spacebar multi-select picker.
 - Headless modes (`--last`, `--all`, `--rigs`) take zero prompts; if a node returns `awaiting-decision`, the CLI reports it honestly and prints the `rig up --existing <rig> --fresh <logicalId>` command to take action.
-- Surface source-verified against `packages/cli/src/commands/start.ts` at `03a5f915` (v0.3.4).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/start.ts` at `03a5f915` (v0.3.4).
 
 ### `rig mcp`
 
@@ -508,7 +508,7 @@ Current behavior notes:
 - Managed apps are first-class `up` targets. `rig up secrets-manager` launches the shipped Vault example from the library.
 - **`rig up factory-rsi` (OPR.0.4.6.FAC2)** launches the single-rig recursive-self-improvement factory MVP starter — seven seats (`plan`/`build`/`check`/`review`/`dogfood`/`release`/`orch`) that run the `factory-rsi` builtin workflow (inner loop plan→build→check→review→release); the dogfood seat runs out-of-band against the shipped product and feeds its findings back into the next plan. Workspace-agnostic: `rig up factory-rsi --cwd <repo>` points the loop at the repo to improve.
 - v0.3.2 paper-cut fix-round (slice-22): pre-launch failures now return structured HTTP 4xx (`cycle_error` / `preflight_failed` / `validation_failed` / `service_boot_failed`) instead of bare 500; failed boots no longer leave orphan rig records on disk.
-- **v0.4.4 (OPR.0.4.4.11) — whole-topology sources**: a `.rigtopology` manifest (or a YAML file whose body declares the topology form) boots MULTIPLE rigs in one staged spin-up. v0 manifest entries are **spec paths only** (a closed-key manifest: `.rigbundle` and bare library-name entries are rejected at parse time with per-entry what/why/fix naming the v0 boundary). Per-entry `host: <id>` is the ONLY placement mechanism for topology entries — `rig up --host <id> <topology>` is REJECTED pre-dispatch (two placement mechanisms must not coexist). The launcher acquires per-rig launch locks route-side and reports a CLOSED per-entry aggregate `{ok | failed | skipped}` (skipped is explicit — a lock conflict or upstream failure never reads as silent success). Source: `packages/cli/src/commands/up.ts` (`.rigtopology` sniff + `--host` rejection), `packages/daemon/src/domain/topology/{topology-manifest,multi-rig-launcher,remote-up-leaf}.ts`, `packages/daemon/src/routes/up.ts`.
+- **v0.4.4 (OPR.0.4.4.11) — whole-topology sources**: a `.rigtopology` manifest (or a YAML file whose body declares the topology form) boots MULTIPLE rigs in one staged spin-up. v0 manifest entries are **spec paths only** (a closed-key manifest: `.rigbundle` and bare library-name entries are rejected at parse time with per-entry what/why/fix naming the v0 boundary). Per-entry `host: <id>` is the ONLY placement mechanism for topology entries — `rig up --host <id> <topology>` is REJECTED pre-dispatch (two placement mechanisms must not coexist). The launcher acquires per-rig launch locks route-side and reports a CLOSED per-entry aggregate `{ok | failed | skipped}` (skipped is explicit — a lock conflict or upstream failure never reads as silent success). Source: `archive/openrig-0.5.16-source/packages/cli/src/commands/up.ts` (`.rigtopology` sniff + `--host` rejection), `archive/openrig-0.5.16-source/packages/daemon/src/domain/topology/{topology-manifest,multi-rig-launcher,remote-up-leaf}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/up.ts`.
 - v0.3.4: `rig up` is resume-original-by-default for existing rigs. Per-seat opt-in to deliberate fresh-prime is via `--fresh <seats...>`. The five-term restore status vocabulary surfaced per-node is `resumed` / `fresh-primed` / `awaiting-decision` / `attention_required` / `failed`. On TTY, `awaiting-decision` nodes trigger an interactive [y/N] ASK; in headless mode they are reported honestly with the exact `rig up --existing <rig> --fresh <logicalId>` follow-up command.
 
 Success modes:
@@ -550,7 +550,7 @@ Notes:
 - Archiving a running or degraded rig requires `--force`; without it the call returns HTTP `409` with a three-part honest error and exits `2`.
 - Reverse with `rig unarchive <rigId>`.
 - Emits `rig.archived` SSE event.
-- Surface source-verified against `packages/cli/src/commands/archive.ts` at `53794fbe` (v0.3.3).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/archive.ts` at `53794fbe` (v0.3.3).
 
 ### `rig unarchive`
 
@@ -560,7 +560,7 @@ Notes:
 - Reverse of `rig archive`: clears the `archived_at` flag so the rig returns to the default explorer and `rig ps` view.
 - Always non-destructive (the row and snapshots were retained while archived); no `--force` and no running-rig guard.
 - Emits `rig.unarchived` SSE event.
-- Surface source-verified against `packages/cli/src/commands/unarchive.ts` at `53794fbe` (v0.3.3).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/unarchive.ts` at `53794fbe` (v0.3.3).
 
 ### `rig env`
 
@@ -792,7 +792,7 @@ Notes:
 - Binds the live process to its OWN persisted node (same node id, no re-key) and updates the projection so `rig ps` / topology / send / capture / queue routing work again.
 - NEVER launches, relaunches, kills, replays startup, presses resume menus, compacts, or types into the pane.
 - Anything that could not be proven is reported as projection drift; conversation continuity is never claimed.
-- Surface source-verified against `packages/cli/src/commands/reconcile-session.ts` at `03a5f915` (v0.3.4).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/reconcile-session.ts` at `03a5f915` (v0.3.4).
 
 ### `rig expand`
 
@@ -820,7 +820,7 @@ Notes:
 - `--rig-root <path>` controls agent resolution.
 - HTTP outcomes: `201` on success (with the new node + persisted edges + optional warnings); `409 member_conflict`; `400 validation_failed` / `preflight_failed`; `404 pod_not_found` (lists existing pods).
 - Exit code is non-zero if the HTTP call failed OR the new node did not fully launch (`status !== "launched"`).
-- Surface source-verified against `packages/cli/src/commands/add.ts` at `53794fbe` (v0.3.3).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/add.ts` at `53794fbe` (v0.3.3).
 
 ### Session source declaration (`session_source`)
 
@@ -1165,7 +1165,7 @@ Operand grammar (parsed, never guessed):
 - Valid shapes: local→remote, remote→local, local→local. remote→remote is not
   a v0 shape.
 
-Semantics + safety wall (source: `packages/cli/src/lib/file-transfer.ts`):
+Semantics + safety wall (source: `archive/openrig-0.5.16-source/packages/cli/src/lib/file-transfer.ts`):
 - An existing destination is **OVERWRITTEN** (v0 copy semantics, stated) —
   preview with `--dry-run`, which prints the exact planned transfer (src, dst,
   host, files/bytes) and moves nothing.
@@ -1189,7 +1189,7 @@ Semantics + safety wall (source: `packages/cli/src/lib/file-transfer.ts`):
 Usage: `rig host <add|list|doctor>` — the multi-host registry verbs (OPR.0.4.4.13; capped at
 exactly these three — no edit/remove/tunnel/bootstrap verbs; hand-editing `hosts.yaml` remains
 the path for exotica, and the factory bootstrap ships as
-`scripts/bootstrap-product-factory-vps.sh`).
+`archive/openrig-0.5.16-source/scripts/bootstrap-product-factory-vps.sh`).
 
 - `add --id <id> --transport <ssh|http> [--target <t> --user <u> | --url <u> [--bearer-env <n>|--bearer-file <p>]] [--notes <text>] [--json]` — writes the entry validated by the registry loader's OWN rules (add-time errors are load-time errors, verbatim; duplicate ids refused; the http bearer pointer is optional — omit both for a tokenless daemon, never both). Rewrites `hosts.yaml` canonically (hand-authored comments are not preserved).
 - `list [--json]` — id/transport/target plus AUTH as a config POINTER (`env:NAME` / `file:PATH` / `ssh-key`); never a resolved secret value.
@@ -1786,8 +1786,8 @@ Notes:
 ## Scope Tree Primitive (v0.3.2)
 
 One top-level command first shipped in v0.3.2 (`scopeCommand`,
-`packages/cli/src/index.ts:20,187`; defined in
-`packages/cli/src/commands/scope.ts`; release-0.3.2 slice 12). Operates
+`archive/openrig-0.5.16-source/packages/cli/src/index.ts:20,187`; defined in
+`archive/openrig-0.5.16-source/packages/cli/src/commands/scope.ts`; release-0.3.2 slice 12). Operates
 the scope tree (missions, slices, sub-slices) per
 `conventions/scope-and-versioning`.
 
@@ -1833,11 +1833,11 @@ The conventions these verbs operate live in ONE shipped document: `docs/referenc
 - `rig scope audit <mission> [--json]` — checks C1 headers and the one-SPEC convention (frontmatter `intent:` or a readable legacy Intent section, Mini-requirements, Proof contract, and current NOTES). It never requires a second PRD. All convention findings are advisory/fail-open.
 
 Notes:
-- Surface source-verified against `packages/cli/src/commands/scope.ts` at `51554eee` (v0.4.0 post-slice-35); SDLC control-plane verbs source-verified against `scope.ts` / `proof.ts` / `scope-audit.ts` in OPR.0.4.4.23.
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/scope.ts` at `51554eee` (v0.4.0 post-slice-35); SDLC control-plane verbs source-verified against `scope.ts` / `proof.ts` / `scope-audit.ts` in OPR.0.4.4.23.
 
 ## Skill Cascade Audit (v0.4.0)
 
-One top-level command first shipped in v0.4.0 (slice 10 — skill / knowledge lifecycle curation, Hermes-informed). Defined in `packages/cli/src/commands/skill.ts`. Pairs with the daemon-side audit surface at `packages/daemon/src/routes/skills/audit.ts` + `mirror-drift` detection.
+One top-level command first shipped in v0.4.0 (slice 10 — skill / knowledge lifecycle curation, Hermes-informed). Defined in `archive/openrig-0.5.16-source/packages/cli/src/commands/skill.ts`. Pairs with the daemon-side audit surface at `archive/openrig-0.5.16-source/packages/daemon/src/routes/skills/audit.ts` + `mirror-drift` detection.
 
 ### `rig skill`
 
@@ -1863,7 +1863,7 @@ Notes:
 - `--json` emits structured findings: `{cascade: [...locations...], findings: [{category, path, evidence, suggested-action}]}`.
 - Exit codes: `0` clean, `1` findings present, `2` unable to audit.
 
-Composes with the existing `scripts/mirror-skills.mjs` guardrails — the audit detects what `mirror-skills` would also catch, plus the canonical / hub cwd layers that script doesn't touch.
+Composes with the existing `archive/openrig-0.5.16-source/scripts/mirror-skills.mjs` guardrails — the audit detects what `mirror-skills` would also catch, plus the canonical / hub cwd layers that script doesn't touch.
 
 ## Operator Context-Mode Bindings (v0.3.2)
 
@@ -1872,9 +1872,9 @@ One top-level command first shipped in v0.3.2 as `rig policy`
 ruling RULING-rig-mode-rig-policy-naming (clean rename, no alias —
 zero adoption confirmed; `rig policy` is being reintroduced as the
 permission-policy verb). Defined in `rigModeCommand`
-(`packages/cli/src/commands/rig-mode.ts`). Pairs with the daemon's
+(`archive/openrig-0.5.16-source/packages/cli/src/commands/rig-mode.ts`). Pairs with the daemon's
 typed-primitive store at
-`packages/daemon/src/db/migrations/041_rig_policy.ts` (DB artifact
+`archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/041_rig_policy.ts` (DB artifact
 names keep their shipped forms). Operates the operator context-mode
 binding surface (sleep / desk / mobile / away / focus / debug) used by
 mode-aware agent posture.
@@ -1896,7 +1896,7 @@ Notes:
 - Restate-and-confirm posture (HG-4): `set` is restate-only until `--confirm` is passed. This prevents accidental script application.
 - `--qualifier` strict reject for `global_host` (HG-7 guard finding): operators who type `--scope global_host --qualifier <id>` get an error and the daemon is never contacted. The CLI does NOT silently drop the qualifier.
 - Operator-edit mutations (`set --confirm`, `unset`) require an operator bearer token (`--bearer` or `OPENRIG_AUTH_BEARER_TOKEN` env).
-- Surface source-verified against `packages/cli/src/commands/rig-mode.ts` at `b13a8e4c7` (0.5.2 rename).
+- Surface source-verified against `archive/openrig-0.5.16-source/packages/cli/src/commands/rig-mode.ts` at `b13a8e4c7` (0.5.2 rename).
 
 ### `rig policy`
 

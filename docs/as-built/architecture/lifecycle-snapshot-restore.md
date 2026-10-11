@@ -208,7 +208,7 @@ parsers + redaction.
   (`server.ts:513`).
 - `transport-and-transcripts.md` — transcript boundary markers written on
   restore.
-- Source roots: `packages/daemon/src/domain/{restore-orchestrator,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{restore-orchestrator,
   snapshot-capture,snapshot-repository,checkpoint-store,
-  restore-check-service}.ts`, `packages/daemon/src/routes/restore-check.ts`,
-  `packages/cli/src/commands/restore-packet.ts`.
+  restore-check-service}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/restore-check.ts`,
+  `archive/openrig-0.5.16-source/packages/cli/src/commands/restore-packet.ts`.

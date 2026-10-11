@@ -2,7 +2,7 @@
 
 Version: 0.2.0
 Last validated against code: 2026-04-11
-Source of truth: `packages/daemon/src/domain/rigspec-schema.ts`, `packages/daemon/src/domain/rigspec-instantiator.ts`
+Source of truth: `archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-schema.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts`
 
 ---
 
