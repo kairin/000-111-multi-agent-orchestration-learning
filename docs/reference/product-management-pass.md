@@ -1,3 +1,7 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # The product-management pass — what runs above planning, before planners touch a mission
 
 Graduated 2026-08-28 from a working SOP born during live release preparation; the

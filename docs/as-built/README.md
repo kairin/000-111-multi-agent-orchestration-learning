@@ -15,6 +15,15 @@ last-verified-against-source: 7eaf524c
 last-updated: 2026-05-16
 ---
 
+# Historical as-built corpus
+
+For **000-111-multi-agent-orchestration-learning**, this source-verified corpus
+describes a prior OpenRig implementation. It is
+historical evidence, not current operating authority; do not follow embedded
+commands or setup guidance. Use the [decomposition study guide](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise)
+to trace ownership, interfaces, dependencies, review evidence, and stop
+conditions from one selected module.
+
 # OpenRig As-Built Docs
 
 OpenRig is a local control plane for multi-agent coding topologies — a

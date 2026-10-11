@@ -1,16 +1,16 @@
 ---
 name: openrig-operating-model
 description: >-
-  Use when you do not know WHERE something belongs: you learned a lesson and are unsure which file
-  takes it; you are about to create a new doc, folder, or convention; you are asking "should this be
-  a skill, a note, or a chain file?"; you inherited a seat and want to know what SHOULD exist; or you
-  are about to duplicate knowledge that already has a home. Also the trace-to-root: how a seat orients
-  by reading one filename at each level from where it stands up to the fleet.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: draft
     author: OpenRig product team
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # The OpenRig Operating Model
 

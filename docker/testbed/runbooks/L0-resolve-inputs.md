@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L0 — resolve the host-side build inputs (prerequisite to every build)
 
 **Runs host-side.** Populates the two documented slots the build verb refuses-until-resolved, so the

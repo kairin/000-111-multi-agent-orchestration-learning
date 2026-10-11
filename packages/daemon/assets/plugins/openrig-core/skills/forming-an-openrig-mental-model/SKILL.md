@@ -1,11 +1,8 @@
 ---
 name: forming-an-openrig-mental-model
 description: >-
-  Use when the system around you does not make sense yet: you just booted into a seat and do not
-  know how the pieces fit; someone said rig, pod, seat, fleet, topology, or slice and you are not
-  certain what they mean here; you are unsure what kind of rig you are in or what it is for; you do
-  not know how skills reach you or where context comes from; or you are about to act on a guess
-  about how OpenRig works. Gives the runtime mental model fast, so you stop guessing.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - ask
@@ -27,6 +24,9 @@ metadata:
       - agent-operated-workflows
       - agent-operated-software
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Forming an OpenRig Mental Model
 

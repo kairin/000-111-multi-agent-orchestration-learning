@@ -1,3 +1,12 @@
+# Historical evidence: a former getting-started guide
+
+For **000-111-multi-agent-orchestration-learning**, this page is preserved as
+primary-source evidence about the product's proposed
+first-use flow. It is not an instruction to install, configure, launch, or use
+OpenRig. Analyze the commands and claims below as historical examples; use the
+[decomposition study guide](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to produce a bounded coordination
+card instead.
+
 # Getting started: one useful change in your repository
 
 Start with a repository and one bounded change you can exercise. The shipped

@@ -1,5 +1,11 @@
 # Gemini review of OpenRig (2026-09-26)
 
+> **Historical claim-review evidence.** The 24 claim pages, context pages, and
+> source files in this folder preserve a completed research pass. Their prompts
+> to inspect code describe that historical method; they are not current agent
+> assignments or authority to run OpenRig. Use one page at a time for the paper
+> exercise in [module 04](../04-review-method.md).
+
 Source material produced by Gemini Deep Research when asked to compare
 [Cline CLI](https://cline.bot/cli) with [OpenRig](https://openrig.dev/docs/getting-started)
 and suggest easier tools for running large agent fleets.

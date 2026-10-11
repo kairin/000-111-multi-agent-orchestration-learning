@@ -1,3 +1,7 @@
+# Historical test-system evidence
+
+This page records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, dependencies, review evidence, and stop conditions.
+
 # ROUTING — capabilities these scenarios need from 51-01 / 51-02 (never shimmed here)
 
 Per 51-03 mini-req 2 + README Risks 1/2/3/5: any missing runner verb, stub behavior, or

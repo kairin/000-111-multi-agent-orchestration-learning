@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L3 — daemon-in-container (boots vs container-local sqlite; healthz on the PUBLISHED port; `rig up` settles a zero-token stub topology)
 
 **Runs host-side, after L2.** This is the leg that exercises the stub payload — and where

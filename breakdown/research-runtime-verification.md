@@ -1,5 +1,7 @@
 # Runtime verification protocol: WT-10, CAP-8 and Node removal
 
+> **Historical test proposal.** This unrun protocol demonstrates how missing authorization and isolation block execution. It is not current authority to run tests. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Status and authority
 
 **BLOCKED — preparation only; no product runtime cases executed.**

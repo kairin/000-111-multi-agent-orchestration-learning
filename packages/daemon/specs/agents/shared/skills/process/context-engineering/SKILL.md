@@ -1,18 +1,15 @@
 ---
 name: context-engineering
 description: >-
-  Use when designing, reviewing, or debugging how an agent's context window gets filled, pruned,
-  or shared — choosing what loads at boot versus on demand, sizing an install or an always-loaded
-  file, fixing an agent that drifts, repeats itself, or forgets constraints mid-task, planning
-  compaction or summarization, deciding single-agent versus subagents, engineering handoffs
-  between agents, or picking a tool loadout. NOT for rewording a prompt's tone, choosing which
-  model to pin, or debugging business logic — those are adjacent moments this skill does not
-  serve. Historical 2024–2025 snapshot; not normative for present-day frontier models — see the
-  Status section.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: provisional
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Traditional Context Engineering — 2024–2025 Snapshot
 

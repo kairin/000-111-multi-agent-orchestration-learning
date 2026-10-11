@@ -1,5 +1,7 @@
 # Capability inventory — source coverage and open evidence
 
+> **Historical capability evidence.** Study this inventory to compare feature lists with bounded user journeys; do not resume its open product work. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Evidence contract
 
 Inspected source commit: **`ea7c268f576ada8434d3dae3e6ac972264910d4c`**. All source citations in this document refer to that Git tree, not to installed code or a running daemon. The later commit containing this document is a documentation commit. Inspection date: 2026-09-27.

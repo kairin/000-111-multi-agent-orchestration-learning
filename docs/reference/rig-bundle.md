@@ -1,3 +1,7 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # RigBundle Reference
 
 Version: 2 (pod-aware)

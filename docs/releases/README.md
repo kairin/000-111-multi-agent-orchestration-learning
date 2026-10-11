@@ -1,3 +1,11 @@
+# Historical release evidence
+
+For **000-111-multi-agent-orchestration-learning**, these release notes record
+claims made at the time of each release. They do not
+authorize installation, upgrade, or use of OpenRig. For a bounded reading task,
+compare one release claim with an as-built interface using the
+[decomposition study guide](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise).
+
 # Release Notes
 
 This directory is the lightweight release history for OpenRig.

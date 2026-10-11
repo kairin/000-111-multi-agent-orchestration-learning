@@ -1,12 +1,17 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     vendored_from: "Obra Superpowers (https://github.com/obra/superpowers)"
     vendoring_pattern: vendored-as-is
     last_upstream_check: "2026-05-13 (diff against plugin source pulled 2026-05-11 = identical)"
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Systematic Debugging
 

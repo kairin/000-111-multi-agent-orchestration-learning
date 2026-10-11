@@ -1,5 +1,7 @@
 # Coordinator evidence review: 662c4, a4d7b and c28a2
 
+> **Historical integration evidence.** Use these handoff decisions to study bounded rework and acceptance; the named agents have no current assignments. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Decision and authority
 
 Reviewed on 2026-09-27. **662c4: FAIL; a4d7b: FAIL; c28a2: FAIL** for final

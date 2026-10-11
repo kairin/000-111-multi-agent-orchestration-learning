@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L4 — the 51-02 hermetic contract holds INSIDE the container (fail-closed not weakened)
 
 **Runs host-side, after L3.** The hermeticity floor is "fresh container = fresh HOME" **by

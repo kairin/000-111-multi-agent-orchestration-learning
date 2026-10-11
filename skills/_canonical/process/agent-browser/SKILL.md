@@ -1,7 +1,8 @@
 ---
 name: agent-browser
-description: Browser automation CLI for AI agents. Use when the user needs to interact with websites, including navigating pages, filling forms, clicking buttons, taking screenshots, extracting data, testing web apps, or automating any browser task. Triggers include requests to "open a website", "fill out a form", "click a button", "take a screenshot", "scrape data from a page", "test this web app", "login to a site", "automate browser actions", or any task requiring programmatic web interaction.
-allowed-tools: Bash(npx agent-browser:*), Bash(agent-browser:*)
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     vendored_from: "Vercel agent-browser (https://github.com/vercel/agent-browser)"
@@ -13,6 +14,9 @@ metadata:
       LOCAL-INSIGHTS.md companion file. See OPENRIG.md for the full OpenRig
       relationship to this skill.
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Browser Automation with agent-browser
 

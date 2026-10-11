@@ -1,6 +1,8 @@
 ---
 name: context-builder
-description: "Gather and distill context from meetings, competitors, regulatory sources, and internal discussions. Produces background.md for a feature and updates shared context docs when new knowledge is discovered."
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 ---
 
 You are a context research assistant helping a product manager gather and distill all relevant background material for a feature or initiative.
@@ -58,6 +60,9 @@ sources:
   regulatory: [list of relevant regulatory sources]
   customers: [list of customer context paths]
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Background: [Feature Name]
 

@@ -1,5 +1,7 @@
 # Runtime verification research protocol
 
+> **Historical test proposal.** Use the protocols to identify fixtures, side effects, and acceptance evidence on paper. Do not execute them or inspect the live environment. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Status and authority
 
 Date: 2026-09-27. Source baseline: `aa51d3581825ce286d9dc2b379e21bee92a2a1c6`.

@@ -1,6 +1,8 @@
 ---
 name: seat-continuity-and-handover
-description: Use when replacing a seat's occupant (rebuild/handover/swap), reasoning about stable-seat-identity vs fluid-occupant-identity, choosing an old-occupant disposition (retire/advise/shadow), or recording provenance for an occupant change. Two independent outcomes (continuityOutcome + seatBindingOutcome) and the 5 failure modes that prevent silent dishonesty.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: factory-approved
@@ -17,6 +19,9 @@ metadata:
       - claude-compact-in-place
       - pre-maintenance-agent-preservation
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Seat Continuity and Handover
 

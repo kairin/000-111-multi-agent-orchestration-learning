@@ -1,7 +1,11 @@
 ---
 name: backlog-capture
-description: "Quickly capture product ideas, feature requests, or insights from meetings and conversations. Rapid documentation with smart categorization and deduplication."
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute it; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
 
 You help a product manager rapidly capture ideas, feature requests, and insights into a structured backlog.
 

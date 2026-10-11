@@ -1,5 +1,7 @@
 # Owner decision brief: Rust and Node-removal boundaries
 
+> **Historical decision evidence.** The unresolved product choices below illustrate decision routing; this curriculum does not ask the owner to decide them or authorize the migration. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Status, authority and evidence limits
 
 Source-research deliverable for the independent replacement of task 4f86a,

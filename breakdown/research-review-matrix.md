@@ -1,5 +1,7 @@
 # Independent source-research review matrix
 
+> **Historical review evidence.** Study how independent checks expose gaps and route rework; do not treat the matrix as a current gate. See [the research guide](RESEARCH-EVIDENCE.md).
+
 Reviewed on 2026-09-27 for task **9a783**, the independent replacement review
 for a6c2b. This is a completed review of the available evidence, not a claim
 that every reviewed artifact meets its contract. All three artifacts are

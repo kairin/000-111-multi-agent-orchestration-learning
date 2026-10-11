@@ -1,6 +1,8 @@
 ---
 name: human-in-the-loop
-description: Use when classifying a slice closeout (auto-continue / human gate / park), routing a real decision to a human, or designing a human queue/dashboard surface. Treats humans as durable network participants with attention surfaces, queues, and decision records — escalation lands as a durable attention item, not a chat message. Approval is NOT required for every clean closeout; the default RSI conveyor continues unless an explicit human gate is reached.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: factory-approved
@@ -22,6 +24,9 @@ metadata:
       - control-plane-delivery-loop
       - control-plane-rollout-manager
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Human In The Loop
 

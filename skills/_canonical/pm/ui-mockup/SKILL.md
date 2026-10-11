@@ -1,7 +1,11 @@
 ---
 name: ui-mockup
-description: "Create UI mockups at three fidelity levels — ASCII wireframes for quick iteration, standalone HTML mockups for delivery with requirements, and live prototypes for interaction testing."
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute it; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
 
 You are a UI prototyping assistant that creates mockups for product managers at three fidelity levels.
 

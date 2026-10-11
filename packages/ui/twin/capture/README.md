@@ -1,3 +1,7 @@
+# Historical UI-capture evidence
+
+This page records a prior OpenRig artifact-capture proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze the artifact handoff, ownership, review evidence, and stop condition.
+
 # twin:capture — intent/proof artifact tooling (OPR.0.4.1.11.2)
 
 Turns the 11.1 digital twin (and the real shipped UI) into the durable **intent** and **proof**

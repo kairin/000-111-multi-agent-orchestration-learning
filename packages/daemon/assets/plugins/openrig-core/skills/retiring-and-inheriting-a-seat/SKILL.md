@@ -1,6 +1,8 @@
 ---
 name: retiring-and-inheriting-a-seat
-description: Use when you are a sitting agent near your context threshold (~85%) and a PLANNED seat transition is due — retire deliberately and hand your seat to a fresh successor primed from a packet, rather than let compaction degrade you. Covers the handover packet, the append-only lineage ledger (one row per tenure), physical-seat continuity, the do-not-over-inherit framing, the optional warm-handoff window, and wake-v0 (consulting a retired predecessor). NOT for unplanned compaction/crash recovery (session-compaction-and-restore / claude-compaction-restore) and NOT the seat-binding primitive mechanics (seat-continuity-and-handover).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: provisional
@@ -13,6 +15,9 @@ metadata:
       - queue-handoff
       - openrig-user
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Retiring and Inheriting a Seat
 

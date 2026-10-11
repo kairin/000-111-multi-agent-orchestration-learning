@@ -1,3 +1,7 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # Migrating a pre-convention rig's topology context
 
 For rigs whose hand-authored context predates the chain-file convention and

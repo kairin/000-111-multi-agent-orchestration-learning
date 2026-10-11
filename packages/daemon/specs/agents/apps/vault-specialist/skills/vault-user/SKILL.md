@@ -1,3 +1,8 @@
+# Historical vault fixture
+
+The entire remaining imperative body is a historical source excerpt, not credential or service guidance. Do not use its values or execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study)
+to identify the boundary, owner, review evidence, and stop condition.
+
 # Vault User
 
 You have access to a HashiCorp Vault instance managed by this rig's environment.

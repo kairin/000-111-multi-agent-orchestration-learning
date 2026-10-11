@@ -1,5 +1,26 @@
 # 10. Rust and Node-removal planning baseline
 
+> **Historical proposal, not a migration task.** The plan below records a
+> former desired direction and dependency inventory. This curriculum does not
+> authorize a Rust port, Node removal, dependency changes, builds, or tests.
+
+## Learning exercise
+
+**Input:** “Evidence-backed dependency inventory” and “Dependency-aware
+stages” below. Read them as a proposed change record.
+
+Choose one proposed stage. Record its required input, owned output, interface
+with the next stage, acceptance evidence, rollback obligation, and unresolved
+decision. Mark any statement that is proposed rather than observed.
+
+**Artifact:** the `dependency and interface audit` section of
+`integration-record.md`.
+
+**Acceptance check:** the selected stage cannot start before its named inputs,
+its consumer can review one bounded output, and no source inventory is treated
+as proof of a completed migration. **Stop** after one stage; do not plan or
+perform the migration.
+
 ## Status and evidence rules
 
 This is the documentation deliverable for fa0bb, audited on 2026-09-27 against

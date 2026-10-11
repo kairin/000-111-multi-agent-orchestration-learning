@@ -1,3 +1,7 @@
+# Historical test-system evidence
+
+This page records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, dependencies, review evidence, and stop conditions.
+
 # 51-03 seed scenarios — the ten (+ one)
 
 Compose-only L2 scenario set for the OpenRig containerized test system (mission

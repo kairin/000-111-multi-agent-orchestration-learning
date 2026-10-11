@@ -1,6 +1,8 @@
 ---
 name: rig-lifecycle
-description: Use when reasoning about the rig lifecycle operations family (create / start / stop / resume / restore / snapshot / release / unclaim / destroy), reading or trusting `rig ps` / lifecycle projections after recovery, or designing proof for a lifecycle scenario. Covers the 4 failure modes (auto-restore creates partial rig; projections report healthier than reality; provider auth treated as impl work; resume succeeds for one runtime fails another) plus the restore-honesty rule (failed resume is FAILED loudly — no auto fresh fallback).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - destroy
@@ -24,6 +26,9 @@ metadata:
       - specification-system
       - extension-and-user-workspace
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Rig Lifecycle
 

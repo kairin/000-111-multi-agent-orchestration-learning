@@ -1,6 +1,8 @@
 ---
 name: orienting-to-an-inherited-seat
-description: Use when you have just been primed into an EXISTING seat through a planned handover — a different agent retired and handed you the seat plus its earned context — and you need a world model of what just happened to you. Covers how a handover differs from compaction and from a fresh launch, the inherit-the-seat-not-the-identity rule, treating the handover packet as testimony you verify (and refusing stale ghost prompts, and verifying your OWN identity surfaces), why a seat is a COMPOUNDING LINEAGE (inherit the state, acquire the predecessor's epistemology, then improve and re-deposit so the next generation is better), how to query your predecessor, your duty to stream feedback and re-deposit your earned wisdom, and how to route to role-specific onboarding. NOT the driver-side handover mechanic (retiring-and-inheriting-a-seat) and NOT unplanned compaction/crash recovery (claude-compaction-restore / session-compaction-and-restore).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: provisional
@@ -14,6 +16,9 @@ metadata:
       - security-and-consequence-boundary-policy
       - openrig-user
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Orienting to an Inherited Seat
 

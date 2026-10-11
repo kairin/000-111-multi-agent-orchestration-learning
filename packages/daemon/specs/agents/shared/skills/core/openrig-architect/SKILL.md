@@ -1,6 +1,8 @@
 ---
 name: openrig-architect
-description: Use when designing multi-agent topologies that run ON OpenRig — authoring RigSpec and AgentSpec files for new rigs, creating agent startup content (guidance / skills / culture), or diagnosing why a launched rig's agents aren't behaving as intended. NOT for changing OpenRig itself (use openrig-builder); NOT for ordinary CLI operation of an existing rig (use openrig-user). Covers the full authoring lifecycle from user intent to validated, launchable rig.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - agent validate
@@ -23,6 +25,9 @@ metadata:
       - ai-dev-workflows
 
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # OpenRig Architect
 

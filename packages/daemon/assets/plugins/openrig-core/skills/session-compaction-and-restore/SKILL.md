@@ -1,6 +1,8 @@
 ---
 name: session-compaction-and-restore
-description: Use when reasoning about what survives compaction/context-loss/restart/seat-refresh, designing a high-fidelity restore packet, or distinguishing native runtime resume vs fork vs artifact-backed mental-model rebuild. Covers the 4 failure modes that prevent honest restore (compacted seat drops hot potato; restore packet preserves details but loses product intent; runtime resume mistaken for handover or fork; rebuilt seat starts with stale instructions).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - whoami
@@ -19,6 +21,9 @@ metadata:
       - claude-compact-in-place
       - pre-maintenance-agent-preservation
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Session Compaction and Restore
 

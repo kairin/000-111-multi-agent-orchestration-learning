@@ -1,6 +1,8 @@
 ---
 name: agent-startup-and-context-ingestion
-description: Use when designing or auditing how an agent becomes useful after launch — AGENTS.md overlays, role files, skills, rig specs, workflow specs, startup checklists, refocus messages, "rig context" surface. Covers the 4 failure modes that make startup context fail (old rig spec misses current operating mode; current agents never told about new guidance; startup file as dumping ground; orchestrator transmits implementation without preserving product intent).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - context
@@ -19,6 +21,9 @@ metadata:
       - claude-compact-in-place
       - pre-maintenance-agent-preservation
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Agent Startup and Context Ingestion
 

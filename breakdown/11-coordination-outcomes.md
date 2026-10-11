@@ -1,5 +1,31 @@
 # 11. Coordination outcomes for d5d13 and f7f4e
 
+> **Historical coordination record.** Agent IDs, dispositions, and migration
+> gates below describe a completed research episode. They are evidence for
+> studying ownership and integration, not assignments to resume.
+
+## Learning exercise
+
+**Input:** the artifact handoffs from modules 01–10 and the sections
+“Common evidence and integration checks” and “Dependency outcome and no-go
+boundary” below.
+
+Build an integration record with one row per handoff:
+
+| Handoff | Owner | Evidence received | Interface check | Verdict | Next consumer |
+|---|---|---|---|---|---|
+
+Use only `accept`, `bounded rework`, or `blocked` as verdicts. Then record
+one overall decision: continue, integrate, or stop, with the evidence that
+justifies it.
+
+**Artifact:** the completed `integration-record.md`.
+
+**Acceptance check:** every accepted handoff meets its earlier module check,
+every rework request names one owner and one failing condition, and every block
+names a missing input or decision owner. **Stop** when all required products
+are accepted or one named external blocker prevents integration.
+
 ## Decision, authority and evidence boundary
 
 Recorded on 2026-09-27 against historical baseline `93069eb1`, then updated

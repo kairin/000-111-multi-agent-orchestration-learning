@@ -1,13 +1,15 @@
 ---
 name: refocusing
 description: >-
-  Use when a long-running agent may have lost the product outcome, when context was compacted,
-  when work has crossed a major boundary, or when a fresh path-based trace is needed before the
-  next consequential action. Not for fresh-session orientation, waking an idle seat, or checkpoints.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: product
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Refocusing
 

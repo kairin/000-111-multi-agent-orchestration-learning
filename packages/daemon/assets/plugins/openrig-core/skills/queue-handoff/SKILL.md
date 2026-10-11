@@ -1,6 +1,8 @@
 ---
 name: queue-handoff
-description: Use when ending a turn, finishing a slice, blocked on another agent's work, or escalating to a human — durable work handoff via queue items so the system keeps moving across compactions, missed messages, and interruptions. Covers the hot-potato terminal-turn-rule (active work ends by passing the ball, not by going idle), default-nudge semantics, and when `--no-nudge` is appropriate for intentional cold park or human gate.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - queue
@@ -27,6 +29,9 @@ metadata:
       - control-plane-delivery-loop
       - control-plane-rollout-manager
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Queue Handoff
 

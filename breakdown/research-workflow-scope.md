@@ -1,5 +1,7 @@
 # Research workflow scope — CAP-1 source reconciliation
 
+> **Historical scope evidence.** Compare candidate workflows with the objective before assigning work; do not continue the former product backlog. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Boundary and provenance
 
 This document supplies the source-reconciliation part of CAP-1. It does not

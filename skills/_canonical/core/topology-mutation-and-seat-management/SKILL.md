@@ -1,6 +1,8 @@
 ---
 name: topology-mutation-and-seat-management
-description: Use when changing a rig while it is alive — `rig expand` / `rig shrink` / `rig launch` / `rig remove` / `rig discover` / `rig bind` / `rig adopt` / `rig attach`. Covers the 4 failure modes (newly created seat lacks queue/startup/role; edges and permissions not updated; adopt/bind succeeds at tmux but not OpenRig identity; shrink/remove leaves stale topology references) and the rule that mutation must work while the rig is active, not just in clean fixtures.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - adopt
@@ -27,6 +29,9 @@ metadata:
       - specification-system
       - extension-and-user-workspace
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Topology Mutation and Seat Management
 

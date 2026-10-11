@@ -1,6 +1,8 @@
 ---
 name: oversight-team
-description: Use when you are a seat on the oversight pod (a standing monitor-mode rig that keeps OTHER rigs healthy), configuring or running the drift detectors, or choosing whether to intervene vs escalate. Covers the pull-not-poll posture, the v0 detectors (premature-park, process-drift, off-task, token-burn), the intervention ladder (orchestrator-ping -> refocus -> human escalation), and the cheap+deep model economics. NOT for orchestrating your OWN rig (orchestration-team) and NOT the intervention primitive mechanics (watchdog).
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: draft
@@ -12,6 +14,9 @@ metadata:
       - messaging-the-human
       - retiring-and-inheriting-a-seat
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Oversight Team
 

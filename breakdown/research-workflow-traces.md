@@ -1,5 +1,7 @@
 # Workflow traces: setup, work, inspection and recovery
 
+> **Historical workflow evidence.** Use these source-derived traces to find handoff and recovery boundaries. They are not instructions to run the workflows. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Scope and evidence rules
 
 This source-research note extends the provisional operator journey in

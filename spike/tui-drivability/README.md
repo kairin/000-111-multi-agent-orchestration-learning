@@ -1,3 +1,7 @@
+# Historical spike evidence
+
+This spike records a prior OpenRig exploration. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to define a bounded artifact, evidence check, and stop condition.
+
 # Slice-11 Phase-0 spike — agent-drivability harness
 
 Throwaway-grade harness answering the three Phase-0 spike questions (IMPL-PLAN

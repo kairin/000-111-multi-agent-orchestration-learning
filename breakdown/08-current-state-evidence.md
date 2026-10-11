@@ -1,5 +1,23 @@
 # 8. Current-state evidence for simplification research
 
+> **Learning module, not an operating guide.** The material below records
+> historical source research. Commands, paths, and proposed runtime checks are
+> evidence to classify; do not execute them for this course.
+
+## Module exercise
+
+**Input:** sections 8.1, 8.4, and 8.5 only.
+
+Create an evidence map with four columns: statement, label (`Observed`,
+`Historical instruction`, `Teaching example`, or `Decision required`),
+supporting location, and limit. Include one statement of each label.
+
+**Artifact:** the `evidence map` section of `integration-record.md`.
+
+**Acceptance check:** every observed statement has a citation, every proposal
+is visibly hypothetical, and each limit says what additional evidence would be
+needed. **Stop** after four complete rows; do not perform proposed runtime work.
+
 ## 8.1 Purpose and evidence limits
 
 This note records a repository-level reading of the checkout at `147993aa`
@@ -403,8 +421,10 @@ Read-only Git observations:
   status after documentation edits is recorded by the researcher, not
   inferred from this pre-edit fact.
 
-This repository has `origin` pointed at `kairin/openrig-breakdown` and no
-`upstream` remote. `02-separation-from-upstream.md` documents the GitHub
+The repository now has `origin` pointed at
+`kairin/000-111-multi-agent-orchestration-learning` and no `upstream` remote.
+Earlier pinned evidence links retain the former repository name as provenance.
+`02-separation-from-upstream.md` documents the GitHub
 fork-network separation. Preserving history retains code provenance but also
 retains unrelated historical branch/tag reachability; no history rewrite is
 needed to create a smaller product implementation.

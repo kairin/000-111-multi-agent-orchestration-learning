@@ -1,3 +1,7 @@
+# Historical test-system evidence
+
+This page records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, dependencies, review evidence, and stop conditions.
+
 # test-system/evals — the live-model eval harness (a DIFFERENT gate from scenarios)
 
 Two gates, one per question-kind — the legible split the desk ruled

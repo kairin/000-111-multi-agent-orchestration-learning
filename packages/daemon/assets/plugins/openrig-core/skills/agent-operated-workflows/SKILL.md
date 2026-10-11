@@ -1,9 +1,8 @@
 ---
 name: agent-operated-workflows
 description: >-
-  Use when a bounded real-world procedure has a deterministic happy path but brownfield, variable,
-  or partially knowable state; when an operation must resume from verified evidence; or when deciding
-  whether agent judgment or ordinary code should own a procedure's control loop.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: provisional
@@ -13,6 +12,9 @@ metadata:
       - openrig-user
       - systematic-debugging
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Agent-Operated Workflows
 

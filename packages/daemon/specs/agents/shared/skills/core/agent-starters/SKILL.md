@@ -1,6 +1,8 @@
 ---
 name: agent-starters
-description: Use when creating, refreshing, packaging, inspecting, promoting, or deprecating a named per-seat starting point — Agent Starter manifest authoring, the 6-state lifecycle (captured → named → inspectable → used → promoted → deprecated), provenance honesty, and refusal rules. NOT a VM image; a managed starting point composed from agent role + startup context + optional native session source + provenance.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: factory-approved
@@ -16,6 +18,9 @@ metadata:
       - claude-compact-in-place
       - pre-maintenance-agent-preservation
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Agent Starters
 

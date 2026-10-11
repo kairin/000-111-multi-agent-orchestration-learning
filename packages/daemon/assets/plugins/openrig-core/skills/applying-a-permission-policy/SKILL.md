@@ -1,14 +1,17 @@
 ---
 name: applying-a-permission-policy
 description: >-
-  Use when a user asks an agent to configure OpenRig command permissions, reduce
-  repeated native approval prompts, or apply a selected rig/seat permission policy.
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: established
     docs_checked: "2026-09-25"
     verification_status: "Verify the installed harness version and effective settings; a rule-parser result is not a native permission test."
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Applying a permission policy
 

@@ -1,5 +1,7 @@
 # State ownership, invariants, and recovery map
 
+> **Historical state evidence.** Use the ledger to study ownership and recovery interfaces. Do not inspect, migrate, or clean live state. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Baseline, authority, and evidence rules
 
 Inspected source and research baseline: **`ea7c268f576ada8434d3dae3e6ac972264910d4c`** (2026-09-27). Worktree: `/home/kkk/.cline/worktrees/c28a2/openrig-breakdown`. Only this document is owned by c28a2. This is source research, not implementation, an owner decision, independent review acceptance, or a Gate A–D result.

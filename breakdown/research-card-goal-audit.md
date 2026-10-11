@@ -1,5 +1,7 @@
 # Research-card goal audit — independent review submission
 
+> **Historical review evidence.** Use this matrix to examine whether acceptance claims cite evidence; it is not a current submission or approval request. See [the research guide](RESEARCH-EVIDENCE.md).
+
 > **Status (added 2026-09-27 on merge):** Historical snapshot only. Do not use
 > it as the current state. The audited baseline `ea7c268f` is not on remote
 > `main`; it exists only on the owner's local branch

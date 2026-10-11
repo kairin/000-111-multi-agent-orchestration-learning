@@ -1,3 +1,11 @@
+# Historical package documentation
+
+For **000-111-multi-agent-orchestration-learning**, this package README is
+evidence of a prior OpenRig TUI design, not a usage guide. Do not
+run its commands or connect it to a daemon. Analyze one stated interface with the
+[decomposition study guide](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) and record the owner,
+consumer, dependency, review evidence, and stop condition.
+
 # @openrig/tui — mission-control TUI
 
 The explorer / master-detail "k9s for rigs" surface: left Explorer (Topology ·
