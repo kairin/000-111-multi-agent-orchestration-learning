@@ -32,16 +32,16 @@ Verbatim from `sources/agent_fleet_architectures_infographic.html`.
 
 ## How to check
 
-Look for any model/API client in `packages/`. If the only way work gets done is by launching `claude` or `codex` binaries, the claim holds.
+Look for any model/API client in `archive/openrig-0.5.16-source/packages/`. If the only way work gets done is by launching `claude` or `codex` binaries, the claim holds.
 
 ## Evidence from this repo
 
 Reviewed against source baseline `9db3ed6c406be5c3d9a84720383fcf6b543169e6`.
 
-- **Source observation:** Claude launch constructs a `claude` command and submits it to tmux; Codex launch constructs a `codex` command and sends it through the tmux shell-command adapter: `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/claude-code-adapter.ts:281–296`; `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/codex-runtime-adapter.ts:383–412`. Thus “doesn't run agents itself” is misleading if it means OpenRig never launches them.
-- **Source observation:** Registration includes `claude-code`, `codex`, `pi`, `stub`, and `terminal`, not only Claude/Codex: `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/startup.ts:844–845`. Pi's repository-owned runner spawns the external `pi` process and writes RPC commands to its stdin: `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/pi-runner.ts:568–580`.
-- **Stated intent:** The runner describes itself as a terminal-to-RPC bridge, not a model engine: `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/pi-runner.ts:1–19`.
-- **Inference:** These paths support external ownership of model inference, not an absence of all OpenRig loops. OpenRig's watchdog itself loops over jobs and invokes policy evaluation: `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/watchdog-scheduler.ts:130–159`. Supervision is distinct from an LLM/tool inference loop.
+- **Source observation:** Claude launch constructs a `claude` command and submits it to tmux; Codex launch constructs a `codex` command and sends it through the tmux shell-command adapter: `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:281–296`; `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:383–412`. Thus “doesn't run agents itself” is misleading if it means OpenRig never launches them.
+- **Source observation:** Registration includes `claude-code`, `codex`, `pi`, `stub`, and `terminal`, not only Claude/Codex: `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/startup.ts:844–845`. Pi's repository-owned runner spawns the external `pi` process and writes RPC commands to its stdin: `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/pi-runner.ts:568–580`.
+- **Stated intent:** The runner describes itself as a terminal-to-RPC bridge, not a model engine: `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/pi-runner.ts:1–19`.
+- **Inference:** These paths support external ownership of model inference, not an absence of all OpenRig loops. OpenRig's watchdog itself loops over jobs and invokes policy evaluation: `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/watchdog-scheduler.ts:130–159`. Supervision is distinct from an LLM/tool inference loop.
 
 ## Notes
 

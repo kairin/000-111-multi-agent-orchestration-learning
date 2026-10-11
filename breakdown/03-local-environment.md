@@ -1,44 +1,46 @@
-# 3. Local environment
+# 3. Map side effects before execution
 
-## 3.1 The upstream installation
+## Learning outcome
 
-The upstream CLI is installed on this computer. The table shows the installation.
+Identify state, side effects, and collision risks from documentation without
+running the system or inspecting live credentials.
 
-| Item | Value |
-| :--- | :--- |
-| Package | `@openrig/cli` 0.5.15 (from npm) |
-| Commands | `~/.local/bin/rig`, `~/.local/bin/openrig-tui` |
-| State folder | `~/.openrig` |
+## Historical case
 
-The repository is at version 0.5.16. Thus the installed version is not the same as the repository version.
+**Observed at the research baseline:** the copied implementation used command
+names and a state directory also used by an installed OpenRig version. The
+historical daemon could write agent and terminal configuration, manage hooks,
+and download a plugin. The old document responded with operational advice such
+as choosing an installation, changing paths, and backing up live state.
 
-## 3.2 Possible conflicts
+**Current boundary:** those directions are historical evidence. This learning
+repository does not authorize checking, removing, backing up, or changing any
+installation, home-directory configuration, provider, or credential.
 
-A build of this repository uses the same command names and the same state folder. This causes these possible problems:
+## Exercise
 
-- You can start the upstream `rig` when you want to start your version.
-- Your version can change data in `~/.openrig` that the upstream version uses.
-- If you change the data format, the upstream version can stop working.
+**Input:** the two paragraphs above and the source summary in
+[08-current-state-evidence.md](08-current-state-evidence.md#85-five-concrete-runtime-flows-and-the-contracts-they-carry).
+Do not inspect the live machine.
 
-The daemon also writes to the configuration of the agents. For example:
+Create a risk register:
 
-- It writes the `openrig-core` plugin into `~/.openrig/plugins/`.
-- It writes and removes managed hook blocks in the Codex configuration.
-- It writes managed blocks for Claude Code (the last upstream release selects `CLAUDE.local.md`).
+| Surface | Historical side effect | Failure if shared | Evidence needed before a real run | Owner |
+|---|---|---|---|---|
+| Command name | Selects an executable | Wrong program starts | Resolved executable identity | Operator |
+| State directory | Reads and writes durable state | Versions corrupt shared data | Isolated path and recovery proof | Runtime owner |
+| Agent configuration | Adds or removes managed blocks | User settings change | Ownership markers and rollback test | Adapter owner |
+| Download path | Retrieves external content | Unreviewed code enters the system | Pinned source and offline policy | Security owner |
 
-CAUTION: DO NOT OPERATE THE UPSTREAM VERSION AND YOUR VERSION WITH THE SAME STATE FOLDER. ONE VERSION CAN CHANGE DATA THAT THE OTHER VERSION USES.
+Add one risk from the source summary. For that row, name the downstream task
+that cannot start until evidence exists.
 
-## 3.3 Recommended actions
+**Artifact:** the `risk register` section of `integration-record.md`.
 
-1. Make a decision: keep the upstream installation, or remove it.
-2. If you keep it, find out if the state folder can change. Start with `getDefaultOpenRigPath` in the daemon.
-3. Give the command of your version a different name, or do not install it globally.
-4. Make a backup copy of `~/.openrig` before you start your version for the first time.
+**Acceptance check:** every row names a state surface, a concrete failure, a
+specific evidence requirement, and one owner. No row asks the learner to touch
+the live surface.
 
-## 3.4 Workspace rules
-
-The workspace file `AGENTS.md`, in the folder above this repository, applies to this repository. It gives these rules:
-
-- Do not commit, push or change the Git history if the owner does not ask for it.
-- Do not put secrets in files, commands, logs or output.
-- Treat each folder in the workspace as a separate project.
+**Stop:** finish when the five rows pass the check. In real work, a task with a
+missing isolation or recovery requirement stays blocked; it does not consume a
+concurrency slot.

@@ -1,66 +1,81 @@
-# 000-222-openrig-breakdown — AI Agent Guidelines
+# Agent instructions for the orchestration learning repository
 
-Single source of truth for AI agents in this repository. If `CLAUDE.md` or `GEMINI.md` exists, it points to this file.
+The canonical project name is `000-111-multi-agent-orchestration-learning`.
+Older repository names are historical provenance; do not treat them as the
+curriculum's current identity.
 
-## Security and secrets
+## Purpose
 
-- Never expose, print, log, commit, or include in diffs, prompts, fixtures, screenshots, or generated files any API key, token, password, credential, private key, session cookie, or other secret. Redact with `<REDACTED>`.
-- Never ask the user to paste a secret into chat. Do not read or display secret-file contents. If a credential is missing, stop and explain how to provide it securely.
-- Secrets live in the owner's `pass` password store. A command gets a secret only through `with-secret <service>/<name> -- <command>`. Never put a secret in `.env`, `.envrc`, `.envrc.local`, source code, config or documentation.
-- Do not send personal or sensitive data to an external service unless the user explicitly authorizes it.
+This repository is a documentation learning tool. Use its historical
+OpenRig sources to teach decomposition, ownership, interfaces, handoffs,
+dependency-aware concurrency, verification, integration, and stopping.
 
-## Protected files
+Do not install, run, rebuild, port, release, publish, or recreate OpenRig. Do not
+execute archived scripts, package commands, demos, runbooks, skills, or fixtures.
+They are primary-source evidence even when their historical prose uses
+imperative language. The one active workflow is the documentation portability
+report; its only executable files are `scripts/portability-report.mjs` and
+`scripts/portability-report.test.mjs`.
 
-Do not rewrite these without an explicit per-file instruction from the user: `.gitignore`, `package.json` (at the root and in each `packages/*` folder), `package-lock.json`, `.github/workflows/portability-report.yml`. Read them freely. If a task needs one changed, stop and ask. `git show origin/main:<file>` is the authoritative original.
+## Allowed work
 
-## Project overview
+- Read source and documentation to verify a factual claim.
+- Edit curriculum and documentation when the requested work is documentation.
+- Create paper exercises whose outputs are Markdown tables, graphs, review
+  cards, or decision records.
+- Validate links, headings, scope labels, and instruction boundaries with
+  read-only local commands.
 
-This repository is a personal, simplified derivative of the open-source OpenRig project (version 0.5.16). The tool runs several Claude Code and Codex CLI agents together as one team. The project is in research: the code is still the same as upstream, and no simplification is made yet. All analysis is in `breakdown/`. No design or plan is approved. Open decisions for the owner are in `breakdown/research-owner-decision-brief.md`.
+Keep implementation, configuration, fixtures, captured evidence, release
+history, and licenses unchanged unless the user explicitly names such a file.
+Do not retrieve upstream code or dependencies.
 
-## Technologies
+## Evidence labels
 
-- TypeScript on Node.js 20, 22 or 24.
-- npm with workspaces: `packages/daemon`, `packages/ui`, `packages/cli` and `packages/tui`.
-- The daemon is a Hono HTTP server with an SQLite database (`better-sqlite3`).
-- Each agent runs in tmux. Teams are described in YAML files.
-- Vitest for the workspace tests. `node --test` for the repository scripts in `scripts/`.
-- GitHub Actions: `portability-report.yml` lists added lines that hold machine-specific values.
+Use these labels consistently:
 
-## Development workflow
+- **Observed** — supported by a cited file, commit, or captured record.
+- **Historical instruction** — an operational direction from the former
+  product, retained only for analysis.
+- **Teaching example** — a hypothetical artifact used by an exercise.
+- **Decision required** — a choice that evidence cannot make for its owner.
 
-```bash
-npm install
-npm run build
-npm test
-npm run lint
-npm run test:ui
-node scripts/portability-report.mjs --staged   # check staged lines for machine-specific values
-```
+Never present a teaching example as an observed implementation fact. Never turn
+a historical instruction into current authority.
 
-Record the test results before you change code. Some upstream tests already failed before this project started. See `.evidence/AB-full-suite-preexisting-failures.txt`.
+## Exercise contract
 
-A task is done only when you show evidence: command output, a log line or a screenshot.
+Every exercise must state its bounded input, expected artifact, checkable
+completion test, exclusions, and stop or escalation point.
 
-## Branches and pull requests
+Split tasks where uncertainty, dependencies, ownership, or acceptance evidence
+changes. Give one owner one bounded outcome. Define interfaces before parallel
+work starts. A handoff must name changed or reviewed files, evidence, unresolved
+questions, and the next consumer.
 
-- Never push to `main` directly. Make a branch, push it, and open a pull request.
-- Keep `CHANGELOG.md` up to date if the repository has one.
-- This repository is public. Do not add a local absolute path, a personal email address or any machine-specific value. Private repository names and their GitHub links are allowed. Run the portability report before you commit.
+## Documentation map
 
-## Documentation
+- `README.md` and `breakdown/CURRICULUM.md` are the entrypoints.
+- `breakdown/01` through `11` are the learning route.
+- `breakdown/research-*` and `breakdown/gemini-review/` are research evidence.
+- `docs/`, `skills/`, `demo/`, and `docker/` contain contextualized historical
+  documents and fixtures.
+- `archive/openrig-0.5.16-source/` contains the historical runtime, build tree,
+  prototype, and original contribution templates.
+- `.github/workflows/portability-report.yml` and the current contribution
+  templates govern this learning repository.
+- `.evidence/`, release notes, changelogs, licenses, and notices are immutable
+  records unless a task explicitly requires a correction.
 
-- `README.md`: for users.
-- `AGENTS.md` (this file): for agents. Update it when a tool, a command or a rule changes.
+The grouped accounting is in `breakdown/DOCUMENT-COVERAGE.md`.
+The exact old paths, new paths, and pre-move Git blob hashes are in
+`breakdown/HISTORICAL-SOURCE-MANIFEST.tsv`.
 
-## Project notes
+## Security and delivery
 
-- The code still uses the upstream command names (`rig`, `openrig-tui`), package names (`@openrig/*`) and state folder. Do not install a build of this repository next to an installed upstream `@openrig/cli`. See `breakdown/03-local-environment.md`.
-- The current code changes files outside this repository: Claude Code, Codex and tmux configuration in the user's home folder. It also tries to download a plugin from the upstream project when the daemon starts. Do not run it unless the user asks. The full list is in `archive/documents/README-upstream-original.md`.
-- Upstream OpenRig code is under Apache-2.0. Original work in this project is under AGPL-3.0-only. `REUSE.toml` gives the license for each path.
+Never read or display secrets or credential values. Avoid credential stores and
+credential-adjacent implementation files. Report only file names and structural
+facts when credential-related evidence is relevant.
 
-## Git identity
-
-Commit as `Mister K <678459+kairin@users.noreply.github.com>`. This is the
-public GitHub name and the GitHub noreply email. Do not commit with another
-name or with a personal email address. Check with `git config user.name` and
-`git config user.email` before you commit.
+Do not commit, push, merge, change repository visibility, or unarchive the
+repository unless the user explicitly requests the applicable delivery action.

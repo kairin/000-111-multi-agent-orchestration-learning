@@ -1,17 +1,16 @@
-<!-- Thanks for the PR. Three short answers are all a reviewer needs. -->
+## Learning outcome
 
-## What a user gets
+<!-- State the concrete reader outcome and the document paths changed. -->
 
-<!-- One or two sentences: the behaviour before, the behaviour after. Link the issue if there is one. -->
+## Evidence and boundaries
 
-## How you verified it
+<!-- Distinguish observed historical facts from teaching examples. Name exclusions and unresolved decisions. -->
 
-<!-- What you actually ran and saw, and which revision/local changes you tested. The documented checks are `npm run build`, `npm test`, and `npm run lint`; say what you could not run. Redact credentials and private information from logs or screenshots. -->
+## Verification
 
-## Anything you were unsure about
+<!-- Report link, heading, coverage, and local documentation checks. Do not build or run archived OpenRig source. -->
 
-<!-- Design choices, edge cases you did not cover, places a reviewer should look hardest. Empty is a fine answer. -->
-
-- [ ] One concern per PR; no version bump; no `CHANGELOG.md` edit
-- [ ] Tests added or updated where the change is testable
-- [ ] I listed the checks I ran, their results, and any checks I could not run
+- [ ] Every exercise has a bounded input, artifact, completion check, exclusions, and stop point
+- [ ] Historical instructions remain evidence rather than current commands
+- [ ] Links and coverage accounting are current
+- [ ] No credential, private prompt, personal detail, or private path is included

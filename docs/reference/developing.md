@@ -1,7 +1,11 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # Developing OpenRig — gates and lanes
 
 This is the contributor-facing statement of which checks BLOCK a change and which are
-advisory. There is no external CI at this tip: the root `package.json` script chain IS
+advisory. There is no external CI at this tip: the root `archive/openrig-0.5.16-source/package.json` script chain IS
 the gate, and the release checklists invoke it.
 
 ## Blocking gates (must pass before a candidate moves)
@@ -11,7 +15,7 @@ the gate, and the release checklists invoke it.
 | Typecheck | `npm run lint` | daemon + **ui** + cli + tui tsconfigs — UI typecheck STAYS blocking |
 | Build | `npm run build` | all workspaces — the UI dist ships in the package, so its build STAYS blocking |
 | Repo scripts | `npm run test:repo` | script self-tests, docs guard, skill mirror check |
-| Unit tests | `npm run test:workspaces` | `packages/daemon` + `packages/cli` + `packages/tui` |
+| Unit tests | `npm run test:workspaces` | `archive/openrig-0.5.16-source/packages/daemon` + `archive/openrig-0.5.16-source/packages/cli` + `archive/openrig-0.5.16-source/packages/tui` |
 
 `npm test` runs `test:repo` and `test:workspaces` — the blocking set is readable in the
 script itself.
@@ -20,12 +24,12 @@ script itself.
 
 | Lane | Command | Meaning |
 |---|---|---|
-| UI unit tests | `npm run test:ui` | runs `packages/ui` vitest at will; NOT part of `npm test` |
+| UI unit tests | `npm run test:ui` | runs `archive/openrig-0.5.16-source/packages/ui` vitest at will; NOT part of `npm test` |
 
 ## The norm (web-UI freeze at 0.5.0)
 
 Daemon API changes no longer require UI sync or UI verification; the contract mirrors
-under `packages/ui/src/hooks/` are no longer proactively maintained; a new `test:ui`
+under `archive/openrig-0.5.16-source/packages/ui/src/hooks/` are no longer proactively maintained; a new `test:ui`
 failure signals a moved API contract, not a broken gate.
 
 Browser/interaction testing of the web UI is not a contributor gate. (The packaged

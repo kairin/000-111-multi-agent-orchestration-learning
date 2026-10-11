@@ -1,5 +1,26 @@
 # Adversarial review and research charter
 
+> **Historical research plan.** This file preserves a prior review charter. Its
+> work packages and gates are examples to analyze, not current authorization to
+> continue product research or implementation.
+
+## Learning exercise
+
+**Input:** “Evidence discipline,” “Research work packages,” and “Gates and open
+decisions” below.
+
+Write a review plan for the local documentation bundle. Give the reviewer one
+claim to challenge, evidence they must inspect, a disproof condition, and a
+surface they must not edit. The reviewer must be independent of the artifact
+owner.
+
+**Artifact:** the `independent review` section of
+`integration-record.md`.
+
+**Acceptance check:** the review can produce an accept or rework result, cites
+evidence rather than author confidence, and cannot expand into implementation.
+**Stop** when the four fields and verdict rule are complete.
+
 Status: research and learning plan, not an implementation decision.
 
 Prepared on 2026-09-26 against checkout `147993aa` by an Astra review with repository reading and evidence gathering delegated to Luna. The companion [current-state evidence](08-current-state-evidence.md) records source locations, historical evidence, and limitations. Existing user instructions in the root README and this folder remain authoritative; this document elaborates how to investigate them.

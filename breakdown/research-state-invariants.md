@@ -1,5 +1,7 @@
 # State ownership, invariants, and recovery map
 
+> **Historical state evidence.** Use the ledger to study ownership and recovery interfaces. Do not inspect, migrate, or clean live state. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Baseline, authority, and evidence rules
 
 Inspected source and research baseline: **`ea7c268f576ada8434d3dae3e6ac972264910d4c`** (2026-09-27). Worktree: `/home/kkk/.cline/worktrees/c28a2/openrig-breakdown`. Only this document is owned by c28a2. This is source research, not implementation, an owner decision, independent review acceptance, or a Gate A–D result.
@@ -145,14 +147,14 @@ The user requested decomposition and Backlog placement, then continued investiga
 ### Additional source findings from the completion pass
 
 - **O — project catalog is a separate authority (F1/F5):** `workspace.yaml` maps project ID to root; duplicate IDs reject, selection resolves realpath, catalog/manifest disagreement and changed selected root produce named errors. The additive scaffold creates missing files/directories after collision checks, skips existing files, and has no filesystem transaction or failure rollback around the writes [E60](#e60). **I:** project identity can survive agent restart but a changed catalog/root needs reselection; it is not rig/node identity. No catalog deletion authority is established by these read/scaffold functions; U1/U11 retain the external-writer audit.
-- **O — startup metadata writer and deletion (R4):** after pre-launch file delivery, StartupOrchestrator inserts/replaces node startup context unless preservation was requested; persistence failure reports failed startup. It stores projection/file/action descriptions, not original file bytes. The node-keyed schema cascades on node deletion. PodRepository upserts continuity status/artifact JSON under `(pod_id,node_id)`; either pod/node deletion cascades continuity, while node pod membership becomes null when only the pod row is removed [E61](#e61). A repository-wide source search for `createCheckpoint` and `updateContinuityState` found their definitions but no production call sites under `packages/daemon/src`; **U:** these methods alone do not prove an active checkpoint/continuity writer. Next evidence: dynamic callers or a configured integration invoking those methods. Snapshot/restore readers remain evidenced by E10/E24/E27.
+- **O — startup metadata writer and deletion (R4):** after pre-launch file delivery, StartupOrchestrator inserts/replaces node startup context unless preservation was requested; persistence failure reports failed startup. It stores projection/file/action descriptions, not original file bytes. The node-keyed schema cascades on node deletion. PodRepository upserts continuity status/artifact JSON under `(pod_id,node_id)`; either pod/node deletion cascades continuity, while node pod membership becomes null when only the pod row is removed [E61](#e61). A repository-wide source search for `createCheckpoint` and `updateContinuityState` found their definitions but no production call sites under `archive/openrig-0.5.16-source/packages/daemon/src`; **U:** these methods alone do not prove an active checkpoint/continuity writer. Next evidence: dynamic callers or a configured integration invoking those methods. Snapshot/restore readers remain evidenced by E10/E24/E27.
 - **O — pod removal is sequential (D2):** lifecycle shrink calls removeNode for each member; if a later member fails after prior removal, it returns a partial result with removed logical IDs. Only after the loop does a transaction persist `pod.deleted` and delete the pod, then notify [E62](#e62). Already removed members are not resurrected by a later failure. Raw PodRepository deletion is a narrower operation than this lifecycle workflow.
 - **O — native fork delegates history copying (R2):** Claude adapter invokes native `--resume … --fork-session`, polls for a post-fork ID and errors if capture fails; Codex adapter invokes native `fork`, captures a thread ID and errors if absent. The returned token comes from capture, not a direct assignment of parent ID [E63](#e63). **I:** comments intend a new identity, but the cited branches do not themselves compare captured ID against parent; native tool/version correctness remains U5. Rebuild instead resolves existing artifact paths as fresh-start `send_text`, reports missing paths, and fails if none exist. It does not copy an entire conversation store [E63](#e63).
 - **O — agent-image lifetime:** SnapshotCapturer derives source token/cwd, constructs a name/version manifest and calls the library installer with explicitly supplied files (empty map by default). Installer writes manifest/stats/optional files; consumption mutates stats and pin/unpin creates/deletes a sentinel [E64](#e64). Image prune/delete is already mapped in D8/E41; removing the image source may invalidate future forks but does not prove deletion of native provider history. These images are not full native conversation backups.
 - **O — two additional managed-state owners (C3/C4):** ProjectionManifestStore upserts only the last hash/time/spec/category per target path and reads it for classification; its readability probe reports unavailable storage. It stores no original bytes. CLI ConfigStore independently writes/read-verifies its config and reset without a key unlinks the whole configured file [E65](#e65). These are not covered by merely naming the daemon SettingsStore. Whole-store destroy remains their ultimate deletion boundary; general uninstall completeness remains U9.
 - **O — service failure propagation (D1/D4):** ServiceOrchestrator returns `{ok:false}` on compose failure. RigTeardown awaits it but does not inspect the returned result; only a thrown error adds a service warning on the live-session branch, and the already-stopped branch swallows thrown errors. Ordinary down route can therefore return 200 when service failure is represented only by the ignored result. In contrast, the explicit environment-down route checks `result.ok` and returns 500 on failure [E09](#e09), [E42](#e42), [E66](#e66). This source disagreement is resolved; U10 now concerns actual service/mount data and external failure outcomes, not uncertainty about these callers.
 - **O — bounded auxiliary cleanup (D10):** composed context-pack creation records whether it created the target, deletes that directory after write failure, writes manifest last, and also deletes on failed post-write discoverability. Bundle source cleanup recursively removes its extraction directory best-effort. Restore-packet writer uses a sibling temporary directory, validates on-disk summary, renames to final target, and removes the temporary directory after failure [E67](#e67). These target classes are not synonymous with arbitrary project checkout deletion. Crash/race preservation remains unproven.
-- **O — search boundary:** product searches for `DELETE FROM events`, `DELETE FROM queue_items`, `DELETE FROM outbox_entries` and `DROP TABLE events` found no matches in the searched production packages/scripts (test files excluded). This is a bounded lexical observation, **not** proof against dynamic SQL, whole-store destroy, operator deletion or external tools. A shell-deletion sweep also identified package-build, VM-bootstrap, smoke-install and testbed-image paths [E68](#e68). The inspected package build derives its target paths from the repository root and deletes CLI bundled daemon/UI/TUI plus the vendored daemon dependency. Smoke-install invokes that build and its exit trap removes its mktemp directory **and all CLI tarballs**; testbed build removes its mktemp context. The VM bootstrap match is printed reset instructions, **not an executed deletion in that function**. This distinguishes generated/scratch deletion from prose suggesting an operator deletion; other auxiliary callers remain U11.
+- **O — search boundary:** product searches for `DELETE FROM events`, `DELETE FROM queue_items`, `DELETE FROM outbox_entries` and `DROP TABLE events` found no matches in the searched production archive/openrig-0.5.16-source/packages/scripts (test files excluded). This is a bounded lexical observation, **not** proof against dynamic SQL, whole-store destroy, operator deletion or external tools. A shell-deletion sweep also identified package-build, VM-bootstrap, smoke-install and testbed-image paths [E68](#e68). The inspected package build derives its target paths from the repository root and deletes CLI bundled daemon/UI/TUI plus the vendored daemon dependency. Smoke-install invokes that build and its exit trap removes its mktemp directory **and all CLI tarballs**; testbed build removes its mktemp context. The VM bootstrap match is printed reset instructions, **not an executed deletion in that function**. This distinguishes generated/scratch deletion from prose suggesting an operator deletion; other auxiliary callers remain U11.
 
 ### Historical gap assessment after S1–S3 (superseded)
 
@@ -168,7 +170,7 @@ A GPT-6 Luna read-only review (card 6220e) requested bounded additions for the C
 |---|---|---|
 | C6 — Claude collector, status line and home trust | **O:** adapter copies collector into cwd, writes `statusLine` in local settings; also sets project-trust/onboarding fields in home `.claude.json`. Harness reads these settings; collector paths reference telemetry directories [E69](#e69). | These writers use forgiving JSON reads (malformed/unreadable→empty object), unlike strict activity-hook reconciliation. They can replace malformed settings; ordinary down only cleans selected guidance, not these artifacts. No reverse writer for these fields is established in the inspected lifecycle. **U9:** native/manual uninstall and recovery of prior user bytes need separate evidence; no backup exists in these methods. |
 | C7 — Codex disable residue | **O:** adapter removes activity-hook sentinel block; `[features].hooks` and the separately written hook-trust table entries remain; copied/projected resources have their own lifetime [E06](#e06). | Disable is not uninstall or restoration of prior config. **U9:** versions/consumer precedence and native trust semantics need version-specific evidence; no claim that ordinary stop removes this residue. |
-| D11 — package rollback endpoint | **O:** route requires an existing applied install, calls InstallEngine rollback, emits `package.rolledback` afterward and returns result; exceptions become 500 [E70](#e70), [E11](#e11). | Best-effort file restoration/deletion precedes event; it is not an atomic uninstall of all setup/harness artifacts. No universal `uninstall` path found in the searched setup/config/package command surfaces; retained setup blocks/assets are explicitly accounted for rather than promised removed. |
+| D11 — package rollback endpoint | **O:** route requires an existing applied install, calls InstallEngine rollback, emits `package.rolledback` afterward and returns result; exceptions become 500 [E70](#e70), [E11](#e11). | Best-effort file restoration/deletion precedes event; it is not an atomic uninstall of all setup/harness artifacts. No universal `uninstall` path found in the searched setup/archive/openrig-0.5.16-source/config/package command surfaces; retained setup blocks/assets are explicitly accounted for rather than promised removed. |
 | D12 — pairing credentials and auth scratch | **O:** CLI and daemon pairing exclusively create token file with `wx`, then add registry entry; failed registry insertion removes that request's token. Existing-file failure does not authorize deleting another token. Codex credential-copy and seat-registry writes remove temporary files, not the canonical credential as part of that cleanup [E70](#e70), [E71](#e71). | Disk token and registry are sequential, not one transaction. Crash between creation/insertion can leave residue. **U9:** operator/shared external credential deletion and native auth revocation need separate ownership evidence; no credentials were inspected or exposed here. |
 | D13 — crash-cart and terminal broker scratch | **O:** crash-cart refuses live daemon, creates scratch, copies DB for read-only discovery, closes copy, removes scratch in finally. CLI binds that to generated mktemp directory deletion. Terminal broker stops pipe/timers, unlinks its output file and clears history ring [E72](#e72). | Scratch deletion is not destruction of original DB or native conversation. Broker output is a separate ephemeral store from bounded transcript files R3. **U3:** failures/crash leftovers still require runtime observation; no implicit whole-project delete. |
 | D14 — daemon reservation and status receipt | **O:** CLI startup creates exclusive lock, records launcher/child PID, releases only matching inode/device unless preservation requested. Lifecycle removes daemon state only if PID/start/port/host/DB still match [E73](#e73). | Existing lock refuses new launch; stated recovery requires proving both processes absent before archiving. Stale file ≠ dead child; no age-only takeover. Hard-crash behavior remains U3, not an untraced remover. |
@@ -214,46 +216,46 @@ Each E-ID below is the exact path/range evidence for the scoped claims above; mu
 
 ### E04
 
-- [packages/daemon/src/domain/profile-resolver.ts:144–148](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/profile-resolver.ts#L144-L148)
-- [packages/daemon/src/domain/rigspec-instantiator.ts:1406–1435](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rigspec-instantiator.ts#L1406-L1435)
-- [packages/daemon/src/domain/node-launcher.ts:125–142](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/node-launcher.ts#L125-L142)
-- [packages/daemon/src/adapters/tmux.ts:331–342](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/tmux.ts#L331-L342)
-- [packages/daemon/src/domain/workspace/workspace-resolver.ts:26–102](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/workspace/workspace-resolver.ts#L26-L102)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/profile-resolver.ts:144–148](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/profile-resolver.ts#L144-L148)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts:1406–1435](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts#L1406-L1435)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/node-launcher.ts:125–142](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/node-launcher.ts#L125-L142)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts:331–342](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts#L331-L342)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/workspace-resolver.ts:26–102](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/workspace-resolver.ts#L26-L102)
 
 ### E05
 
-- [packages/daemon/src/domain/managed-blocks.ts:34–85](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/managed-blocks.ts#L34-L85)
-- [packages/daemon/src/adapters/claude-code-adapter.ts:730–821](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/claude-code-adapter.ts#L730-L821)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/managed-blocks.ts:34–85](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/managed-blocks.ts#L34-L85)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:730–821](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts#L730-L821)
 
 ### E06
 
-- [packages/daemon/src/adapters/codex-runtime-adapter.ts:153–224](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/codex-runtime-adapter.ts#L153-L224)
-- [packages/daemon/src/adapters/codex-runtime-adapter.ts:520–568](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/codex-runtime-adapter.ts#L520-L568)
-- [packages/daemon/src/adapters/codex-runtime-adapter.ts:594–677](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/codex-runtime-adapter.ts#L594-L677)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:153–224](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts#L153-L224)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:520–568](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts#L520-L568)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:594–677](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts#L594-L677)
 
 ### E07
 
-- [packages/daemon/src/domain/files/file-write-service.ts:90–208](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/files/file-write-service.ts#L90-L208)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/files/file-write-service.ts:90–208](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/files/file-write-service.ts#L90-L208)
 
 ### E08
 
-- [packages/daemon/src/domain/skill-catalog.ts:510–625](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/skill-catalog.ts#L510-L625)
-- [packages/daemon/src/domain/skill-catalog.ts:778–860](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/skill-catalog.ts#L778-L860)
-- [packages/daemon/src/domain/skill-catalog.ts:873–962](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/skill-catalog.ts#L873-L962)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts:510–625](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts#L510-L625)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts:778–860](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts#L778-L860)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts:873–962](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/skill-catalog.ts#L873-L962)
 
 ### E09
 
-- [packages/daemon/src/domain/rig-teardown.ts:73–198](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-teardown.ts#L73-L198)
-- [packages/daemon/src/domain/rig-teardown.ts:202–231](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-teardown.ts#L202-L231)
-- [packages/daemon/src/domain/managed-blocks.ts:88–116](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/managed-blocks.ts#L88-L116)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:73–198](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts#L73-L198)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:202–231](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts#L202-L231)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/managed-blocks.ts:88–116](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/managed-blocks.ts#L88-L116)
 
 ### E10
 
-- [packages/daemon/src/domain/snapshot-capture.ts:60–166](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/snapshot-capture.ts#L60-L166)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts:60–166](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts#L60-L166)
 
 ### E11
 
-- [packages/daemon/src/domain/install-engine.ts:46–170](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/install-engine.ts#L46-L170)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/install-engine.ts:46–170](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/install-engine.ts#L46-L170)
 
 ### E12
 
@@ -261,202 +263,202 @@ Each E-ID below is the exact path/range evidence for the scoped claims above; mu
 
 ### E13
 
-- [packages/daemon/src/domain/rig-repository.ts:152–190](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-repository.ts#L152-L190)
-- [packages/daemon/src/domain/rig-repository.ts:554–579](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-repository.ts#L554-L579)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts:152–190](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts#L152-L190)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts:554–579](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts#L554-L579)
 
 ### E14
 
-- [packages/daemon/src/db/connection.ts:7–13](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/connection.ts#L7-L13)
-- [packages/daemon/src/db/migrations/001_core_schema.ts:6–49](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/001_core_schema.ts#L6-L49)
-- [packages/daemon/src/db/migrations/002_bindings_sessions.ts:6–28](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/002_bindings_sessions.ts#L6-L28)
-- [packages/daemon/src/db/migrations/003_events.ts:6–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/003_events.ts#L6-L21)
-- [packages/daemon/src/db/migrations/004_snapshots.ts:6–18](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/004_snapshots.ts#L6-L18)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/connection.ts:7–13](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/connection.ts#L7-L13)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/001_core_schema.ts:6–49](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/001_core_schema.ts#L6-L49)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/002_bindings_sessions.ts:6–28](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/002_bindings_sessions.ts#L6-L28)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/003_events.ts:6–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/003_events.ts#L6-L21)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/004_snapshots.ts:6–18](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/004_snapshots.ts#L6-L18)
 
 ### E15
 
-- [packages/daemon/src/startup.ts:240–249](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/startup.ts#L240-L249)
+- [archive/openrig-0.5.16-source/packages/daemon/src/startup.ts:240–249](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/startup.ts#L240-L249)
 
 ### E16
 
-- [packages/daemon/src/domain/rig-repository.ts:97–117](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-repository.ts#L97-L117)
-- [packages/daemon/src/domain/rig-repository.ts:554–579](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-repository.ts#L554-L579)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts:97–117](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts#L97-L117)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts:554–579](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-repository.ts#L554-L579)
 
 ### E17
 
-- [packages/daemon/src/db/migrations/005_checkpoints.ts:6–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/005_checkpoints.ts#L6-L21)
-- [packages/daemon/src/db/migrations/060_occupant_tenures.ts:3–31](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/060_occupant_tenures.ts#L3-L31)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/005_checkpoints.ts:6–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/005_checkpoints.ts#L6-L21)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/060_occupant_tenures.ts:3–31](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/060_occupant_tenures.ts#L3-L31)
 
 ### E18
 
-- [packages/daemon/src/domain/session-registry.ts:89–128](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-registry.ts#L89-L128)
-- [packages/daemon/src/domain/session-registry.ts:226–308](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-registry.ts#L226-L308)
-- [packages/daemon/src/domain/session-registry.ts:311–392](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-registry.ts#L311-L392)
-- [packages/daemon/src/domain/session-registry.ts:427–446](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-registry.ts#L427-L446)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:89–128](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts#L89-L128)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:226–308](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts#L226-L308)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:311–392](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts#L311-L392)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts:427–446](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-registry.ts#L427-L446)
 
 ### E19
 
-- [packages/daemon/src/domain/node-launcher.ts:130–238](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/node-launcher.ts#L130-L238)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/node-launcher.ts:130–238](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/node-launcher.ts#L130-L238)
 
 ### E20
 
-- [packages/daemon/src/domain/occupant-invalidator.ts:45–85](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/occupant-invalidator.ts#L45-L85)
-- [packages/daemon/src/domain/queue-repository.ts:3424–3458](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L3424-L3458)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/occupant-invalidator.ts:45–85](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/occupant-invalidator.ts#L45-L85)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:3424–3458](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L3424-L3458)
 
 ### E21
 
-- [packages/daemon/src/domain/daemon-lifecycle-store.ts:19–70](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/daemon-lifecycle-store.ts#L19-L70)
-- [packages/daemon/src/index.ts:345–403](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/index.ts#L345-L403)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/daemon-lifecycle-store.ts:19–70](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/daemon-lifecycle-store.ts#L19-L70)
+- [archive/openrig-0.5.16-source/packages/daemon/src/index.ts:345–403](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/index.ts#L345-L403)
 
 ### E22
 
-- [packages/daemon/src/domain/resume-token-capture.ts:46–95](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/resume-token-capture.ts#L46-L95)
-- [packages/daemon/src/domain/resume-metadata-refresher.ts:107–200](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/resume-metadata-refresher.ts#L107-L200)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/resume-token-capture.ts:46–95](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/resume-token-capture.ts#L46-L95)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/resume-metadata-refresher.ts:107–200](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/resume-metadata-refresher.ts#L107-L200)
 
 ### E23
 
-- [packages/daemon/src/domain/session-jsonl.ts:33–77](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-jsonl.ts#L33-L77)
-- [packages/daemon/src/domain/native-resume-probe.ts:28–71](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/native-resume-probe.ts#L28-L71)
-- [packages/daemon/src/domain/native-resume-probe.ts:74–128](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/native-resume-probe.ts#L74-L128)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-jsonl.ts:33–77](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-jsonl.ts#L33-L77)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/native-resume-probe.ts:28–71](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/native-resume-probe.ts#L28-L71)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/native-resume-probe.ts:74–128](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/native-resume-probe.ts#L74-L128)
 
 ### E24
 
-- [packages/daemon/src/domain/restore-orchestrator.ts:782–812](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/restore-orchestrator.ts#L782-L812)
-- [packages/daemon/src/domain/restore-orchestrator.ts:976–1006](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/restore-orchestrator.ts#L976-L1006)
-- [packages/daemon/src/domain/restore-orchestrator.ts:1175–1285](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/restore-orchestrator.ts#L1175-L1285)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:782–812](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts#L782-L812)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:976–1006](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts#L976-L1006)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:1175–1285](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts#L1175-L1285)
 
 ### E25
 
-- [packages/daemon/src/domain/transcript-rotation.ts:49–172](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/transcript-rotation.ts#L49-L172)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/transcript-rotation.ts:49–172](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/transcript-rotation.ts#L49-L172)
 
 ### E26
 
-- [packages/cli/src/destroy-helpers.ts:125–174](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/destroy-helpers.ts#L125-L174)
-- [packages/cli/src/destroy-helpers.ts:181–271](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/destroy-helpers.ts#L181-L271)
-- [packages/cli/src/commands/destroy.ts:105–116](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/destroy.ts#L105-L116)
+- [archive/openrig-0.5.16-source/packages/cli/src/destroy-helpers.ts:125–174](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/destroy-helpers.ts#L125-L174)
+- [archive/openrig-0.5.16-source/packages/cli/src/destroy-helpers.ts:181–271](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/destroy-helpers.ts#L181-L271)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/destroy.ts:105–116](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/destroy.ts#L105-L116)
 
 ### E27
 
-- [packages/daemon/src/domain/checkpoint-store.ts:24–78](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/checkpoint-store.ts#L24-L78)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/checkpoint-store.ts:24–78](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/checkpoint-store.ts#L24-L78)
 
 ### E28
 
-- [packages/daemon/src/domain/snapshot-repository.ts:21–38](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/snapshot-repository.ts#L21-L38)
-- [packages/daemon/src/domain/snapshot-repository.ts:71–125](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/snapshot-repository.ts#L71-L125)
-- [packages/daemon/src/domain/snapshot-repository.ts:157–209](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/snapshot-repository.ts#L157-L209)
-- [packages/daemon/src/domain/periodic-snapshot-scheduler.ts:71–84](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/periodic-snapshot-scheduler.ts#L71-L84)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts:21–38](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts#L21-L38)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts:71–125](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts#L71-L125)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts:157–209](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts#L157-L209)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/periodic-snapshot-scheduler.ts:71–84](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/periodic-snapshot-scheduler.ts#L71-L84)
 
 ### E29
 
-- [packages/daemon/src/db/migrations/024_queue_items.ts:3–51](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/024_queue_items.ts#L3-L51)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/024_queue_items.ts:3–51](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/024_queue_items.ts#L3-L51)
 
 ### E30
 
-- [packages/daemon/src/domain/queue-repository.ts:1320–1358](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L1320-L1358)
-- [packages/daemon/src/domain/queue-repository.ts:2038–2117](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L2038-L2117)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1320–1358](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L1320-L1358)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:2038–2117](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L2038-L2117)
 
 ### E31
 
-- [packages/daemon/src/domain/queue-retention.ts:125–217](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-retention.ts#L125-L217)
-- [packages/daemon/src/domain/queue-retention.ts:235–288](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-retention.ts#L235-L288)
-- [packages/daemon/src/domain/queue-transition-log.ts:145–206](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-transition-log.ts#L145-L206)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-retention.ts:125–217](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-retention.ts#L125-L217)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-retention.ts:235–288](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-retention.ts#L235-L288)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-transition-log.ts:145–206](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-transition-log.ts#L145-L206)
 
 ### E32
 
-- [packages/daemon/src/db/migrations/073_queue_transition_wakes.ts:3–20](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/073_queue_transition_wakes.ts#L3-L20)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/073_queue_transition_wakes.ts:3–20](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/073_queue_transition_wakes.ts#L3-L20)
 
 ### E33
 
-- [packages/daemon/src/db/migrations/027_outbox_entries.ts:15–29](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/027_outbox_entries.ts#L15-L29)
-- [packages/daemon/src/domain/outbox-handler.ts:122–168](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/outbox-handler.ts#L122-L168)
-- [packages/daemon/src/domain/outbox-handler.ts:228–260](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/outbox-handler.ts#L228-L260)
-- [packages/daemon/src/domain/queue-repository.ts:996–1069](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L996-L1069)
-- [packages/daemon/src/domain/queue-repository.ts:1113–1162](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L1113-L1162)
-- [packages/daemon/src/startup.ts:2179–2200](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/startup.ts#L2179-L2200)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/027_outbox_entries.ts:15–29](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/027_outbox_entries.ts#L15-L29)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/outbox-handler.ts:122–168](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/outbox-handler.ts#L122-L168)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/outbox-handler.ts:228–260](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/outbox-handler.ts#L228-L260)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:996–1069](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L996-L1069)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1113–1162](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L1113-L1162)
+- [archive/openrig-0.5.16-source/packages/daemon/src/startup.ts:2179–2200](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/startup.ts#L2179-L2200)
 
 ### E34
 
-- [packages/daemon/src/domain/queue-repository.ts:1507–1565](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L1507-L1565)
-- [packages/daemon/src/domain/queue-repository.ts:1608–1669](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-repository.ts#L1608-L1669)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1507–1565](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L1507-L1565)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1608–1669](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts#L1608-L1669)
 
 ### E35
 
-- [packages/daemon/src/domain/queue-wake-ladder.ts:325–351](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-wake-ladder.ts#L325-L351)
-- [packages/daemon/src/domain/queue-wake-ladder.ts:527–558](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-wake-ladder.ts#L527-L558)
-- [packages/daemon/src/domain/queue-wake-ladder.ts:668–725](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/queue-wake-ladder.ts#L668-L725)
-- [packages/daemon/src/index.ts:345–350](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/index.ts#L345-L350)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts:325–351](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts#L325-L351)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts:527–558](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts#L527-L558)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts:668–725](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-wake-ladder.ts#L668-L725)
+- [archive/openrig-0.5.16-source/packages/daemon/src/index.ts:345–350](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/index.ts#L345-L350)
 
 ### E36
 
-- [packages/daemon/src/domain/event-bus.ts:43–143](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/event-bus.ts#L43-L143)
-- [packages/daemon/src/domain/event-bus.ts:161–240](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/event-bus.ts#L161-L240)
-- [packages/daemon/src/domain/event-bus.ts:250–274](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/event-bus.ts#L250-L274)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts:43–143](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts#L43-L143)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts:161–240](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts#L161-L240)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts:250–274](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts#L250-L274)
 
 ### E37
 
-- [packages/ui/src/lib/topology-events.ts:61–108](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/ui/src/lib/topology-events.ts#L61-L108)
-- [packages/ui/src/hooks/useRigEvents.ts:22–68](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/ui/src/hooks/useRigEvents.ts#L22-L68)
-- [packages/tui/src/live-events.ts:31–98](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/tui/src/live-events.ts#L31-L98)
+- [archive/openrig-0.5.16-source/packages/ui/src/lib/topology-events.ts:61–108](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/ui/src/lib/topology-events.ts#L61-L108)
+- [archive/openrig-0.5.16-source/packages/ui/src/hooks/useRigEvents.ts:22–68](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/ui/src/hooks/useRigEvents.ts#L22-L68)
+- [archive/openrig-0.5.16-source/packages/tui/src/live-events.ts:31–98](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/tui/src/live-events.ts#L31-L98)
 
 ### E38
 
-- [packages/daemon/src/routes/events.ts:12–76](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/events.ts#L12-L76)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/events.ts:12–76](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/events.ts#L12-L76)
 
 ### E39
 
-- [packages/daemon/src/domain/user-settings/settings-store.ts:884–920](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/user-settings/settings-store.ts#L884-L920)
-- [packages/daemon/src/domain/user-settings/settings-store.ts:990–1045](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/user-settings/settings-store.ts#L990-L1045)
-- [packages/daemon/src/domain/user-settings/settings-store.ts:1088–1126](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/user-settings/settings-store.ts#L1088-L1126)
-- [packages/daemon/src/domain/user-settings/settings-store.ts:1137–1150](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/user-settings/settings-store.ts#L1137-L1150)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts:884–920](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts#L884-L920)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts:990–1045](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts#L990-L1045)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts:1088–1126](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts#L1088-L1126)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts:1137–1150](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/user-settings/settings-store.ts#L1137-L1150)
 
 ### E40
 
-- [packages/cli/src/commands/setup.ts:586–624](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/setup.ts#L586-L624)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/setup.ts:586–624](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/setup.ts#L586-L624)
 
 ### E41
 
-- [packages/daemon/src/domain/spec-library-service.ts:205–216](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/spec-library-service.ts#L205-L216)
-- [packages/daemon/src/domain/spec-library-service.ts:243–264](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/spec-library-service.ts#L243-L264)
-- [packages/daemon/src/domain/context-packs/context-pack-library-service.ts:175–201](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/context-packs/context-pack-library-service.ts#L175-L201)
-- [packages/daemon/src/routes/agent-images.ts:325–341](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/agent-images.ts#L325-L341)
-- [packages/daemon/src/routes/agent-images.ts:425–442](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/agent-images.ts#L425-L442)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/spec-library-service.ts:205–216](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/spec-library-service.ts#L205-L216)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/spec-library-service.ts:243–264](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/spec-library-service.ts#L243-L264)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/context-packs/context-pack-library-service.ts:175–201](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/context-packs/context-pack-library-service.ts#L175-L201)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/agent-images.ts:325–341](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/agent-images.ts#L325-L341)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/agent-images.ts:425–442](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/agent-images.ts#L425-L442)
 
 ### E42
 
-- [packages/daemon/src/domain/service-orchestrator.ts:140–175](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/service-orchestrator.ts#L140-L175)
-- [packages/daemon/src/adapters/compose-services-adapter.ts:81–110](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/compose-services-adapter.ts#L81-L110)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/service-orchestrator.ts:140–175](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/service-orchestrator.ts#L140-L175)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/compose-services-adapter.ts:81–110](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/compose-services-adapter.ts#L81-L110)
 
 ### E43
 
-- [packages/daemon/src/domain/reconciler.ts:44–96](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/reconciler.ts#L44-L96)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/reconciler.ts:44–96](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/reconciler.ts#L44-L96)
 
 ### E44
 
-- [packages/daemon/src/adapters/tmux.ts:292–328](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/tmux.ts#L292-L328)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts:292–328](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/tmux.ts#L292-L328)
 
 ### E45
 
-- [packages/daemon/src/domain/restore-orchestrator.ts:1110–1129](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/restore-orchestrator.ts#L1110-L1129)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:1110–1129](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts#L1110-L1129)
 
 ### E46
 
-- [packages/daemon/src/routes/queue.ts:309–380](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/queue.ts#L309-L380)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/queue.ts:309–380](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/queue.ts#L309-L380)
 
 ### E47
 
-- [packages/daemon/src/domain/rig-lifecycle-service.ts:390–455](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-lifecycle-service.ts#L390-L455)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts:390–455](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts#L390-L455)
 
 ### E48
 
-- [packages/daemon/src/domain/rigspec-instantiator.ts:1352–1362](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rigspec-instantiator.ts#L1352-L1362)
-- [packages/daemon/src/domain/rigspec-instantiator.ts:1515–1540](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rigspec-instantiator.ts#L1515-L1540)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts:1352–1362](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts#L1352-L1362)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts:1515–1540](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rigspec-instantiator.ts#L1515-L1540)
 
 ### E49
 
-- [packages/daemon/src/domain/context-usage-store.ts:96–144](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/context-usage-store.ts#L96-L144)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/context-usage-store.ts:96–144](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/context-usage-store.ts#L96-L144)
 
 ### E50
 
-- [packages/cli/src/commands/scope.ts:375–406](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/scope.ts#L375-L406)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/scope.ts:375–406](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/scope.ts#L375-L406)
 
 ### E51
 
@@ -497,103 +499,103 @@ Each E-ID below is the exact path/range evidence for the scoped claims above; mu
 
 ### E60
 
-- [packages/daemon/src/domain/workspace/project-read.ts:10–84](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/workspace/project-read.ts#L10-L84)
-- [packages/daemon/src/domain/workspace/project-catalog.ts:15–36](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/workspace/project-catalog.ts#L15-L36)
-- [packages/daemon/src/domain/workspace/default-workspace-scaffold.ts:97–152](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/workspace/default-workspace-scaffold.ts#L97-L152)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/project-read.ts:10–84](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/project-read.ts#L10-L84)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/project-catalog.ts:15–36](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/project-catalog.ts#L15-L36)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/default-workspace-scaffold.ts:97–152](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/default-workspace-scaffold.ts#L97-L152)
 
 ### E61
 
-- [packages/daemon/src/domain/startup-orchestrator.ts:195–224](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/startup-orchestrator.ts#L195-L224)
-- [packages/daemon/src/domain/pod-repository.ts:80–111](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/pod-repository.ts#L80-L111)
-- [packages/daemon/src/db/migrations/014_agentspec_reboot.ts:6–46](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/014_agentspec_reboot.ts#L6-L46)
-- [packages/daemon/src/db/migrations/015_startup_context.ts:6–14](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/db/migrations/015_startup_context.ts#L6-L14)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/startup-orchestrator.ts:195–224](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/startup-orchestrator.ts#L195-L224)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/pod-repository.ts:80–111](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/pod-repository.ts#L80-L111)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/014_agentspec_reboot.ts:6–46](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/014_agentspec_reboot.ts#L6-L46)
+- [archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/015_startup_context.ts:6–14](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/015_startup_context.ts#L6-L14)
 
 ### E62
 
-- [packages/daemon/src/domain/rig-lifecycle-service.ts:540–573](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-lifecycle-service.ts#L540-L573)
-- [packages/daemon/src/domain/rig-lifecycle-service.ts:602–632](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/rig-lifecycle-service.ts#L602-L632)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts:540–573](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts#L540-L573)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts:602–632](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-lifecycle-service.ts#L602-L632)
 
 ### E63
 
-- [packages/daemon/src/adapters/claude-code-adapter.ts:245–279](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/claude-code-adapter.ts#L245-L279)
-- [packages/daemon/src/adapters/codex-runtime-adapter.ts:345–380](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/codex-runtime-adapter.ts#L345-L380)
-- [packages/daemon/src/domain/session-source-rebuild-resolver.ts:54–88](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/session-source-rebuild-resolver.ts#L54-L88)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:245–279](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts#L245-L279)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts:345–380](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts#L345-L380)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/session-source-rebuild-resolver.ts:54–88](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/session-source-rebuild-resolver.ts#L54-L88)
 
 ### E64
 
-- [packages/daemon/src/domain/agent-images/snapshot-capturer.ts:61–104](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/agent-images/snapshot-capturer.ts#L61-L104)
-- [packages/daemon/src/domain/agent-images/agent-image-library-service.ts:149–210](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/agent-images/agent-image-library-service.ts#L149-L210)
-- [packages/daemon/src/domain/agent-images/agent-image-library-service.ts:306–372](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/agent-images/agent-image-library-service.ts#L306-L372)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/snapshot-capturer.ts:61–104](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/snapshot-capturer.ts#L61-L104)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/agent-image-library-service.ts:149–210](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/agent-image-library-service.ts#L149-L210)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/agent-image-library-service.ts:306–372](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/agent-images/agent-image-library-service.ts#L306-L372)
 
 ### E65
 
-- [packages/daemon/src/domain/projection-manifest-store.ts:19–82](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/projection-manifest-store.ts#L19-L82)
-- [packages/cli/src/config-store.ts:1184–1269](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/config-store.ts#L1184-L1269)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/projection-manifest-store.ts:19–82](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/projection-manifest-store.ts#L19-L82)
+- [archive/openrig-0.5.16-source/packages/cli/src/config-store.ts:1184–1269](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/config-store.ts#L1184-L1269)
 
 ### E66
 
-- [packages/daemon/src/routes/down.ts:34–60](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/down.ts#L34-L60)
-- [packages/daemon/src/routes/env.ts:105–130](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/env.ts#L105-L130)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/down.ts:34–60](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/down.ts#L34-L60)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/env.ts:105–130](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/env.ts#L105-L130)
 
 ### E67
 
-- [packages/daemon/src/domain/context-packs/context-pack-library-service.ts:359–399](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/context-packs/context-pack-library-service.ts#L359-L399)
-- [packages/daemon/src/domain/bundle-source-resolver.ts:99–113](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/bundle-source-resolver.ts#L99-L113)
-- [packages/daemon/src/domain/bundle-source-resolver.ts:182–195](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/bundle-source-resolver.ts#L182-L195)
-- [packages/cli/src/restore-packet/packet-writer.ts:260–300](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/restore-packet/packet-writer.ts#L260-L300)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/context-packs/context-pack-library-service.ts:359–399](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/context-packs/context-pack-library-service.ts#L359-L399)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-source-resolver.ts:99–113](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-source-resolver.ts#L99-L113)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-source-resolver.ts:182–195](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/bundle-source-resolver.ts#L182-L195)
+- [archive/openrig-0.5.16-source/packages/cli/src/restore-packet/packet-writer.ts:260–300](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/restore-packet/packet-writer.ts#L260-L300)
 
 ### E68
 
-- [scripts/build-package.sh:4–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/build-package.sh#L4-L21)
-- [scripts/build-package.sh:140–152](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/build-package.sh#L140-L152)
-- [scripts/vm-bootstrap/two-daemon-start.sh:39–51](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/vm-bootstrap/two-daemon-start.sh#L39-L51)
-- [scripts/smoke-fresh-install.sh:16–37](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/smoke-fresh-install.sh#L16-L37)
-- [scripts/build-testbed-image.sh:32–40](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/build-testbed-image.sh#L32-L40)
+- [archive/openrig-0.5.16-source/scripts/build-package.sh:4–21](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/build-package.sh#L4-L21)
+- [archive/openrig-0.5.16-source/scripts/build-package.sh:140–152](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/build-package.sh#L140-L152)
+- [archive/openrig-0.5.16-source/scripts/vm-bootstrap/two-daemon-start.sh:39–51](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/vm-bootstrap/two-daemon-start.sh#L39-L51)
+- [archive/openrig-0.5.16-source/scripts/smoke-fresh-install.sh:16–37](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/smoke-fresh-install.sh#L16-L37)
+- [archive/openrig-0.5.16-source/scripts/build-testbed-image.sh:32–40](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/build-testbed-image.sh#L32-L40)
 
 ### E69
 
-- [packages/daemon/src/adapters/claude-code-adapter.ts:622–684](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/claude-code-adapter.ts#L622-L684)
-- [packages/daemon/src/adapters/claude-code-adapter.ts:696–726](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/adapters/claude-code-adapter.ts#L696-L726)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:622–684](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts#L622-L684)
+- [archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts:696–726](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts#L696-L726)
 
 ### E70
 
-- [packages/daemon/src/routes/packages.ts:309–329](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/packages.ts#L309-L329)
-- [packages/daemon/src/routes/hosts.ts:360–384](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/hosts.ts#L360-L384)
-- [packages/cli/src/commands/host.ts:715–745](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/host.ts#L715-L745)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/packages.ts:309–329](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/packages.ts#L309-L329)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/hosts.ts:360–384](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/hosts.ts#L360-L384)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/host.ts:715–745](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/host.ts#L715-L745)
 
 ### E71
 
-- [packages/cli/src/lib/codex-auth.ts:130–195](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/lib/codex-auth.ts#L130-L195)
-- [packages/cli/src/lib/codex-auth.ts:479–499](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/lib/codex-auth.ts#L479-L499)
+- [archive/openrig-0.5.16-source/packages/cli/src/lib/codex-auth.ts:130–195](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/lib/codex-auth.ts#L130-L195)
+- [archive/openrig-0.5.16-source/packages/cli/src/lib/codex-auth.ts:479–499](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/lib/codex-auth.ts#L479-L499)
 
 ### E72
 
-- [packages/cli/src/commands/crash-cart.ts:94–107](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/crash-cart.ts#L94-L107)
-- [packages/daemon/src/domain/crash-cart-discovery.ts:303–343](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/crash-cart-discovery.ts#L303-L343)
-- [packages/daemon/src/terminal/TerminalSessionBroker.ts:543–569](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/terminal/TerminalSessionBroker.ts#L543-L569)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/crash-cart.ts:94–107](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/crash-cart.ts#L94-L107)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/crash-cart-discovery.ts:303–343](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/crash-cart-discovery.ts#L303-L343)
+- [archive/openrig-0.5.16-source/packages/daemon/src/terminal/TerminalSessionBroker.ts:543–569](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/terminal/TerminalSessionBroker.ts#L543-L569)
 
 ### E73
 
-- [packages/cli/src/daemon-start-lock.ts:9–44](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/daemon-start-lock.ts#L9-L44)
-- [packages/cli/src/daemon-lifecycle.ts:818–822](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/daemon-lifecycle.ts#L818-L822)
+- [archive/openrig-0.5.16-source/packages/cli/src/daemon-start-lock.ts:9–44](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/daemon-start-lock.ts#L9-L44)
+- [archive/openrig-0.5.16-source/packages/cli/src/daemon-lifecycle.ts:818–822](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/daemon-lifecycle.ts#L818-L822)
 
 ### E74
 
-- [packages/daemon/src/domain/active-lens-store.ts:49–99](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/active-lens-store.ts#L49-L99)
-- [packages/daemon/src/domain/slow-op-recorder.ts:99–123](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/slow-op-recorder.ts#L99-L123)
-- [packages/daemon/src/domain/builtin-policy-reference.ts:42–71](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/builtin-policy-reference.ts#L42-L71)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/active-lens-store.ts:49–99](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/active-lens-store.ts#L49-L99)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/slow-op-recorder.ts:99–123](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/slow-op-recorder.ts#L99-L123)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/builtin-policy-reference.ts:42–71](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/builtin-policy-reference.ts#L42-L71)
 
 ### E75
 
-- [packages/cli/src/commands/context.ts:146–191](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/context.ts#L146-L191)
-- [packages/cli/src/commands/specs.ts:113–138](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/cli/src/commands/specs.ts#L113-L138)
-- [packages/daemon/src/domain/bootstrap-orchestrator.ts:135–150](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/bootstrap-orchestrator.ts#L135-L150)
-- [packages/daemon/src/routes/bundles.ts:160–177](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/bundles.ts#L160-L177)
-- [packages/daemon/src/routes/bundles.ts:1040–1064](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/bundles.ts#L1040-L1064)
-- [packages/daemon/src/routes/bundles.ts:1129–1140](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/routes/bundles.ts#L1129-L1140)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/context.ts:146–191](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/context.ts#L146-L191)
+- [archive/openrig-0.5.16-source/packages/cli/src/commands/specs.ts:113–138](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/cli/src/commands/specs.ts#L113-L138)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/bootstrap-orchestrator.ts:135–150](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/bootstrap-orchestrator.ts#L135-L150)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts:160–177](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts#L160-L177)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts:1040–1064](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts#L1040-L1064)
+- [archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts:1129–1140](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/routes/bundles.ts#L1129-L1140)
 
 ### E76
 
-- [packages/daemon/src/domain/proof/judgments.ts:245–264](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/packages/daemon/src/domain/proof/judgments.ts#L245-L264)
-- [scripts/generate-context-packs.mjs:390–407](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/generate-context-packs.mjs#L390-L407)
-- [scripts/gate-lane-run.mjs:10–20](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/scripts/gate-lane-run.mjs#L10-L20)
+- [archive/openrig-0.5.16-source/packages/daemon/src/domain/proof/judgments.ts:245–264](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/packages/daemon/src/domain/proof/judgments.ts#L245-L264)
+- [archive/openrig-0.5.16-source/scripts/generate-context-packs.mjs:390–407](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/generate-context-packs.mjs#L390-L407)
+- [archive/openrig-0.5.16-source/scripts/gate-lane-run.mjs:10–20](https://github.com/kairin/openrig-breakdown/blob/ea7c268f576ada8434d3dae3e6ac972264910d4c/archive/openrig-0.5.16-source/scripts/gate-lane-run.mjs#L10-L20)

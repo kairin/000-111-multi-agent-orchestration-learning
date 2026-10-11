@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L6 — the 51-02 runner drives a REAL scenario through the container (container-mode e2e) + host-mode parity
 
 **Runs host-side, after L3** (needs the built image + a container-local daemon that boots). This is the

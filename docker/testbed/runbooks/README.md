@@ -1,3 +1,11 @@
+# Historical testbed-runbook evidence
+
+For **000-111-multi-agent-orchestration-learning**, these runbooks preserve a
+past OpenRig container-verification proposal. They are not
+execution instructions; do not build images, run containers, or follow embedded
+commands. Select one leg and use the [decomposition study guide](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise)
+to map its evidence contract, ownership boundaries, dependencies, and halt rule.
+
 # openrig-testbed verification runbooks (51-04 step-2, plan §2)
 
 These are **host-executed, evidence-defined** runbooks — the 51-09 live-legs pattern. The VM seat has

@@ -1,5 +1,7 @@
 # Runtime verification protocol: WT-10, CAP-8 and Node removal
 
+> **Historical test proposal.** This unrun protocol demonstrates how missing authorization and isolation block execution. It is not current authority to run tests. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Status and authority
 
 **BLOCKED — preparation only; no product runtime cases executed.**
@@ -180,20 +182,20 @@ bundle exists for this preparation pass. Documentation checks are separate.
 These paths are repository-relative leads at the inspected commit, not runtime
 evidence. Confirm them at the eventual release revision when writing commands.
 
-- `packages/cli/src/client.ts:122-163`: current/legacy URL overrides and identity.
-- `packages/cli/src/commands/daemon.ts`: startup/stop/status command contracts.
-- `packages/daemon/src/adapters/claude-code-adapter.ts` and
-  `packages/daemon/src/adapters/codex-runtime-adapter.ts`: launch, hooks, readiness
+- `archive/openrig-0.5.16-source/packages/cli/src/client.ts:122-163`: current/legacy URL overrides and identity.
+- `archive/openrig-0.5.16-source/packages/cli/src/commands/daemon.ts`: startup/stop/status command contracts.
+- `archive/openrig-0.5.16-source/packages/daemon/src/adapters/claude-code-adapter.ts` and
+  `archive/openrig-0.5.16-source/packages/daemon/src/adapters/codex-runtime-adapter.ts`: launch, hooks, readiness
   and native resume; Codex readiness is specifically at lines 433–451.
-- `packages/daemon/src/domain/snapshot-capture.ts:149-164`: snapshot/event
+- `archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts:149-164`: snapshot/event
   transaction followed by best-effort subscriber notification.
-- `packages/daemon/test/queue-transactional-closure.test.ts` and
-  `packages/cli/test/d14-loud-queue-transport-failure.test.ts`: intended retry and
+- `archive/openrig-0.5.16-source/packages/daemon/test/queue-transactional-closure.test.ts` and
+  `archive/openrig-0.5.16-source/packages/cli/test/d14-loud-queue-transport-failure.test.ts`: intended retry and
   diagnostic contracts; the latter uses mocked lifecycle/transport dependencies.
-- `scripts/smoke-fresh-install.sh`: builds, installs and starts a Node baseline;
+- `archive/openrig-0.5.16-source/scripts/smoke-fresh-install.sh`: builds, installs and starts a Node baseline;
   suppresses some output and deletes scratch evidence on exit. Do not execute
   unchanged as an evidence protocol. Preserve logs and prove isolation first.
-- `docker/testbed/Dockerfile`: Node/npm-based Linux/stub testbed, not real
+- `archive/openrig-0.5.16-source/docker/testbed/Dockerfile`: Node/npm-based Linux/stub testbed, not real
   Claude/Codex authentication, desktop-provider or Node-removal proof.
 
 ## Review and completion gate

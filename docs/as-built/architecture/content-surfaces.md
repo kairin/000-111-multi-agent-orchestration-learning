@@ -33,7 +33,7 @@ the recursive PROGRESS.md tree indexer, and the one-screen Steering composer
 > **AUTHOR-FROM-SOURCE module.** No prior `architecture.md` prose exists for
 > this. Every load-bearing claim carries `> Source: <file:line> @HEAD`;
 > ambiguity is declared as an OPEN item, never smoothed. Paths are relative
-> to `packages/daemon/src/` unless prefixed `packages/` or `docs/`.
+> to `archive/openrig-0.5.16-source/packages/daemon/src/` unless prefixed `archive/openrig-0.5.16-source/packages/` or `docs/`.
 >
 > Verified at HEAD `7eaf524c` (`git describe` → `v0.3.1-6-g7eaf524c`).
 > Package version **0.3.1**; HEAD carries 6 unreleased release-0.3.2
@@ -168,12 +168,12 @@ Path-safety errors map to HTTP per code (`root_unknown`/`path_*` → 400,
 > `:49`; mounted `server.ts:507`; CLI: no `rig files` verb — files are
 > a UI-only surface @HEAD.
 
-> **§10.7 route-reality (source-verified at `packages/ui/src/routes.tsx`):**
+> **§10.7 route-reality (source-verified at `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`):**
 > `/files` is a **REAL route** (`FilesWorkspace`) the Phase-8.1 survey
 > MISSED. There is **NO `/markdown` route** — markdown rendering is a
 > *component* inside file / drawer surfaces, not a navigable destination.
 >
-> Source: `packages/ui/src/routes.tsx:192-195` (`path: "/files"` +
+> Source: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx:192-195` (`path: "/files"` +
 > `FilesWorkspace`); grep-confirmed no `path: "/markdown"` declaration
 > anywhere in routes.tsx @HEAD.
 
@@ -210,7 +210,7 @@ no roots.
 > redirect-stub** — the progress system lives at the daemon
 > `/api/progress` route, but the UI URL folds into Project tabs (Phase 3).
 >
-> Source: `packages/ui/src/routes.tsx:464-468` ("folds into Project tabs
+> Source: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx:464-468` ("folds into Project tabs
 > (Phase 3) — redirect to /project") @HEAD.
 
 ## 5. Steering composer (Operator Surface Reconciliation v0 item 1)
@@ -257,7 +257,7 @@ unwired; 503 `steering_workspace_not_configured` + a hint pointing at
 > redirect-stub** — the composer lives at daemon `/api/steering`; the UI
 > URL folds into the Project workspace overview tab (Phase 3).
 >
-> Source: `packages/ui/src/routes.tsx:470-474` ("folds into Project
+> Source: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx:470-474` ("folds into Project
 > workspace overview tab (Phase 3) — redirect to /project") @HEAD.
 
 ## 6. Health-summary aggregator (OSR v0 item 1F)

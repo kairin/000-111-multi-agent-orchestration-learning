@@ -6,7 +6,7 @@ surface keeps a private vocabulary.
 
 **This document is the canonical text for the shipped taxonomy** and adds the
 engineering reconciliation; it never forks a second vocabulary. Its typed source of
-truth is `packages/daemon/src/domain/activity-taxonomy.ts`.
+truth is `archive/openrig-0.5.16-source/packages/daemon/src/domain/activity-taxonomy.ts`.
 
 ## The three orthogonal axes
 

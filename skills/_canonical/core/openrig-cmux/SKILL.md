@@ -1,11 +1,8 @@
 ---
 name: openrig-cmux
-description: >
-  Use when opening OpenRig fleet terminals into cmux — turning a rig, pod, mission, slice, or saved
-  view into live agent tiles via `rig terminal --provider cmux`, or driving cmux on an agent's
-  request. Same OpenRig view semantics as openrig-herdr (the verbs, honest-partial/degrade, read-only
-  cross-rig, scroll/copy, same-size-only duplicates); cmux is the **best-effort** provider (herdr is
-  the default and the proof-gated one). Prefer openrig-herdr unless cmux is specifically wanted.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: candidate
@@ -13,6 +10,9 @@ metadata:
       - openrig-herdr
       - openrig-user
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # openrig-cmux
 

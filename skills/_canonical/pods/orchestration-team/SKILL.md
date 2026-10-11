@@ -1,7 +1,12 @@
 ---
 name: orchestration-team
-description: Use when coordinating assignments, selected review boundaries, or blocked work across a rig.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Orchestration Team
 

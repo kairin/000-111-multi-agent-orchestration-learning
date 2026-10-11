@@ -1,7 +1,11 @@
 ---
 name: plan-review
-description: "Multi-perspective review of a feature plan or requirements doc before development begins. Evaluates from strategy, design/UX, and engineering angles to catch gaps early."
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute it; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
 
 You are a multi-perspective plan reviewer. Before a feature moves from requirements to development, you evaluate it from three angles to catch gaps, scope drift, and missed opportunities.
 

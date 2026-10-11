@@ -1,5 +1,7 @@
 # Independent source-research review matrix
 
+> **Historical review evidence.** Study how independent checks expose gaps and route rework; do not treat the matrix as a current gate. See [the research guide](RESEARCH-EVIDENCE.md).
+
 Reviewed on 2026-09-27 for task **9a783**, the independent replacement review
 for a6c2b. This is a completed review of the available evidence, not a claim
 that every reviewed artifact meets its contract. All three artifacts are
@@ -36,12 +38,12 @@ files; they do not assert that the artifact is integrated there.
 | S | `/home/kkk/Apps/openrig-breakdown/breakdown/research-state-invariants.md` | `03f508c53348d4a343c423cd751e7ab74dc706cb` |
 | A | `/home/kkk/Apps/openrig-breakdown/breakdown/11-coordination-outcomes.md` | `aa51d3581825ce286d9dc2b379e21bee92a2a1c6` |
 | H | `/home/kkk/Apps/openrig-breakdown/breakdown/09-adversarial-review-and-research-charter.md` | `aa51d3581825ce286d9dc2b379e21bee92a2a1c6` |
-| E1 | `/home/kkk/Apps/openrig-breakdown/packages/cli/src/index.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
-| E2 | `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/rig-teardown.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
-| E3 | `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/snapshot-capture.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
-| E4 | `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/queue-repository.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
-| E5 | `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/event-bus.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
-| E6 | `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/restore-orchestrator.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E1 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/cli/src/index.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E2 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E3 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E4 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E5 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/event-bus.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
+| E6 | `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts` | `9db3ed6c406be5c3d9a84720383fcf6b543169e6` |
 
 C extends initial artifact commit `ac5e509375c350ed0cfdef57e47ce9477033ca15`.
 W is a checkpoint object, not the HEAD of the workflow worktree. Its 108 lines
@@ -98,7 +100,7 @@ do not require every proposed runtime scenario to have been executed.
 | S5 — queue/history and notification guarantees (A:164-165) | PARTIAL | S:63 covers canonical queue, audit archival, wake intents and retirement; it does not give a complete transition/enforcement/failure pairing per invariant. | G4: link allowed mutations, failed transaction and post-commit wake recovery separately. |
 | S6 — events/client observation (A:165) | PARTIAL | S:64 and E5:52-91 support persistence before notification, but subscriber reconnect/replay truth and caches remain unresolved. | G4, coordinated with G3: cite client source of truth and disagreement handling. |
 | S7 — project/worktree metadata, snapshots/transcripts (A:165-170) | PASS | S:58-62,83-95 explicitly distinguishes staged/index, unstaged and untracked files from snapshot metadata, pane transcript and native conversation. E3:125-164 corroborates snapshot payload scope. | This PASS is for distinctions, not completed deletion mapping (S2). |
-| S8 — owned versus user-owned config/hooks (A:166-167) | PARTIAL | S:65 names managed tmux blocks, config reset, adapter hooks, projection hashes and cleanup; wider plugin/hook collisions remain open. E2:202-231 can write or delete a selected guidance file. | G4: delegated cleanup and collision rules, never infer all user config survives from a projection hash. |
+| S8 — owned versus user-owned archive/openrig-0.5.16-source/config/hooks (A:166-167) | PARTIAL | S:65 names managed tmux blocks, config reset, adapter hooks, projection hashes and cleanup; wider plugin/hook collisions remain open. E2:202-231 can write or delete a selected guidance file. | G4: delegated cleanup and collision rules, never infer all user config survives from a projection hash. |
 | S9 — each invariant: enforcement/contract, failure/restart, missing proof (A:168-170) | PARTIAL | S:72-95 contains six useful boundaries but not a per-invariant enforcement/failure/next-proof crosswalk. S:151-157 combines source omissions with live observations. | G4: one complete row per invariant, with unresolved source links and future runtime proof separated. |
 | S10 — reuse linked findings; no teardown-absence preservation claim (A:171-172) | PASS | S:20-26,38-52,59-65 reuses linked claims and explicitly avoids treating one non-deletion path as global preservation. | Artifact revision precision remains V3. |
 

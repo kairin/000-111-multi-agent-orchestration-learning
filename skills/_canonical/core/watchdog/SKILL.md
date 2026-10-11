@@ -1,6 +1,8 @@
 ---
 name: watchdog
-description: Use when configuring `rig watchdog` policies, authoring wake/refocus/alignment-checkpoint messages, or choosing the right intervention level for a stale-owner situation. The 3-level continuity-check stack (wake / refocus / alignment-checkpoint), the discipline that prevents cadence pollution and bureaucracy theater, and the artifact-pool loop-edge pattern for evidence-aware waking.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   openrig:
     stage: factory-approved
@@ -17,6 +19,9 @@ metadata:
       - status-not-chat-orchestrator
       - oversight-team
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Watchdog
 

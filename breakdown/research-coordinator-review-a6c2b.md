@@ -1,5 +1,7 @@
 # Coordinator evidence review: 662c4, a4d7b and c28a2
 
+> **Historical integration evidence.** Use these handoff decisions to study bounded rework and acceptance; the named agents have no current assignments. See [the research guide](RESEARCH-EVIDENCE.md).
+
 ## Decision and authority
 
 Reviewed on 2026-09-27. **662c4: FAIL; a4d7b: FAIL; c28a2: FAIL** for final
@@ -66,7 +68,7 @@ at `f287de77`.
 
 | ID / contract criterion | Result and exact finding | Required correction / acceptance check |
 |---|---|---|
-| RC-1: major capabilities, including optional surfaces | **FAIL**, lines 43-57. Thirteen rows cover CLI, daemon, adapters, spec/workspace, queue, observation, recovery, configuration, MCP, adjacent integrations, tooling, test-system and docs. No explicit disposition for multi-host or executable Workflow operation; generic operator “workflow relevance” is not a disposition for that product surface. | Add bounded rows for multi-host and Workflow, or explicit subrows with owner, evidence, dependencies, state, journey, status/reason and unknown owner value. Source S `/home/kkk/Apps/openrig-breakdown/packages/cli/src/index.ts:29,45,198,212` imports/registers host and Workflow commands. Do not choose whether to retain them. |
+| RC-1: major capabilities, including optional surfaces | **FAIL**, lines 43-57. Thirteen rows cover CLI, daemon, adapters, spec/workspace, queue, observation, recovery, configuration, MCP, adjacent integrations, tooling, test-system and docs. No explicit disposition for multi-host or executable Workflow operation; generic operator “workflow relevance” is not a disposition for that product surface. | Add bounded rows for multi-host and Workflow, or explicit subrows with owner, evidence, dependencies, state, journey, status/reason and unknown owner value. Source S `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/cli/src/index.ts:29,45,198,212` imports/registers host and Workflow commands. Do not choose whether to retain them. |
 | RC-2: per-capability owner, entry evidence, dependencies, artifacts, journey, status | **PARTIAL**, lines 43-57. Table structure and investigated/scheduled/deferred distinctions exist; several entries rely only on package/claim summaries. Context/spec/plugin coverage is grouped without a clear per-surface evidence mapping. | Make every required surface traceable to a row/disposition. Add evidence IDs and exact document/source citations for summary reuse. Scheduled/deferred with reason is permitted; a full optional-surface runtime trace is not required for this card. |
 | RC-3: reuse Node/package inventory without duplication | **PARTIAL**, lines 5-17, 120-138. Reuse and counting predicates exist, but document 10 is referenced under the default source pin S, where it does not exist. The same problem affects claims of an accepted register at S. | Pin reused planning documents to D/R as appropriate, separately from source S. Preserve counting predicates and their navigation-only limitation; do not use file counts as usability evidence. |
 | RC-4: consequential evidence IDs, scope/confidence and citation correctness | **FAIL**, lines 43-57, 73-82. CAP-1 through CAP-8 identify proposed work, not evidence IDs attached to capability findings. No per-finding confidence scheme is provided. CLI `index.ts:93-110` is a dependency interface, not command composition. | Add a compact evidence key/scope/confidence scheme; cite actual registration if claiming composition. Fix the inventory link at line 7: target heading is `83-checkout-and-code-inventory`, not `checkout-and-code-inventory`. |
@@ -128,7 +130,7 @@ at `03f508c5`.
 | ID / contract criterion | Result and exact finding | Required correction / acceptance check |
 |---|---|---|
 | RS-1: core state inventory and actors | **PARTIAL**, lines 54-65. Nine rows cover important stores and files. Project/catalog/worktree actors remain openly unresolved. Live-process and cache state lacks a corresponding create/change/remove/reconcile treatment. | Add bounded process/cache rows for states actually used by the journeys, including daemon/tmux liveness and relevant in-memory timers/locks. For unresolved actors, name the search boundary and next source path/evidence; do not demand knowledge of external-agent internals. |
-| RS-2: allowed transitions, authority, transaction/event ordering | **FAIL**, lines 61-64, 67-95. Selected create/handoff/retirement effects and identity distinctions exist, but no allowed-transition/enforcement ledger for queue and session/readiness/resume/wake state. | Give each invariant an ID, allowed transition/actor/guard, enforcement or contract, failure/restart case and missing proof. E.g. S `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/queue-repository.ts:2038-2055` explicitly restricts claim destination and claimable pending/blocked states. Map notification states separately from work states. |
+| RS-2: allowed transitions, authority, transaction/event ordering | **FAIL**, lines 61-64, 67-95. Selected create/handoff/retirement effects and identity distinctions exist, but no allowed-transition/enforcement ledger for queue and session/readiness/resume/wake state. | Give each invariant an ID, allowed transition/actor/guard, enforcement or contract, failure/restart case and missing proof. E.g. S `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:2038-2055` explicitly restricts claim destination and claimable pending/blocked states. Map notification states separately from work states. |
 | RS-3: client observation/reconciliation | **PARTIAL**, lines 61, 63-64. DB/event persistence and queue-history union are evidenced, but client reconnect/replay/refresh policy is not mapped. | Link the relevant workflow observation paths to store/event authority and precise unresolved mechanisms. Distinguish boot reconciler transport-unavailable detachment from restore's fail-closed unknown probes. |
 | RS-4: preservation and delegated deletion | **PARTIAL**, lines 59-65, 151-157. Correctly separates Git, native history and pane transcripts; records managed-guidance writes and snapshot retention. Service-volume deletion already established in linked F9 is omitted from the ledger. | Add the delegated service policy and state effect (source anchors below). Keep ordinary checkout, managed files and optional volumes distinct. Source mapping can be completed now; real no-loss/resume evidence remains NOT RUN. |
 | RS-5: evidence metadata and pins | **FAIL**, lines 5-8, 12, 59, 61-62, 77. Default S makes A5 `27-37` exceed its 30 lines. A8 `25-28` is blank/unreviewed evidence at S, not its accepted finding. “Source observation” is defined as behavior OR intent, weakening the required distinction. | Pin claim documents to D and register to R, retain implementation pin S; use the four contract labels consistently, add evidence IDs/confidence and per-invariant failure/missing-proof links. |
@@ -145,15 +147,15 @@ These are reusable bounded observations, **not acceptance of the three outputs**
 Paths in this section are at source S unless D/R is explicitly specified.
 
 - **RX-1 — readiness versus liveness:**
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/reconciler.ts:44-96`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/reconciler.ts:44-96`
   treats a non-present probe, including transport-unavailable, as detachable at
   this boot boundary; thrown probe errors are retained as errors. In contrast,
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/restore-orchestrator.ts:239-250,782-812`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/restore-orchestrator.ts:239-250,782-812`
   blocks on live/unknown sessions. Its `976-1006` missing-token case returns
   awaiting-decision before launch. Workflow 2/4/5 and ledger session/resume rows
   must preserve these different call-site policies, not promise uniform recovery.
 - **RX-2 — durable work is not delivery/acceptance:**
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/queue-repository.ts:1320-1358`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-repository.ts:1320-1358`
   commits create before notification/nudge; same explicit ID with matching
   source/destination returns the existing row. `807-846,910-945,1507-1669` stage
   and guard intended terminal wake with close/successor; `nudge:false` is an
@@ -164,28 +166,28 @@ Paths in this section are at source S unless D/R is explicitly specified.
   at R `/home/kkk/Apps/openrig-breakdown/breakdown/gemini-review/README.md:61-69`
   also limits cross-host atomicity and cognitive-drift claims.
 - **RX-3 — snapshot is not file backup:**
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/snapshot-capture.ts:60-166`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-capture.ts:60-166`
   reads state before assembling metadata and transactionally storing snapshot/event.
   It does not archive Git/index/native history/volumes. Source reads preceding
   persistence are not a quiesced snapshot of all external state.
 - **RX-4 — teardown can write/delete delegated state:**
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/rig-teardown.ts:103-143,202-231`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/rig-teardown.ts:103-143,202-231`
   continues after capture failure, clears successfully killed session state,
   cleans managed guidance and calls service teardown.
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/service-orchestrator.ts:140-161`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/service-orchestrator.ts:140-161`
   selects persisted down policy;
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/adapters/compose-services-adapter.ts:81-98`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/adapters/compose-services-adapter.ts:81-98`
   includes `--volumes` for `down_and_volumes`. D
   `/home/kkk/Apps/openrig-breakdown/breakdown/gemini-review/claims/friction/F9-teardown-despite-failed-snapshot/README.md:29-48`
   already records this boundary. Workflow 5 and ledger preservation claims must
   carry it forward, without asserting that snapshot failure itself deletes work.
 - **RX-5 — histories and retention:**
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/queue-retention.ts:124-217`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-retention.ts:124-217`
   archives then deletes transition rows per item, excluding live Workflow frontiers;
-  `/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/queue-transition-log.ts:151-160`
+  `/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/queue-transition-log.ts:151-160`
   unions active/archive history. The old append-only schema comment is intent,
   not proof that physical rows are never deleted. Snapshot pruning is separate
-  (`/home/kkk/Apps/openrig-breakdown/packages/daemon/src/domain/snapshot-repository.ts:184-209`).
+  (`/home/kkk/Apps/openrig-breakdown/archive/openrig-0.5.16-source/packages/daemon/src/domain/snapshot-repository.ts:184-209`).
 
 ## Validation method and limits
 

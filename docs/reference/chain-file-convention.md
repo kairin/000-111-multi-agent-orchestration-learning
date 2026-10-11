@@ -108,7 +108,7 @@ lightweight:
    stranger's machine, in a different project?). If it is project-specific it
    stays at the altitude that earned it.
 3. **Ship** — add it to the rig's default chain files in source
-   (`packages/daemon/specs/rigs/…/topology/`), with the motivating incident in
+   (`archive/openrig-0.5.16-source/packages/daemon/specs/rigs/…/topology/`), with the motivating incident in
    one line. It reaches new installs at the next release; running rigs pick it
    up only via explicit delivery (see the refocus channel) — **editing a file
    is not delivery to a running seat.**

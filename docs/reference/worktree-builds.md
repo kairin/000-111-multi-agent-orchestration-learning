@@ -1,3 +1,7 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # Worktree builds: use a per-worktree install, never a symlinked `node_modules`
 
 **Filed as** build friction (a TS2688 `@types/node` failure). **Grounded as** something worse:
@@ -7,16 +11,16 @@ consume ANOTHER tree's source — a false-green generator, not an inconvenience.
 ## What actually happens
 
 `npm install` in a worktree creates `node_modules/@openrig/<pkg>` as a RELATIVE symlink
-(`-> ../../packages/<pkg>`). Relative links resolve against the directory they live in, so:
+(`-> ../../archive/openrig-0.5.16-source/packages/<pkg>`). Relative links resolve against the directory they live in, so:
 
 | setup | `@openrig/daemon` resolves to | verdict |
 |---|---|---|
-| per-worktree `npm install` | that worktree's `packages/daemon` | correct |
-| `ln -s <primary>/node_modules node_modules` | **the PRIMARY tree's** `packages/daemon` | **cross-tree** |
+| per-worktree `npm install` | that worktree's `archive/openrig-0.5.16-source/packages/daemon` | correct |
+| `ln -s <primary>/node_modules node_modules` | **the PRIMARY tree's** `archive/openrig-0.5.16-source/packages/daemon` | **cross-tree** |
 
 Verified by discriminator, not by inference: with a symlinked `node_modules`, a deliberate type
-error introduced in the WORKTREE's `packages/daemon` is seen by that package's own `tsc` and NOT
-seen by `packages/cli`'s `tsc`, which exits 0 — because it type-checked the primary tree's daemon.
+error introduced in the WORKTREE's `archive/openrig-0.5.16-source/packages/daemon` is seen by that package's own `tsc` and NOT
+seen by `archive/openrig-0.5.16-source/packages/cli`'s `tsc`, which exits 0 — because it type-checked the primary tree's daemon.
 A worktree can therefore report green against code it does not contain.
 
 ## Rules
@@ -35,5 +39,5 @@ A worktree can therefore report green against code it does not contain.
 
 ## Self-check before trusting any worktree build
 
-    [ "$(readlink -f packages/daemon)" = "$(readlink -f node_modules/@openrig/daemon)" ] \
+    [ "$(readlink -f archive/openrig-0.5.16-source/packages/daemon)" = "$(readlink -f node_modules/@openrig/daemon)" ] \
       || echo "CROSS-TREE: this worktree resolves @openrig/* into another tree"

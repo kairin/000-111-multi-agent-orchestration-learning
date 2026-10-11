@@ -1,132 +1,82 @@
-# Simplified agent-team harness (working name)
+# Learning orchestration from a historical agent system
 
-A personal, simplified derivative of the open-source OpenRig project. It runs
-several Claude Code and Codex CLI agents together as one team. The goal is a
-smaller tool that fits one person's workflow, with much less to learn and
-keep in mind.
+Canonical project name: `000-111-multi-agent-orchestration-learning`.
 
-This project is independent. It is not affiliated with, endorsed by or
-supported by the authors of OpenRig. It does not accept contributions to, or
-send changes to, the original project.
+This repository is a documentation-only learning case study. It uses a
+historical OpenRig 0.5.16 snapshot, specifications, skills, and research as primary
+sources for learning how to decompose work and coordinate agents. It is not a
+project to install, revive, simplify, port, or publish OpenRig.
 
-## Status
+The implementation remains as evidence under
+[`archive/openrig-0.5.16-source/`](archive/openrig-0.5.16-source/). Commands,
+runbooks, skills, release procedures, and configuration examples describe the
+historical system. Do not execute them as instructions from this repository.
+The [source map](breakdown/HISTORICAL-SOURCE-MAP.md) records where every moved
+file came from and how its bytes were verified.
 
-Research. The code is still the same as upstream OpenRig 0.5.16. No
-simplification has been made yet.
+## What you will learn
 
-The current work reads the source and records evidence: what each workflow
-does, which state it keeps, and which capabilities are optional. The owner's
-stated goal is a fully Rust tool with no Node.js. The research examines how to
-reach that goal. No design or plan is approved. Open decisions for the owner are in
-[research-owner-decision-brief.md](breakdown/research-owner-decision-brief.md).
+After the route below, you should be able to:
 
-Until the tool is renamed, it still uses the upstream command names (`rig`,
-`openrig-tui`), package names (`@openrig/*`) and state folder (`~/.openrig`).
-Do not install a build of this repository next to an installed upstream
-`@openrig/cli`. The two would share the same commands and state. See
-[breakdown/03-local-environment.md](breakdown/03-local-environment.md).
+- split an objective where uncertainty and dependencies change;
+- give each owner a bounded file or decision surface;
+- define inputs, outputs, interfaces, and acceptance checks before work starts;
+- use a fixed concurrency budget without starting blocked or overlapping work;
+- require evidence in handoffs and review it before integration;
+- stop when the objective is met, evidence is insufficient, or a decision owner
+  is required.
 
-## Goals
+No OpenRig runtime, paid service, specific model, or additional tool is needed.
+The exercises produce Markdown tables and short decision records.
 
-- **Less to learn.** Use words engineers already know (agent, task, branch)
-  instead of a new vocabulary where the new word adds nothing.
-- **Fewer moving parts.** Keep the functions that earn their cost. Remove the
-  rest, together with the files they write on the machine.
-- **Readable by a person.** A human should be able to set up, run and fix the
-  tool without asking an agent to do it for them.
-- **Safe with work in progress.** Stopping the team must never lose work that
-  is not committed.
-- **Self-contained.** No downloads from, or dependence on, the original
-  project's services.
+## Learning route
 
-## How the work is organised
+Start with [the curriculum](breakdown/CURRICULUM.md). The numbered modules use
+one historical repository as a case study:
 
-All analysis lives in [`breakdown/`](breakdown/README.md):
+| Module | Learning outcome | Exercise artifact |
+|---|---|---|
+| [01](breakdown/01-goal-and-scope.md) | Turn a broad request into an objective and exclusions. | Scope card |
+| [02](breakdown/02-separation-from-upstream.md) | Separate evidence, authority, and allowed actions. | Boundary map |
+| [03](breakdown/03-local-environment.md) | Identify side effects and prerequisites without running a system. | Risk register |
+| [04](breakdown/04-review-method.md) | Convert claims into verifiable research tasks. | Claim review card |
+| [05](breakdown/05-simplification-rules.md) | Split work at uncertainty and dependency boundaries. | Task graph |
+| [06](breakdown/06-open-questions.md) | Route decisions to the right owner and keep agents moving. | Decision ledger |
+| [07](breakdown/07-review-task-list.md) | Schedule bounded work under a fixed concurrency budget. | Work allocation table |
+| [08](breakdown/08-current-state-evidence.md) | Distinguish observed facts from proposed designs. | Evidence map |
+| [09](breakdown/09-adversarial-review-and-research-charter.md) | Design independent review and disproof checks. | Review plan |
+| [10](breakdown/10-rust-and-node-removal-plan.md) | Analyze a historical migration plan without authorizing it. | Dependency and interface audit |
+| [11](breakdown/11-coordination-outcomes.md) | Integrate handoffs and make continue, rework, or stop decisions. | Integration record |
 
-| Document | Subject |
-| :--- | :--- |
-| [01-goal-and-scope.md](breakdown/01-goal-and-scope.md) | The goal and the starting point |
-| [02-separation-from-upstream.md](breakdown/02-separation-from-upstream.md) | What has been separated, and the links to upstream still in the code |
-| [03-local-environment.md](breakdown/03-local-environment.md) | Conflicts with an installed upstream version |
-| [04-review-method.md](breakdown/04-review-method.md) | How each claim about the tool is checked against the code |
-| [05-simplification-rules.md](breakdown/05-simplification-rules.md) | Rules for changing the code safely |
-| [06-open-questions.md](breakdown/06-open-questions.md) | Decisions still to make, including the final name |
-| [07-review-task-list.md](breakdown/07-review-task-list.md) | Review tasks, status, dependencies and completion evidence |
-| [08-current-state-evidence.md](breakdown/08-current-state-evidence.md) | Source, history and runtime evidence for the current code |
-| [09-adversarial-review-and-research-charter.md](breakdown/09-adversarial-review-and-research-charter.md) | The research plan and the criteria for a simplification |
-| [10-rust-and-node-removal-plan.md](breakdown/10-rust-and-node-removal-plan.md) | Node.js inventory, Rust boundaries and conditional stages (a plan, not approved) |
-| [11-coordination-outcomes.md](breakdown/11-coordination-outcomes.md) | Research ownership, acceptance dependencies and migration dispositions |
-| [gemini-review/](breakdown/gemini-review/README.md) | An outside review, split into 24 claims to check |
+The recurring exercise examines a hypothetical local documentation bundle with four
+work products: source inventory, learning outline, link review, and integrated
+guide. It is intentionally small enough to reason about on paper. Historical
+OpenRig facts supply examples and counterexamples; the exercise never asks you
+to build or operate the system, commit changes, or publish the bundle.
 
-Research notes (source reading only; none is an approved decision):
+## How to read the repository
 
-| Document | Subject |
-| :--- | :--- |
-| [research-workflow-scope.md](breakdown/research-workflow-scope.md) | Candidate operator workflows (CAP-1) |
-| [research-workflow-traces.md](breakdown/research-workflow-traces.md) | Traces of setup, work, inspection and recovery |
-| [research-state-invariants.md](breakdown/research-state-invariants.md) | State invariants and recovery boundaries (CAP-3) |
-| [research-capability-inventory.md](breakdown/research-capability-inventory.md) | Optional and adjacent capabilities (CAP-4) |
-| [research-owner-decision-brief.md](breakdown/research-owner-decision-brief.md) | Owner decisions N1–N10 for Rust and Node.js removal |
-| [research-runtime-verification-plan.md](breakdown/research-runtime-verification-plan.md) | Protocols for runtime checks (not run) |
-| [research-runtime-verification.md](breakdown/research-runtime-verification.md) | Blocked runtime verification for WT-10, CAP-8 and Node.js removal |
-| [research-review-matrix.md](breakdown/research-review-matrix.md) | Independent review of research artifacts |
-| [research-coordinator-review-a6c2b.md](breakdown/research-coordinator-review-a6c2b.md) | Coordinator review of three research artifacts |
+The [coverage ledger](breakdown/DOCUMENT-COVERAGE.md) accounts for every tracked
+Markdown, HTML, YAML, and YML file that was present when this curriculum was
+created. It separates curriculum, research evidence, historical operational
+evidence, and immutable records.
 
-## What the code does today
+Within historical material, words such as “run,” “install,” “deploy,” and
+“publish” belong to the quoted source context. Use them to identify task
+boundaries, side effects, missing checks, and unsafe assumptions.
 
-- A local daemon (Hono HTTP server with an SQLite database) keeps track of a
-  team of agents.
-- Each agent is a Claude Code or Codex CLI session running in tmux.
-- Teams are described in YAML files and started with `rig up`.
-- Agents send messages to each other and share a task queue.
-- A terminal UI (`rig tui`) shows the team.
+The portability report workflow and its two dependency-free JavaScript files
+are current repository governance. They inspect proposed documentation changes;
+they are not part of the historical OpenRig runtime.
 
-## Before you run it
+## Historical provenance
 
-The current code changes files outside this repository. It writes hooks and
-trust settings into `~/.claude.json`, the workspace `.claude/settings.local.json`,
-`~/.codex/config.toml` and `~/.tmux.conf`. It also tries to download a plugin
-from the original project's GitHub account each time the daemon starts. Back
-up those files first. The full list is in the
-[original README](archive/documents/README-upstream-original.md#what-openrig-changes-on-your-machine).
-
-## Build and test from source
-
-Requires Node.js 20, 22 or 24, and tmux.
-
-```bash
-npm install
-npm run build
-npm test
-```
-
-Record the test results before changing code. Some upstream tests already
-failed before this project started (see
-`.evidence/AB-full-suite-preexisting-failures.txt`).
-
-## Origin and credit
-
-This project is derived from [OpenRig](https://github.com/mvschwarz/openrig)
-by Mike Schwarz, version 0.5.16. An archived copy of the upstream README is in
-[README-upstream-original.md](archive/documents/README-upstream-original.md).
-
-"OpenRig" is the name of the original project. It is used here only to
-describe where this code came from. It is not the name of this project.
-
-## License
-
-This repository holds work under two licenses. [REUSE.toml](REUSE.toml) gives
-the license for each path.
-
-- **Upstream OpenRig code** stays under the Apache License 2.0
-  ([text](LICENSES/Apache-2.0.txt)). The original copyright notice is kept.
-  Files changed in this project will be marked as changed.
-- **Original work in this project** (currently this README and `breakdown/`,
-  and all new code) is under the GNU Affero General Public License v3.0 only
-  ([text](LICENSES/AGPL-3.0-only.txt)). If you distribute it, or run a
-  modified version as a network service, you must publish your full source
-  under the same license.
-- **Commercial license.** For use that cannot meet the AGPL terms, see
-  [COMMERCIAL.md](COMMERCIAL.md).
-
-See [LICENSE](LICENSE) and [NOTICE](NOTICE) for the full statement.
+The repository began as a personal derivative of
+[OpenRig](https://github.com/mvschwarz/openrig) by Mike Schwarz, version 0.5.16.
+The original README is preserved at
+[archive/documents/README-upstream-original.md](archive/documents/README-upstream-original.md).
+The historical source remains under Apache-2.0; later repository material has
+the licenses recorded in [REUSE.toml](REUSE.toml). The archived snapshot
+includes teaching annotations added before the physical move, so it is not a
+claim of a pristine upstream checkout. This curriculum changes the purpose of
+this repository, not the provenance of its evidence.

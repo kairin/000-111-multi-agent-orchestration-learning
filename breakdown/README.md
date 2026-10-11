@@ -1,33 +1,26 @@
-# OpenRig breakdown
+# Orchestration learning modules
 
-This folder contains the analysis for a simpler version of OpenRig. Start with `01-goal-and-scope.md`.
+This folder turns a historical OpenRig research archive into a paper-based
+course on coordinating bounded work. Read [CURRICULUM.md](CURRICULUM.md) first.
 
-| Document | Subject |
-| :--- | :--- |
-| [01-goal-and-scope.md](01-goal-and-scope.md) | The goal and the start point |
-| [02-separation-from-upstream.md](02-separation-from-upstream.md) | The work that is complete, and the links to upstream that stay |
-| [03-local-environment.md](03-local-environment.md) | Conditions on this computer |
-| [04-review-method.md](04-review-method.md) | How to examine the Gemini review |
-| [05-simplification-rules.md](05-simplification-rules.md) | Rules for changes to the code |
-| [06-open-questions.md](06-open-questions.md) | Decisions that the owner must make |
-| [07-review-task-list.md](07-review-task-list.md) | Review tasks, status, dependencies and completion evidence |
-| [08-current-state-evidence.md](08-current-state-evidence.md) | Current source, history, runtime flows and Rust boundary evidence |
-| [09-adversarial-review-and-research-charter.md](09-adversarial-review-and-research-charter.md) | Research plan and criteria for evaluating simplifications |
-| [10-rust-and-node-removal-plan.md](10-rust-and-node-removal-plan.md) | Source-cited Node inventory, Rust/removal boundaries, owner decisions, conditional stages and acceptance criteria |
-| [11-coordination-outcomes.md](11-coordination-outcomes.md) | Research ownership, acceptance dependencies and gated migration dispositions for d5d13/f7f4e |
-| [research-runtime-verification.md](research-runtime-verification.md) | Blocked WT-10/CAP-8 and Node-removal verification protocols, authorization requirements and evidence contract; no runtime proof |
-| [gemini-review/](gemini-review/) | The Gemini review, divided into one folder for each claim |
+| Module | Question answered | Required artifact |
+|---|---|---|
+| [01](01-goal-and-scope.md) | What outcome is authorized, and what is excluded? | Scope card |
+| [02](02-separation-from-upstream.md) | Which sources provide evidence, and which actions remain unauthorized? | Boundary map |
+| [03](03-local-environment.md) | Which side effects and prerequisites constrain safe work? | Risk register |
+| [04](04-review-method.md) | How does a claim become a checkable research task? | Claim review card |
+| [05](05-simplification-rules.md) | Where should work split, and which tasks depend on others? | Task graph |
+| [06](06-open-questions.md) | Which questions can agents resolve, and which need an owner? | Decision ledger |
+| [07](07-review-task-list.md) | What can run concurrently within a fixed budget? | Allocation table |
+| [08](08-current-state-evidence.md) | Which statements are observed, proposed, or unknown? | Evidence map |
+| [09](09-adversarial-review-and-research-charter.md) | How should another reviewer try to disprove the result? | Review plan |
+| [10](10-rust-and-node-removal-plan.md) | How do dependencies and interfaces constrain a migration proposal? | Dependency audit |
+| [11](11-coordination-outcomes.md) | How are handoffs reviewed, integrated, reworked, or stopped? | Integration record |
 
-The documents use ASD-STE100 Simplified Technical English.
+The [research guide](RESEARCH-EVIDENCE.md) routes into the ten `research-*`
+documents and the 32-file Gemini review set. Those files are factual case-study
+evidence, not a current product backlog. The [coverage ledger](DOCUMENT-COVERAGE.md)
+accounts for the complete repository documentation set.
 
-As of 2026-09-27, all 24 claim pages agree with the
-[claim register](gemini-review/README.md): 6 `yes`, 18 `part`.
-[T2–T4](07-review-task-list.md#tasks) are source-review complete only.
-T5 remains incomplete pending owner input, and T6–T9 remain blocked.
-
-The Rust/Node-removal document is a planning baseline, not completed migration
-work or Gate D approval. No Gate A–D is declared passed. Read the
-[source-review limits and linked conclusions](gemini-review/README.md#source-review-status-2026-09-27)
-before treating source mechanisms as runtime-verified behavior. The claim
-reviews do not establish successful installation, recovery, work preservation,
-measured usability or completion of the wider research program.
+Commands and operational directions quoted by research files describe the
+historical system. The exercises never require executing them.

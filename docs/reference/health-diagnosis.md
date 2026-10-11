@@ -1,3 +1,7 @@
+# Historical reference evidence
+
+This page records a prior OpenRig operating proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze ownership, interfaces, dependencies, review evidence, and stop conditions.
+
 # Agent-operated System Health diagnosis
 
 System Health can give a responsible agent one durable investigation packet when
@@ -397,7 +401,7 @@ coverage; normal tagged work no longer requires a special outcome census. A smal
 agent's inspection; the threshold is a conservative admission rule, not a
 definition of good process.
 
-`packages/daemon/scripts/probe-health-calibration.mjs` accepts a sealed replay
+`archive/openrig-0.5.16-source/packages/daemon/scripts/probe-health-calibration.mjs` accepts a sealed replay
 export and output directory after daemon/CLI/TUI builds. It drives the compiled
 checkpoint/list/explain/diagnosis commands, renders the TUI, retains exact
 records and screens, compares database and filesystem effects around reads,

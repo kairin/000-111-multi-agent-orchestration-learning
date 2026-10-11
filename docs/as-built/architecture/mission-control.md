@@ -30,7 +30,7 @@ old-dashboard migration/cutover (`architecture.md` §3 L368, L390).
 ## 1. The seven views
 
 `MISSION_CONTROL_VIEWS` is the canonical view list (re-confirmed at HEAD
-`packages/daemon/src/domain/mission-control/mission-control-read-layer.ts:32–42`):
+`archive/openrig-0.5.16-source/packages/daemon/src/domain/mission-control/mission-control-read-layer.ts:32–42`):
 `my-queue`, `human-gate`, `fleet`, `active-work`, `recent-ships`,
 `recently-active`, `recent-observations`.
 
@@ -67,7 +67,7 @@ L378).
 
 The seven verbs execute through the load-bearing
 `MissionControlWriteContract` (re-confirmed at HEAD
-`packages/daemon/src/domain/mission-control/mission-control-write-contract.ts:27–36`):
+`archive/openrig-0.5.16-source/packages/daemon/src/domain/mission-control/mission-control-write-contract.ts:27–36`):
 
 | Verb | Effect |
 |---|---|
@@ -107,7 +107,7 @@ Phase A table is the only data source (`architecture.md` §3 L364, L392).
 Phase B extends the daemon Mission Control surface:
 
 - **Bearer-token middleware** —
-  `packages/daemon/src/middleware/auth-bearer-token.ts` (re-confirmed at
+  `archive/openrig-0.5.16-source/packages/daemon/src/middleware/auth-bearer-token.ts` (re-confirmed at
   HEAD: header `auth-bearer-token.ts:1–9` "PL-005 Phase B"). Constant-time
   bearer comparison via Node `crypto.timingSafeEqual`; the daemon refuses to
   start with a non-loopback bind interface AND an empty bearer config
@@ -131,7 +131,7 @@ Phase B extends the daemon Mission Control surface:
 > Drift-fix D8 / OPEN-4 (carried verbatim, slice-00): `architecture.md` §3
 > L394 says "Existing 32 PL-004 events untouched" — internally inconsistent
 > with §3 L410's "20" and predates 0.3.x. **Do NOT carry either number.**
-> The current `RigEvent` union (`packages/daemon/src/domain/types.ts:94`)
+> The current `RigEvent` union (`archive/openrig-0.5.16-source/packages/daemon/src/domain/types.ts:94`)
 > has **73 members** total (slice-00 §1.8, re-confirmed at HEAD); the
 > additive `mission_control.*` events are described below WITHOUT asserting
 > a contested PL-004 sub-count.
@@ -149,7 +149,7 @@ routes (`routes/mission-control.ts`): `GET /views` (`:245`),
 `GET /cli-capabilities` (`:250`), `POST /action` (`:298`, auth-gated),
 `GET /audit` (`:346`), `POST /notifications/test` (auth-gated), plus an SSE
 surface. The integrated UI is the `/mission-control` top-level route in
-`packages/ui/src/routes.tsx` mounting `MissionControlSurface`
+`archive/openrig-0.5.16-source/packages/ui/src/routes.tsx` mounting `MissionControlSurface`
 (`architecture.md` §3 L390); UI detail lands in
 `../ui/project-and-for-you.md`.
 
@@ -159,7 +159,7 @@ surface. The integrated UI is the `/mission-control` top-level route in
   sources Mission Control reads, and the hot-potato closure contract verbs honor.
 - `workflow-runtime.md` — PL-004 Phase D transactional-scribe runtime.
 - `../ui/project-and-for-you.md` — the UI surface counterpart (authored phase).
-- Source roots: `packages/daemon/src/domain/mission-control/`,
-  `packages/daemon/src/middleware/auth-bearer-token.ts`,
-  `packages/daemon/src/routes/mission-control.ts`,
-  `packages/daemon/src/db/migrations/037_mission_control_actions.ts`.
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/mission-control/`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/middleware/auth-bearer-token.ts`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/routes/mission-control.ts`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/037_mission_control_actions.ts`.

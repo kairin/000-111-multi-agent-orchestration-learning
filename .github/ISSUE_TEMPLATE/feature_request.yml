@@ -1,32 +1,32 @@
-name: Feature request
-description: Something you want OpenRig to do that it does not
-labels: ["enhancement"]
+name: Learning exercise proposal
+description: Propose a bounded improvement to the orchestration curriculum
+labels: ["enhancement", "documentation"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        For open-ended ideas or "how should this work" questions, [Discussions › Ideas](https://github.com/mvschwarz/openrig/discussions/categories/ideas) is the better place. Use this form when you can name the outcome you want.
-        This request will be public; use examples without credentials, private prompts or personal details.
   - type: textarea
     id: outcome
     attributes:
-      label: What are you trying to do, and what stops you today?
-      description: Describe the situation, not the solution. One real example beats a general case.
+      label: Learning outcome
+      description: State the skill a reader should gain.
     validations:
       required: true
   - type: textarea
-    id: proposal
+    id: input
     attributes:
-      label: What would you like OpenRig to do?
-      description: A command, a setting, a behaviour. Rough is fine.
+      label: Bounded input
+      description: Name the documents or historical evidence the exercise would use.
     validations:
       required: true
   - type: textarea
-    id: workaround
+    id: artifact
     attributes:
-      label: How do you handle it now?
-  - type: input
-    id: version
+      label: Expected artifact and completion check
+      description: Name the paper artifact and the checkable condition that completes it.
+    validations:
+      required: true
+  - type: textarea
+    id: exclusions
     attributes:
-      label: OpenRig version
-      placeholder: 0.5.14
+      label: Exclusions and stop point
+      description: State what is outside scope and when the exercise must stop or escalate.
+    validations:
+      required: true

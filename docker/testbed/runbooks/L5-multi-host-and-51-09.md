@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L5 — multi-host topology (N named self-hosts on one network) + the 51-09 live-leg rider
 
 **Runs host-side, after L4.** Proves plan §3: N containers each = one simulated **named host**,

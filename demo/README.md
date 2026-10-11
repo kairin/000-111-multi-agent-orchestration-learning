@@ -1,3 +1,11 @@
+# Historical demo evidence
+
+For **000-111-multi-agent-orchestration-learning**, this demo documents a past
+OpenRig proof workflow. It is not runnable guidance: do not
+execute its scripts or recreate its environment. Use the
+[decomposition study guide](../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to examine its handoffs,
+dependencies, evidence, and stop conditions from the text alone.
+
 # North Star Demo
 
 A complete multi-agent topology demonstrating OpenRig's core capabilities.

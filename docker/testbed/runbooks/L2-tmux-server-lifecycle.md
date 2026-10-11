@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L2 — tmux server lifecycle (detach-survive, multi-pane, send-keys + capture round-trip)
 
 **Runs host-side, after L1.** Proves the tmux server — the substrate the whole product rides —

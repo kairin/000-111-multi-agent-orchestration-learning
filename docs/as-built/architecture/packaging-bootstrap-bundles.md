@@ -48,7 +48,7 @@ v1 artifacts, routed deterministically by the bootstrap orchestrator.
   `SourceKind = "rig_spec" | "rig_bundle" | "rig_name"`
   (`up-command-router.ts:6`).
 
-All re-confirmed present in `packages/daemon/src/domain/` @HEAD.
+All re-confirmed present in `archive/openrig-0.5.16-source/packages/daemon/src/domain/` @HEAD.
 
 ## 2. Bundle create / inspect / install
 
@@ -138,6 +138,6 @@ full §11 list lives in `architecture-rules-and-event-system.md`.)
 - `daemon-core.md` — `/api/up` + `/api/bundles` are among the 49 route
   mounts; `BootstrapOrchestrator` is constructed in the createDaemon
   sequence.
-- Source roots: `packages/daemon/src/domain/{pod-bundle-assembler,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{pod-bundle-assembler,
   bundle-types,bundle-source-resolver,bootstrap-orchestrator,
-  up-command-router}.ts`, `packages/daemon/src/routes/{bundles,up}.ts`.
+  up-command-router}.ts`, `archive/openrig-0.5.16-source/packages/daemon/src/routes/{bundles,up}.ts`.

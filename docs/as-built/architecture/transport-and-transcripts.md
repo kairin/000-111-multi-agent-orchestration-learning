@@ -235,8 +235,8 @@ The intentional limits in this layer:
   two-sided daemon-forward twin of §3b's one-sided CLI-direct verbs).
 - `cli-reference.md` § Cross-host execution — the per-verb transport
   capability table, parse rules, and http failure taxonomy (MH-3 + MH-4).
-- Source roots: `packages/daemon/src/domain/{session-transport,
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/domain/{session-transport,
   transcript-store,history-query,ask-service,chat-repository}.ts`,
-  `packages/daemon/src/routes/{transport,transcripts,ask,chat}.ts`,
-  `packages/cli/src/mcp-server.ts`,
-  `packages/cli/src/{remote-host-ops,cross-host-target,cross-host-executor}.ts` (v0.4.6 MH-4).
+  `archive/openrig-0.5.16-source/packages/daemon/src/routes/{transport,transcripts,ask,chat}.ts`,
+  `archive/openrig-0.5.16-source/packages/cli/src/mcp-server.ts`,
+  `archive/openrig-0.5.16-source/packages/cli/src/{remote-host-ops,cross-host-target,cross-host-executor}.ts` (v0.4.6 MH-4).

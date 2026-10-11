@@ -1,3 +1,7 @@
+# Historical runbook evidence
+
+This runbook records a prior OpenRig verification proposal. The remaining imperative body is a historical source excerpt; do not execute it. Use the [operational-evidence exercise](../../../breakdown/CURRICULUM.md#historical-operational-evidence-exercise) to analyze its owners, dependencies, evidence, and stop condition.
+
 # L1 — PTY allocation (docker run -t + tmux capture returns real bytes; resize propagates)
 
 **Runs host-side, after L0 + a build.** Proves the image gives a real PTY and that tmux inside it

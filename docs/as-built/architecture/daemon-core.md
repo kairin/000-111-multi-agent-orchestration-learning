@@ -21,7 +21,7 @@ OpenRig is a local control plane for multi-agent coding topologies. The daemon
 
 > Verified against source at HEAD `7eaf524c` (`git describe` →
 > `v0.3.1-6-g7eaf524c`). Current package version is **0.3.1** across all three
-> packages (`package.json` root `"version": "0.3.1"`; slice-00 §1.1). HEAD
+> packages (`archive/openrig-0.5.16-source/package.json` root `"version": "0.3.1"`; slice-00 §1.1). HEAD
 > carries 6 commits of unreleased release-0.3.2 work; no `v0.3.2` tag exists.
 
 ## 1. System overview
@@ -34,7 +34,7 @@ The system has six architectural layers (`architecture.md` §1 L23–30):
    session naming, infrastructure nodes, explorer UI, existing-rig power-on,
    auto-snapshot, post-command handoff.
 3. **Communication and history layer** — transcript capture (pipe-pane),
-   communication primitives (send/capture/broadcast), config/preflight,
+   communication primitives (send/capture/broadcast), archive/openrig-0.5.16-source/config/preflight,
    `rig ask` context packs, durable rig chat.
 4. **Authoring and identity layer** — spec review + spec library, `whoami`,
    adopted-session tmux-metadata parity, bind/materialize/adopt workflows.
@@ -54,15 +54,15 @@ Legacy flat-node/package flows remain for backward compatibility.
 
 | Metric | Value @ HEAD | Source (independently re-confirmed) |
 |---|---|---|
-| Package version | **0.3.1** (HEAD +6 unreleased 0.3.2 commits) | slice-00 §1.1; `package.json:version` |
-| Total source footprint | **601** files | slice-00 §1.6; `find packages/*/src` non-test = 279+87+235 |
-| Daemon footprint | **279** total / **173** domain / **49** route mounts (46 route files) / **11** adapters / **40** migrations | slice-00 §1.5/§1.6; `find packages/daemon/src` non-test |
-| CLI footprint | **87** files | slice-00 §1.6; `find packages/cli/src` non-test |
-| UI footprint | **235** files | slice-00 §1.6; `find packages/ui/src` `.ts`+`.tsx` non-test |
+| Package version | **0.3.1** (HEAD +6 unreleased 0.3.2 commits) | slice-00 §1.1; `archive/openrig-0.5.16-source/package.json:version` |
+| Total source footprint | **601** files | slice-00 §1.6; `find archive/openrig-0.5.16-source/packages/*/src` non-test = 279+87+235 |
+| Daemon footprint | **279** total / **173** domain / **49** route mounts (46 route files) / **11** adapters / **40** migrations | slice-00 §1.5/§1.6; `find archive/openrig-0.5.16-source/packages/daemon/src` non-test |
+| CLI footprint | **87** files | slice-00 §1.6; `find archive/openrig-0.5.16-source/packages/cli/src` non-test |
+| UI footprint | **235** files | slice-00 §1.6; `find archive/openrig-0.5.16-source/packages/ui/src` `.ts`+`.tsx` non-test |
 
-> Footprint counts use the `find packages/*/src -type f \( -name '*.ts' -o
+> Footprint counts use the `find archive/openrig-0.5.16-source/packages/*/src -type f \( -name '*.ts' -o
 > -name '*.tsx' \) ! -name '*.test.*'` predicate (tests live in separate
-> `packages/*/test/` dirs). Counts are reproducible with that predicate; a
+> `archive/openrig-0.5.16-source/packages/*/test/` dirs). Counts are reproducible with that predicate; a
 > different counting convention shifts absolute numbers (slice-00 OPEN-5).
 
 ### The stack
@@ -126,7 +126,7 @@ handoff → inspect/attach → work → repeat`.
 > 5 added by PL-004 Phase A)" and L1002 repeated "27 migrations"; the §1 stack
 > diagram L54 said "36 migrations". All corrected to **40** migrations
 > (`001`–`040`). Triangulated (slice-00 §1.3, re-confirmed at HEAD): (1)
-> filesystem `packages/daemon/src/db/migrations/[0-9][0-9][0-9]_*.ts` → 40
+> filesystem `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/[0-9][0-9][0-9]_*.ts` → 40
 > files, `001_core_schema.ts` … `040_workflow_specs_diagnostic.ts`; (2)
 > `startup.ts:206` `migrate(db, [...])` passes a 40-element schema array
 > (`coreSchema` … `workflowSpecsDiagnosticSchema`); (3) `migrate.ts:13`
@@ -184,7 +184,7 @@ Legacy package/bootstrap/discovery tables (`packages`, `package_installs`,
 
 ## 3. Route-mount surface
 
-`createApp(deps)` (`packages/daemon/src/server.ts:295`) mounts **49**
+`createApp(deps)` (`archive/openrig-0.5.16-source/packages/daemon/src/server.ts:295`) mounts **49**
 `app.route()` route-group mounts (`server.ts` L450–513) plus 4 dedicated
 non-route handlers: `GET /healthz` (`:446`), `GET /api/rigs/:rigId/spec`
 (`handleExportYaml`, `:461`), `GET /api/rigs/:rigId/spec.json`
@@ -195,7 +195,7 @@ catch-all (`:519`).
 > — "49" is the count of `app.route()` mounts in `server.ts`. The older
 > "31 route groups" / "createApp now mounts 22 route groups" framing
 > (`architecture.md` L40,76) used a different, smaller accounting. Independent
-> corroboration: `packages/daemon/src/routes/` has 46 non-test route `.ts`
+> corroboration: `archive/openrig-0.5.16-source/packages/daemon/src/routes/` has 46 non-test route `.ts`
 > files (some groups composed from shared modules; the 49 mounts are the
 > authoritative count of mounted groups — slice-00 §1.5).
 
@@ -207,7 +207,7 @@ routes (`/api/stream` `server.ts:489`, `/api/queue` `:490`,
 
 ## 4. Startup sequence (`createDaemon`)
 
-`createDaemon(opts?)` is `packages/daemon/src/startup.ts:203` (async,
+`createDaemon(opts?)` is `archive/openrig-0.5.16-source/packages/daemon/src/startup.ts:203` (async,
 returns `DaemonResult`). It returns `{ app, db, deps, contextMonitor }`
 (`startup.ts:1204`). The sequence (`architecture.md` §9 L1000–1028,
 corrected against source):
@@ -237,7 +237,7 @@ corrected against source):
 10. Build `AppDeps`, enforce shared-DB invariants, and call
     `createApp(deps)` (`startup.ts:1202`) to mount the full route tree.
 
-The daemon entrypoint `packages/daemon/src/index.ts:36` calls
+The daemon entrypoint `archive/openrig-0.5.16-source/packages/daemon/src/index.ts:36` calls
 `createDaemon({ dbPath, bearerToken })`.
 
 ## 5. Test and verification state
@@ -256,5 +256,5 @@ The daemon entrypoint `packages/daemon/src/index.ts:36` calls
 - `coordination-primitive.md` — PL-004 Phase A stream/queue/inbox/outbox.
 - `agent-spec-and-startup.md` — spec parsing/resolution/startup contract.
 - `lifecycle-snapshot-restore.md` — snapshot/restore/continuity.
-- Source roots: `packages/daemon/src/{startup.ts,server.ts,index.ts}`,
-  `packages/daemon/src/db/migrations/`, `packages/cli/src/index.ts`.
+- Source roots: `archive/openrig-0.5.16-source/packages/daemon/src/{startup.ts,server.ts,index.ts}`,
+  `archive/openrig-0.5.16-source/packages/daemon/src/db/migrations/`, `archive/openrig-0.5.16-source/packages/cli/src/index.ts`.

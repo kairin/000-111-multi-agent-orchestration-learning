@@ -1,3 +1,12 @@
+# 000-111-multi-agent-orchestration-learning: historical skill corpus
+
+The canonical learning project is **000-111-multi-agent-orchestration-learning**.
+The skill files below are preserved as OpenRig provenance describing historical
+orchestration proposals. They are not active agent instructions and must not be
+used to install, configure, launch, or operate OpenRig. Read one with the
+[decomposition study guide](../breakdown/CURRICULUM.md#skill-case-study) and produce
+its bounded coordination card.
+
 # OpenRig Skills
 
 This folder is the **publicly-visible mirror** of the canonical skills that

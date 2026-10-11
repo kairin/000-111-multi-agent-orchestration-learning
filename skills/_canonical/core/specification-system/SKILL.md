@@ -1,6 +1,8 @@
 ---
 name: specification-system
-description: Use when authoring rig specs, agent specs, workflow specs, startup/context fragments, operating-mode declarations, or designing the user spec library. Covers the 4 failure modes (spec instantiates topology but not workflow/mode; spec depends on local paths and fails on another host; agents modify specs as one-off files instead of preserving reusable intent; validation proves YAML shape but not whether topology can run) and the validation-vs-runtime-realization distinction.
+description: >-
+  Historical case-study evidence only. Do not install, configure, launch, or operate
+  OpenRig from this document; use it only with the linked decomposition exercise.
 metadata:
   cli_surfaces_referenced:
     - agent
@@ -18,6 +20,9 @@ metadata:
       - rig-bundles-and-shareable-artifacts
       - extension-and-user-workspace
 ---
+
+> **Historical case study.** The entire remaining imperative body is a historical source excerpt, not active instructions. Do not execute its commands; use it to complete the [skill case study](../../../../breakdown/CURRICULUM.md#historical-skill-case-study) instead.
+
 
 # Specification System
 

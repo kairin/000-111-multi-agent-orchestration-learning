@@ -29,7 +29,7 @@ projected into the Project UI's mission / slice surfaces.
 > **AUTHOR-FROM-SOURCE module.** No prior `architecture.md` prose exists for
 > this. Every load-bearing claim carries `> Source: <file:line> @HEAD`;
 > ambiguity is declared as an OPEN item, never smoothed. Paths are relative to
-> `packages/daemon/src/` unless prefixed `packages/` or `docs/`.
+> `archive/openrig-0.5.16-source/packages/daemon/src/` unless prefixed `archive/openrig-0.5.16-source/packages/` or `docs/`.
 >
 > Verified at HEAD `7eaf524c` (`git describe` → `v0.3.1-6-g7eaf524c`).
 > Package version **0.3.1**; HEAD carries 6 unreleased release-0.3.2 commits;
@@ -61,7 +61,7 @@ Per §10.8, re-verified at HEAD via `git cat-file -e <tag>:<path>`:
 | `routes/missions.ts` | **0.3.1** | `v0.3.0:` → **ABSENT**; `v0.3.1:` → present |
 
 > Source: §10.8 proof re-run at HEAD `7eaf524c` —
-> `git cat-file -e v0.3.0:packages/daemon/src/domain/workspace/getting-started-narrative.ts`
+> `git cat-file -e v0.3.0:archive/openrig-0.5.16-source/packages/daemon/src/domain/workspace/getting-started-narrative.ts`
 > and `...routes/missions.ts` both fail ("exists on disk, but not in
 > 'v0.3.0'"); all other listed paths resolve at `v0.3.0`. The workspace
 > primitive itself is a **0.3.0** feature (slice-00 0.3.0-GT §1.4, PL-007,
@@ -242,9 +242,9 @@ and the retired `artifacts/`, `evidence/`, `progress/`, `field-notes/`,
 > Source: `domain/workspace/default-workspace-scaffold.ts`
 > (`workspaceScaffoldDirs`, `workspaceScaffoldFiles`); CLI
 > `domain/instance-initialization.ts`; daemon `index.ts`; CLI
-> `packages/cli/src/daemon-lifecycle.ts` and
-> `packages/cli/src/commands/config-init-workspace.ts` (`runInitWorkspace`);
-> parity: `packages/daemon/test/getting-started-narrative-parity.test.ts`
+> `archive/openrig-0.5.16-source/packages/cli/src/daemon-lifecycle.ts` and
+> `archive/openrig-0.5.16-source/packages/cli/src/commands/config-init-workspace.ts` (`runInitWorkspace`);
+> parity: `archive/openrig-0.5.16-source/packages/daemon/test/getting-started-narrative-parity.test.ts`
 > @HEAD.
 
 ## 4. File-backed missions / slices tree
@@ -347,7 +347,7 @@ BEFORE the bare `/:projectId` catchall (Phase A R1 SSE lesson).
 
 ## 5. UI route-reality (§10.7 — source-verified at routes.tsx@HEAD)
 
-`packages/ui/src/routes.tsx` is **542 lines** and uses TanStack Router
+`archive/openrig-0.5.16-source/packages/ui/src/routes.tsx` is **542 lines** and uses TanStack Router
 (`createRoute({ path, component })` objects), NOT JSX `<Route>`. The
 Phase-8.1 survey's grep-derived missions/projects expectations are
 corrected here against routes.tsx reality:
@@ -366,7 +366,7 @@ corrected here against routes.tsx reality:
 | `/missions` (top-level) | **NO route** — missions are reached only via `/project/mission/$missionId` | (absent) |
 | `/markdown` | **NO route** — markdown is a component in file/drawer surfaces, not a destination (see content-surfaces.md §4) | (absent) |
 
-> Source: `packages/ui/src/routes.tsx:90-195` (real routes),
+> Source: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx:90-195` (real routes),
 > `:435-474` (redirect-stub block; each `<Navigate>` + DELETED/folds
 > comment), `:476-490` (route tree) @HEAD. Grep-confirmed absent:
 > no `path: "/missions"` / `path: "/markdown"` declaration anywhere

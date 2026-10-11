@@ -79,8 +79,8 @@ terminal emulator.
 
 ## Color Tokens
 
-The canonical tokens live in `packages/ui/src/globals.css` and are surfaced to
-Tailwind in `packages/ui/tailwind.config.ts`.
+The canonical tokens live in `archive/openrig-0.5.16-source/packages/ui/src/globals.css` and are surfaced to
+Tailwind in `archive/openrig-0.5.16-source/packages/ui/tailwind.config.ts`.
 
 Paper:
 
@@ -332,15 +332,15 @@ Do not:
 
 ## Implementation References
 
-- Tokens: `packages/ui/src/globals.css`
-- Tailwind theme: `packages/ui/tailwind.config.ts`
-- Shell: `packages/ui/src/components/AppShell.tsx`
-- Routes: `packages/ui/src/routes.tsx`
-- Vellum primitives: `packages/ui/src/components/ui/`
-- Graphics primitives: `packages/ui/src/components/graphics/RuntimeMark.tsx`
-- Runtime brands: `packages/ui/src/lib/runtime-brand.ts`
-- Tool brands: `packages/ui/src/lib/tool-brand.ts`
-- Project metadata primitives: `packages/ui/src/components/project/ProjectMetaPrimitives.tsx`
-- Topology graph nodes: `packages/ui/src/components/topology/HybridTopologyNodes.tsx`
-- Terminal popover: `packages/ui/src/components/topology/TerminalPreviewPopover.tsx`
-- Session preview: `packages/ui/src/components/preview/SessionPreviewPane.tsx`
+- Tokens: `archive/openrig-0.5.16-source/packages/ui/src/globals.css`
+- Tailwind theme: `archive/openrig-0.5.16-source/packages/ui/tailwind.config.ts`
+- Shell: `archive/openrig-0.5.16-source/packages/ui/src/components/AppShell.tsx`
+- Routes: `archive/openrig-0.5.16-source/packages/ui/src/routes.tsx`
+- Vellum primitives: `archive/openrig-0.5.16-source/packages/ui/src/components/ui/`
+- Graphics primitives: `archive/openrig-0.5.16-source/packages/ui/src/components/graphics/RuntimeMark.tsx`
+- Runtime brands: `archive/openrig-0.5.16-source/packages/ui/src/lib/runtime-brand.ts`
+- Tool brands: `archive/openrig-0.5.16-source/packages/ui/src/lib/tool-brand.ts`
+- Project metadata primitives: `archive/openrig-0.5.16-source/packages/ui/src/components/project/ProjectMetaPrimitives.tsx`
+- Topology graph nodes: `archive/openrig-0.5.16-source/packages/ui/src/components/topology/HybridTopologyNodes.tsx`
+- Terminal popover: `archive/openrig-0.5.16-source/packages/ui/src/components/topology/TerminalPreviewPopover.tsx`
+- Session preview: `archive/openrig-0.5.16-source/packages/ui/src/components/preview/SessionPreviewPane.tsx`
