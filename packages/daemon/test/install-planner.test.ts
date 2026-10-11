@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from "vitest";
 import { InstallPlanner } from "../src/domain/install-planner.js";
 import { PackageResolver, type FsOps } from "../src/domain/package-resolver.js";
 
+const STANDARD_POINTER = "Read and follow AGENTS.md in this directory as the sole source of repository instructions.\n\nMake all repository instruction updates only in AGENTS.md. Keep this file solely as a pointer to AGENTS.md; do not add or duplicate instructions here, and do not replace it with a symlink.\n";
+
 const BASIC_MANIFEST = `
 schema_version: 1
 name: test-pkg
@@ -85,7 +87,7 @@ describe("InstallPlanner", () => {
     const resolved = resolvePackage(BASIC_MANIFEST);
     const plannerFs = mockFs({
       ...BASIC_SOURCE_FILES,
-      "/repo/AGENTS.md": true,
+      "/repo/AGENTS.md": "# Existing instructions\n",
     });
     const planner = new InstallPlanner(plannerFs);
     const plan = planner.plan(resolved, "/repo", "codex");
@@ -105,6 +107,31 @@ describe("InstallPlanner", () => {
     const guidanceEntry = plan.entries.find((e) => e.exportType === "guidance" && !e.deferred);
     expect(guidanceEntry).toBeDefined();
     expect(guidanceEntry!.classification).toBe("safe_projection");
+  });
+
+  it("routes Claude guidance to AGENTS.md when CLAUDE.md is the exact standard pointer", () => {
+    const manifest = `
+schema_version: 1
+name: test
+version: 1.0.0
+summary: Test
+compatibility:
+  runtimes: [claude-code]
+exports:
+  guidance:
+    - source: guidance/CLAUDE.md
+      kind: claude_md
+      merge_strategy: managed_block
+`;
+    const resolved = resolvePackage(manifest);
+    const planner = new InstallPlanner(mockFs({
+      "/pkg/guidance/CLAUDE.md": "Managed guidance",
+      "/repo/CLAUDE.md": STANDARD_POINTER,
+      "/repo/AGENTS.md": "# Existing instructions\n",
+    }));
+    const entry = planner.plan(resolved, "/repo", "claude-code").actionable.find((e) => e.exportType === "guidance");
+    expect(entry?.targetPath).toBe("/repo/AGENTS.md");
+    expect(entry?.classification).toBe("managed_merge");
   });
 
   // Test 5: Hook -> deferred

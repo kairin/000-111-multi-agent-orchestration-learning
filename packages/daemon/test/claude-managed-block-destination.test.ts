@@ -22,6 +22,7 @@ import { SnapshotCapture } from "../src/domain/snapshot-capture.js";
 import { RestoreOrchestrator } from "../src/domain/restore-orchestrator.js";
 import { claudeConflictTargetPath } from "../src/domain/projection-planner.js";
 import { ClaudeCodeAdapter, type ClaudeAdapterFsOps } from "../src/adapters/claude-code-adapter.js";
+import { mergeManagedBlock, removeManagedBlocksFromFile } from "../src/domain/managed-blocks.js";
 import { CodexRuntimeAdapter } from "../src/adapters/codex-runtime-adapter.js";
 import type { ClaudeResumeAdapter } from "../src/adapters/claude-resume.js";
 import type { CodexResumeAdapter } from "../src/adapters/codex-resume.js";
@@ -36,6 +37,7 @@ import type { TmuxAdapter } from "../src/adapters/tmux.js";
 
 const BEGIN = "<!-- BEGIN OpenRig MANAGED BLOCK:";
 const LOCAL = "managed_blocks:\n  claude-code: CLAUDE.local.md";
+const STANDARD_POINTER = "Read and follow AGENTS.md in this directory as the sole source of repository instructions.\n\nMake all repository instruction updates only in AGENTS.md. Keep this file solely as a pointer to AGENTS.md; do not add or duplicate instructions here, and do not replace it with a symlink.\n";
 // A tracked CLAUDE.md that already carries blocks from an earlier default-target run.
 const OLD_BLOCKS_CLAUDE_MD = [
   "# Project rules",
@@ -110,7 +112,7 @@ function rigYaml(managedBlocksYaml: string, cwd: string, name = "issue25-rig"): 
   ].filter(Boolean).join("\n") + "\n";
 }
 
-function fixture(managedBlocksYaml: string, opts?: { claudeMd?: string; claudeLocalMd?: string }) {
+function fixture(managedBlocksYaml: string, opts?: { claudeMd?: string; claudeLocalMd?: string; agentsMd?: string }) {
   const root = fs.mkdtempSync(nodePath.join(os.tmpdir(), "or-issue25-"));
   tmpDirs.push(root);
   const rigRoot = nodePath.join(root, "rig");
@@ -124,6 +126,7 @@ function fixture(managedBlocksYaml: string, opts?: { claudeMd?: string; claudeLo
     `name: impl\nversion: "1.0.0"\nresources:\n  skills: []\nprofiles:\n  default:\n    uses:\n      skills: []\n`);
   if (opts?.claudeMd !== undefined) fs.writeFileSync(nodePath.join(cwd, "CLAUDE.md"), opts.claudeMd);
   if (opts?.claudeLocalMd !== undefined) fs.writeFileSync(nodePath.join(cwd, "CLAUDE.local.md"), opts.claudeLocalMd);
+  if (opts?.agentsMd !== undefined) fs.writeFileSync(nodePath.join(cwd, "AGENTS.md"), opts.agentsMd);
 
   const db = createDb(dbFile);
   migrate(db, migrationsForFullTestDb);
@@ -185,6 +188,62 @@ describe("#25 journey — rig YAML selects the Claude managed-block destination"
     await launched(f);
     expect(f.read("CLAUDE.md")).toContain(BEGIN);
     expect(f.read("CLAUDE.local.md")).toBeNull();
+    f.db.close();
+  });
+});
+
+describe("standard workspace pointer — Claude guidance goes to AGENTS.md", () => {
+  it("projects into AGENTS.md while the regular pointer stays byte-identical", async () => {
+    const f = fixture("", { claudeMd: STANDARD_POINTER, agentsMd: "# Repository rules\n" });
+    await launched(f);
+    expect(f.read("CLAUDE.md")).toBe(STANDARD_POINTER);
+    expect(f.read("AGENTS.md")).toContain(BEGIN);
+    f.db.close();
+  });
+
+  it("preserves the resolved pointer when CLAUDE.md is a symlink", async () => {
+    const f = fixture("", { agentsMd: "# Repository rules\n" });
+    const pointerTarget = nodePath.join(f.cwd, "pointer.md");
+    fs.writeFileSync(pointerTarget, STANDARD_POINTER);
+    fs.symlinkSync("pointer.md", nodePath.join(f.cwd, "CLAUDE.md"));
+    await launched(f);
+    expect(fs.readFileSync(pointerTarget, "utf-8")).toBe(STANDARD_POINTER);
+    expect(fs.lstatSync(nodePath.join(f.cwd, "CLAUDE.md")).isSymbolicLink()).toBe(true);
+    expect(f.read("AGENTS.md")).toContain(BEGIN);
+    f.db.close();
+  });
+
+  it("routes a selected CLAUDE.local.md pointer to AGENTS.md", async () => {
+    const f = fixture(LOCAL, { claudeLocalMd: STANDARD_POINTER, agentsMd: "# Rules\n" });
+    await launched(f);
+    expect(f.read("CLAUDE.local.md")).toBe(STANDARD_POINTER);
+    expect(f.read("AGENTS.md")).toContain(BEGIN);
+    f.db.close();
+  });
+
+  it("refuses an AGENTS.md alias back to the pointer", () => {
+    const root = fs.mkdtempSync(nodePath.join(os.tmpdir(), "or-pointer-alias-"));
+    tmpDirs.push(root);
+    fs.writeFileSync(nodePath.join(root, "CLAUDE.md"), STANDARD_POINTER);
+    fs.symlinkSync("CLAUDE.md", nodePath.join(root, "AGENTS.md"));
+    const target = nodePath.join(root, "CLAUDE.md");
+    const ops = {
+      exists: fs.existsSync,
+      readFile: (p: string) => fs.readFileSync(p, "utf-8"),
+      writeFile: (p: string, c: string) => fs.writeFileSync(p, c),
+      deleteFile: fs.unlinkSync,
+    };
+    expect(() => mergeManagedBlock(ops, target, "guide", "content")).toThrow("AGENTS.md is a standard pointer");
+    expect(() => removeManagedBlocksFromFile(ops, target)).toThrow("AGENTS.md is a standard pointer");
+    expect(fs.readFileSync(target, "utf-8")).toBe(STANDARD_POINTER);
+    expect(fs.lstatSync(nodePath.join(root, "AGENTS.md")).isSymbolicLink()).toBe(true);
+  });
+
+  it("keeps ordinary CLAUDE.md behavior for nonpointer content", async () => {
+    const f = fixture("", { claudeMd: "# Claude notes\n", agentsMd: "# AGENTS rules\n" });
+    await launched(f);
+    expect(f.read("CLAUDE.md")).toContain(BEGIN);
+    expect(f.read("AGENTS.md")).toBe("# AGENTS rules\n");
     f.db.close();
   });
 });
@@ -447,6 +506,16 @@ describe("#25 teardown — cleans the selected file only", () => {
     await teardown(f).teardown(rigId);
     expect(f.read("CLAUDE.local.md")).toBeNull();
     expect(f.read("CLAUDE.md")).toBe(OLD_BLOCKS_CLAUDE_MD);
+    f.db.close();
+  });
+
+  it("removes managed context from AGENTS.md while preserving the standard pointer", async () => {
+    const f = fixture("", { claudeMd: STANDARD_POINTER, agentsMd: "# Repository rules\n" });
+    const rigId = await launched(f);
+    expect(f.read("AGENTS.md")).toContain(BEGIN);
+    await teardown(f).teardown(rigId);
+    expect(f.read("CLAUDE.md")).toBe(STANDARD_POINTER);
+    expect(f.read("AGENTS.md")).toBe("# Repository rules\n");
     f.db.close();
   });
 

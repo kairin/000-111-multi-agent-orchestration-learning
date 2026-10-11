@@ -14,6 +14,23 @@ const LEGACY_BLOCK_START = (id: string) => `<!-- BEGIN RIGGED MANAGED BLOCK: ${i
 export const CLAUDE_MANAGED_BLOCK_FILES = ["CLAUDE.md", "CLAUDE.local.md"] as const;
 export type ClaudeManagedBlockFile = (typeof CLAUDE_MANAGED_BLOCK_FILES)[number];
 export const DEFAULT_CLAUDE_MANAGED_BLOCK_FILE: ClaudeManagedBlockFile = "CLAUDE.md";
+// The workspace's fixed Claude/Gemini pointer is an exact byte match. Keep
+// this portable: the policy names AGENTS.md in the same directory, not a home path.
+const STANDARD_AGENT_POINTER = "Read and follow AGENTS.md in this directory as the sole source of repository instructions.\n\nMake all repository instruction updates only in AGENTS.md. Keep this file solely as a pointer to AGENTS.md; do not add or duplicate instructions here, and do not replace it with a symlink.\n";
+
+export function resolveManagedGuidanceTarget(
+  fs: Pick<ManagedBlockMergeFsOps, "exists" | "readFile">,
+  targetPath: string,
+): string {
+  if (!fs.exists(targetPath) || fs.readFile(targetPath) !== STANDARD_AGENT_POINTER) return targetPath;
+  // readFile follows symlinks: a pointer reached through a symlink is also
+  // protected, including when the file being changed is the resolved target.
+  const agentsPath = nodePath.join(nodePath.dirname(targetPath), "AGENTS.md");
+  if (fs.exists(agentsPath) && fs.readFile(agentsPath) === STANDARD_AGENT_POINTER) {
+    throw new Error(`AGENTS.md is a standard pointer; refusing to write guidance: ${agentsPath}`);
+  }
+  return agentsPath;
+}
 const LEGACY_BLOCK_END = (id: string) => `<!-- END RIGGED MANAGED BLOCK: ${id} -->`;
 
 export interface ManagedBlockMergeFsOps {
@@ -38,6 +55,7 @@ export function mergeManagedBlock(
   content: string,
   options?: MergeManagedBlockOptions,
 ): void {
+  targetPath = resolveManagedGuidanceTarget(fs, targetPath);
   const begin = MANAGED_BLOCK_START(blockId);
   const end = MANAGED_BLOCK_END(blockId);
   const block = `${begin}\n${content}\n${end}`;
@@ -86,6 +104,7 @@ export function mergeManagedBlock(
 }
 
 export function removeManagedBlocksFromFile(fs: ManagedBlockCleanupFsOps, targetPath: string): boolean {
+  targetPath = resolveManagedGuidanceTarget(fs, targetPath);
   if (!fs.exists(targetPath)) {
     return false;
   }

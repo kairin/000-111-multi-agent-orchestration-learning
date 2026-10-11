@@ -18,10 +18,14 @@ import { journalSeqSchema } from "../src/db/migrations/010_journal_seq.js";
 import { PackageRepository } from "../src/domain/package-repository.js";
 import { InstallRepository } from "../src/domain/install-repository.js";
 import { InstallEngine, type EngineFsOps } from "../src/domain/install-engine.js";
+import { InstallPlanner } from "../src/domain/install-planner.js";
+import { PackageResolver } from "../src/domain/package-resolver.js";
 import type { InstallPlanEntry } from "../src/domain/install-planner.js";
 import type { RefinedInstallPlan } from "../src/domain/conflict-detector.js";
 import type { PolicyResult } from "../src/domain/install-policy.js";
 import { ALL_MIGRATIONS } from "../src/db/all-migrations.js";
+
+const STANDARD_POINTER = "Read and follow AGENTS.md in this directory as the sole source of repository instructions.\n\nMake all repository instruction updates only in AGENTS.md. Keep this file solely as a pointer to AGENTS.md; do not add or duplicate instructions here, and do not replace it with a symlink.\n";
 
 
 function realFs(tmpDir: string): EngineFsOps {
@@ -142,6 +146,39 @@ describe("InstallEngine", () => {
     expect(content).toContain("<!-- BEGIN OpenRig MANAGED BLOCK: test-pkg -->");
     expect(content).toContain("Review all PRs carefully.");
     expect(content).toContain("<!-- END OpenRig MANAGED BLOCK: test-pkg -->");
+  });
+
+  it("installing Claude guidance preserves the standard pointer and writes AGENTS.md", () => {
+    const pkg = seedPackage();
+    writeSource("package.yaml", `
+schema_version: 1
+name: test-pkg
+version: 1.0.0
+summary: Test
+compatibility:
+  runtimes: [claude-code]
+exports:
+  guidance:
+    - source: guidance/CLAUDE.md
+      kind: claude_md
+      merge_strategy: managed_block
+`);
+    writeSource("guidance/CLAUDE.md", "Review all PRs carefully.");
+    const pointerPath = path.join(repoRoot, "CLAUDE.md");
+    fs.writeFileSync(pointerPath, STANDARD_POINTER);
+    fs.writeFileSync(path.join(repoRoot, "AGENTS.md"), "# Repository rules\n");
+    const plannerFs = {
+      readFile: (p: string) => fs.readFileSync(p, "utf-8"),
+      exists: (p: string) => fs.existsSync(p),
+    };
+    const resolved = new PackageResolver(plannerFs).resolve(pkgRoot);
+    const plan = new InstallPlanner(plannerFs).plan(resolved, repoRoot, "claude-code");
+    const entry = plan.actionable.find((e) => e.exportType === "guidance")!;
+    expect(entry.targetPath).toBe(path.join(repoRoot, "AGENTS.md"));
+    const engine = new InstallEngine(installRepo, realFs(tmpDir));
+    engine.apply(makePolicy([entry]), makePlan([entry]), pkg.id, repoRoot);
+    expect(fs.readFileSync(pointerPath, "utf-8")).toBe(STANDARD_POINTER);
+    expect(fs.readFileSync(path.join(repoRoot, "AGENTS.md"), "utf-8")).toContain("Review all PRs carefully.");
   });
 
   // Test 3: Journal entries with hashes
@@ -464,6 +501,59 @@ describe("InstallEngine", () => {
     }).toThrow(/UNIQUE/);
 
     upgradeDb.close();
+  });
+
+  it("refuses a stale install plan after its target becomes a standard pointer", () => {
+    const pkg = seedPackage();
+    const sourcePath = writeSource("guidance/CLAUDE.md", "Managed context");
+    const targetPath = path.join(repoRoot, "CLAUDE.md");
+    const entry = makeEntry({ exportType: "guidance", targetPath, sourcePath });
+    // The plan was made while the target was ordinary or absent.
+    fs.writeFileSync(targetPath, STANDARD_POINTER);
+    const engine = new InstallEngine(installRepo, realFs(tmpDir));
+    expect(() => engine.apply(makePolicy([entry]), makePlan([entry]), pkg.id, repoRoot))
+      .toThrow("Refusing to modify standard agent pointer");
+    expect(fs.readFileSync(targetPath, "utf-8")).toBe(STANDARD_POINTER);
+    const install = installRepo.listInstalls(pkg.id)[0]!;
+    expect(install.status).toBe("failed");
+    expect(installRepo.getJournalEntries(install.id)).toEqual([]);
+  });
+
+  it.each([false, true])("refuses rollback of an old journal after pointer replacement (backup=%s)", (withBackup) => {
+    const pkg = seedPackage();
+    const targetPath = path.join(repoRoot, "CLAUDE.md");
+    const install = installRepo.createInstall(pkg.id, repoRoot, "project_shared");
+    const backupPath = withBackup ? writeSource("backups/CLAUDE.md", "# Prior Claude notes\n") : undefined;
+    // Simulate a persisted journal from before pointer-aware planning.
+    installRepo.createJournalEntry({
+      installId: install.id, action: withBackup ? "merge_block" : "copy",
+      exportType: "guidance", classification: "managed_merge", targetPath, backupPath,
+    });
+    installRepo.updateInstallStatus(install.id, "applied");
+    const engine = new InstallEngine(installRepo, realFs(tmpDir));
+    fs.writeFileSync(targetPath, STANDARD_POINTER);
+    expect(() => engine.rollback(install.id)).toThrow("Rollback refused to modify standard agent pointer");
+    expect(fs.readFileSync(targetPath, "utf-8")).toBe(STANDARD_POINTER);
+    expect(installRepo.getJournalEntries(install.id).filter((j) => j.action === "rollback")).toEqual([]);
+    expect(installRepo.getInstall(install.id)!.status).toBe("applied");
+  });
+
+  it.each([false, true])("preserves a pointer introduced during journal-failure undo (backup=%s)", (withBackup) => {
+    const pkg = seedPackage();
+    const sourcePath = writeSource("guidance/CLAUDE.md", "Managed context");
+    const targetPath = path.join(repoRoot, "CLAUDE.md");
+    if (withBackup) fs.writeFileSync(targetPath, "# Prior Claude notes\n");
+    const entry = makeEntry({ exportType: "guidance", targetPath, sourcePath });
+    const engine = new InstallEngine(installRepo, realFs(tmpDir));
+    vi.spyOn(installRepo, "createJournalEntry").mockImplementationOnce(() => {
+      fs.writeFileSync(targetPath, STANDARD_POINTER);
+      throw new Error("journal write failed");
+    });
+    expect(() => engine.apply(makePolicy([entry]), makePlan([entry]), pkg.id, repoRoot))
+      .toThrow("journal write failed");
+    expect(fs.readFileSync(targetPath, "utf-8")).toBe(STANDARD_POINTER);
+    const install = installRepo.listInstalls(pkg.id)[0]!;
+    expect(installRepo.getJournalEntries(install.id)).toEqual([]);
   });
 
   // Test 19: Journal write failure undoes file mutation (R2-H3)

@@ -1,5 +1,6 @@
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { resolveManagedGuidanceTarget } from "./managed-blocks.js";
 import type { InstallPlanEntry } from "./install-planner.js";
 import type { PolicyResult } from "./install-policy.js";
 import type { RefinedInstallPlan } from "./conflict-detector.js";
@@ -43,6 +44,14 @@ export class InstallEngine {
     this.fs = fs;
   }
 
+  private assertWritableTarget(targetPath: string): void {
+    // Plans and journals can predate the standard pointer. Recheck at the
+    // moment of mutation; a stale target must not be silently redirected.
+    if (resolveManagedGuidanceTarget(this.fs, targetPath) !== targetPath) {
+      throw new Error(`Refusing to modify standard agent pointer: ${targetPath}`);
+    }
+  }
+
   apply(
     policyResult: PolicyResult,
     plan: RefinedInstallPlan,
@@ -56,6 +65,7 @@ export class InstallEngine {
 
     try {
       for (const entry of policyResult.approved) {
+        this.assertWritableTarget(entry.targetPath);
         // Ensure target directory
         this.fs.mkdirp(path.dirname(entry.targetPath));
 
@@ -75,6 +85,7 @@ export class InstallEngine {
           this.applyGuidanceMerge(entry, plan.packageName);
         } else if (entry.sourcePath) {
           // Copy source to target (skills, agents)
+          this.assertWritableTarget(entry.targetPath);
           this.fs.copyFile(entry.sourcePath, entry.targetPath);
         }
 
@@ -99,8 +110,10 @@ export class InstallEngine {
           // Undo this entry's file mutation since it won't be in the rollback list
           try {
             if (backupPath && this.fs.exists(backupPath)) {
+              this.assertWritableTarget(entry.targetPath);
               this.fs.copyFile(backupPath, entry.targetPath);
             } else if (this.fs.exists(entry.targetPath)) {
+              this.assertWritableTarget(entry.targetPath);
               this.fs.deleteFile(entry.targetPath);
             }
           } catch { /* best-effort undo */ }
@@ -127,7 +140,10 @@ export class InstallEngine {
   rollback(installId: string): RollbackResult {
     const entries = this.installRepo.getJournalEntries(installId);
     const applyEntries = entries.filter((e) => e.action !== "rollback");
-    const { restored, deleted } = this.rollbackEntries(installId, applyEntries);
+    const { restored, deleted, blocked } = this.rollbackEntries(installId, applyEntries);
+    if (blocked.length > 0) {
+      throw new Error(`Rollback refused to modify standard agent pointer: ${blocked.join(", ")}`);
+    }
     this.installRepo.updateInstallStatus(installId, "rolled_back");
     return { installId, restored, deleted };
   }
@@ -135,20 +151,29 @@ export class InstallEngine {
   private rollbackEntries(
     installId: string,
     entries: JournalEntry[],
-  ): { restored: string[]; deleted: string[] } {
+  ): { restored: string[]; deleted: string[]; blocked: string[] } {
     const restored: string[] = [];
     const deleted: string[] = [];
+    const blocked: string[] = [];
 
     // Reverse order for rollback
     for (const entry of [...entries].reverse()) {
       try {
+        this.assertWritableTarget(entry.targetPath);
+      } catch {
+        blocked.push(entry.targetPath);
+        continue; // No rollback journal row for a mutation that did not happen.
+      }
+      try {
         if (entry.backupPath && this.fs.exists(entry.backupPath)) {
           // Restore from backup
           this.fs.mkdirp(path.dirname(entry.targetPath));
+          this.assertWritableTarget(entry.targetPath);
           this.fs.copyFile(entry.backupPath, entry.targetPath);
           restored.push(entry.targetPath);
         } else if (this.fs.exists(entry.targetPath)) {
           // No backup = new file, delete it
+          this.assertWritableTarget(entry.targetPath);
           this.fs.deleteFile(entry.targetPath);
           deleted.push(entry.targetPath);
         }
@@ -163,15 +188,19 @@ export class InstallEngine {
           status: "rolled_back",
         });
       } catch {
-        // Best-effort rollback — continue with remaining entries
+        // Best-effort rollback — continue with remaining entries. A pointer
+        // introduced between checks is reported as blocked, never journaled.
+        try { this.assertWritableTarget(entry.targetPath); }
+        catch { blocked.push(entry.targetPath); }
       }
     }
 
-    return { restored, deleted };
+    return { restored, deleted, blocked };
   }
 
   private applyGuidanceMerge(entry: InstallPlanEntry, packageName: string): void {
     if (!entry.sourcePath) return;
+    this.assertWritableTarget(entry.targetPath);
 
     const content = this.fs.readFile(entry.sourcePath);
     const block = `${BLOCK_START(packageName)}\n${content}\n${BLOCK_END(packageName)}`;
@@ -202,13 +231,16 @@ export class InstallEngine {
       if (startIdx !== -1 && endIdx !== -1) {
         // Update existing block (rewrites legacy markers to OpenRig form).
         const updated = existing.slice(0, startIdx) + block + existing.slice(endIdx + matchedEndLength);
+        this.assertWritableTarget(entry.targetPath);
         this.fs.writeFile(entry.targetPath, updated);
       } else {
         // Insert new block at end
+        this.assertWritableTarget(entry.targetPath);
         this.fs.writeFile(entry.targetPath, existing + "\n\n" + block + "\n");
       }
     } else {
       // New file
+      this.assertWritableTarget(entry.targetPath);
       this.fs.writeFile(entry.targetPath, block + "\n");
     }
   }

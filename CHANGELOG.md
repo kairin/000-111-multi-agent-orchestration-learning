@@ -1,5 +1,10 @@
 # OpenRig Changelog
 
+## 2026-10-11 Website artifact intent
+
+- Added docs/website-artifact-intent.md with the current implementation, adoption tasks, source authority and acceptance checks.
+- This proposal does not change application code, dependencies, data or publishing.
+
 Agent-readable release notes for coding agents and human operators installing,
 upgrading, or operating OpenRig.
 

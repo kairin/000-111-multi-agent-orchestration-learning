@@ -1,4 +1,5 @@
 import path from "node:path";
+import { resolveManagedGuidanceTarget } from "./managed-blocks.js";
 import type { ResolvedPackage, FsOps } from "./package-resolver.js";
 import { resolveExports, type ResolvedExports, type DeferredExport } from "./role-resolver.js";
 
@@ -192,7 +193,7 @@ export class InstallPlanner {
 
       // Determine target path
       const targetFile = g.kind === "agents_md" ? "AGENTS.md" : "CLAUDE.md";
-      const targetPath = path.join(targetRoot, targetFile);
+      const targetPath = resolveManagedGuidanceTarget(this.fs, path.join(targetRoot, targetFile));
       const exists = this.fs.exists(targetPath);
 
       const guidanceSourcePath = path.join(resolved.sourceRef, g.source);
